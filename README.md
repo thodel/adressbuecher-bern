@@ -21,6 +21,15 @@ https://thodel.github.io/adressbuecher-bern/
   veröffentlicht sie bei jedem Push, der Daten oder Skript ändert.
 - `web/erara_pages.csv`: PDF-Seite → e-rara-Canvas (1883–84 titleinfo 1396077, 1900 titleinfo 1704646;
   PDF-Seite k = Canvas k−1, weil das PDF ein Deckblatt hat).
+- Karte: `python scripts/92_karte.py --out _site/karte.html` (Kreise je Strasse).
+- Verknüpfungen in `web/`, mit den Skripten erzeugt und eingecheckt, damit der Bau ohne Netz und ohne
+  vernetzte-schweiz läuft:
+  - `telefon.csv` (`scripts/80_telefon.py --vs …`): Einträge mit ☎ → PTT-Telefonbuch (gedruckte Nummer + Name,
+    sonst Verknüpfung von Vernetzte Schweiz), mit Link auf die Person und das Seitenbild; Commit in `telefon_source.txt`.
+  - `baende.csv` (`scripts/81_baende.py`): dieselbe Person im anderen Band.
+  - `normdaten.csv` (`scripts/82_normdaten.py --vs …`): ungeprüfte Kandidaten aus HLS und Wikidata.
+  - `geo/` (`scripts/10_geo.py`): Strassen nach der Hausnummerierung 1882 (aus adressbuecher-bern-frueh) und OpenStreetMap (Nominatim, Cache in `geo/nominatim_cache.json`).
+  - Je Zeile ausserdem ein Link auf die Siegfriedkarte des Jahres (swisstopo Zeitreise).
 - Flags von der Seite: CSV exportieren, `python scripts/91_merge_flags.py <datei.csv>`, committen.
 - Plan für weitere Teile (Karte über die Hausnummern 1882, Häuserverzeichnis): `docs/SITE_PLAN.md`.
 

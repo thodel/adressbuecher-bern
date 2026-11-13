@@ -16,33 +16,40 @@ from __future__ import annotations
 
 import argparse
 import csv
+import importlib
 import json
+import sys
 from collections import Counter, defaultdict
 from datetime import date
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+norm_street = importlib.import_module("10_geo").norm_street
+
 CSV_DIR = Path("data/csv")
 REVIEW = Path("data/review/flags.csv")
 ERARA = Path("web/erara_pages.csv")
+TELEFON = Path("web/telefon.csv")  # aus scripts/80_telefon.py
 REPO_URL = "https://github.com/thodel/adressbuecher-bern"
 VOLUMES = {"1900": "Adressbuch der Stadt Bern 1900", "1883": "Adressbuch der Stadt Bern 1883–84"}
 
 TABS = [
     ("einwohner", "Einwohner", "04_entries.csv",
      ["entry_id", "volume", "page", "surname", "alliance_name", "forename", "title", "civil_status",
-      "occupation_raw", "street_raw", "building_no", "phone_flag", "entry_type", "parse_confidence",
-      "qa_flags", "text"]),
+      "occupation_raw", "street_raw", "building_no", "phone_flag", "telefon", "other_volume", "authority", "zeitreise", "entry_type",
+      "parse_confidence", "qa_flags", "text", "street_key"]),
     ("berufe", "Berufsregister", "04_berufe.csv",
      ["entry_id", "volume", "page", "heading", "surname", "alliance_name", "forename", "title", "civil_status",
-      "occupation_raw", "origin_raw", "street_raw", "building_no", "phone_flag", "entry_type",
-      "parse_confidence", "qa_flags", "text"]),
+      "occupation_raw", "origin_raw", "street_raw", "building_no", "phone_flag", "telefon", "other_volume", "authority", "zeitreise", "entry_type",
+      "parse_confidence", "qa_flags", "text", "street_key"]),
 ]
 
 LABELS = {"entry_id": "ID", "volume": "Band", "page": "Seite", "surname": "Name", "alliance_name": "Allianz",
           "forename": "Vorname", "title": "Titel", "civil_status": "Stand", "occupation_raw": "Beruf",
           "origin_raw": "Zusatz", "street_raw": "Strasse", "building_no": "Nr.", "phone_flag": "Tel.",
           "entry_type": "Typ", "parse_confidence": "Konfidenz", "qa_flags": "Hinweise", "heading": "Rubrik",
-          "text": "Gelesene Zeile"}
+          "text": "Gelesene Zeile", "telefon": "Telefonbuch",
+          "other_volume": "Anderer Band", "authority": "Normdaten (ungeprüft)", "zeitreise": "Karte damals"}
 
 QA = {"street_rare": "Strasse nur einmal im Band",
       "dehyphen": "Zeilenend-Trennung zusammengezogen",
@@ -57,6 +64,56 @@ REASONS = ["Lesefehler", "Feld falsch", "Eintrag falsch getrennt", "Rubrik falsc
            "Dublette", "Anderes"]
 
 
+def load_phone() -> dict[str, str]:
+    """entry_id → «Stufe|Jahr|Name|Strasse|Nummer|Einheit|Bild» aus web/telefon.csv."""
+    if not TELEFON.exists():
+        return {}
+    with TELEFON.open(encoding="utf-8") as fh:
+        return {r["entry_id"]: "|".join(r[k].replace("|", "/") for k in ("how", "ptt_year", "ptt_name", "ptt_street",
+                                                                        "ptt_phone", "entity_id", "image"))
+                for r in csv.DictReader(fh)}
+
+
+PHONE = load_phone()
+
+
+def load_simple(path: str, fields: tuple[str, ...]) -> dict[str, str]:
+    p = Path(path)
+    if not p.exists():
+        return {}
+    with p.open(encoding="utf-8") as fh:
+        return {r["entry_id"]: "|".join(r[k].replace("|", "/") for k in fields) for r in csv.DictReader(fh)}
+
+
+OTHER = load_simple("web/baende.csv", ("tier", "other_volume", "other_id", "other_text", "evidence"))  # 81_baende.py
+AUTH = load_simple("web/normdaten.csv", ("tier", "label", "life", "hls_id", "qid", "gnd", "field", "note"))  # 82_normdaten.py
+
+
+def lv95(lat: float, lon: float) -> tuple[int, int]:
+    """WGS84 → LV95 (Näherung von swisstopo, auf ~1 m genau)."""
+    p, l = (lat * 3600 - 169028.66) / 10000, (lon * 3600 - 26782.5) / 10000
+    e = 2600072.37 + 211455.93 * l - 10938.51 * l * p - 0.36 * l * p * p - 44.54 * l ** 3
+    n = 1200147.07 + 308807.95 * p + 3745.25 * l * l + 76.63 * p * p - 194.56 * l * l * p + 119.79 * p ** 3
+    return round(e), round(n)
+
+
+def load_geo() -> dict[str, list[int]]:
+    """«Gemeinde|Strassenschlüssel» bzw. «Gemeinde|» → [E, N] für den Link auf die Zeitreise von swisstopo."""
+    out = {}
+    out["Bern|"] = list(lv95(46.9480, 7.4474))  # Zytglogge
+    for name, key in (("streets.csv", lambda r: r["municipality"] + "|" + r["street_norm"]),
+                      ("streets_manual.csv", lambda r: r["municipality"] + "|" + r["street_norm"])):
+        p = Path("web/geo") / name
+        if p.exists():
+            for r in csv.DictReader(p.open(encoding="utf-8")):
+                if r["lat"]:
+                    out[key(r)] = list(lv95(float(r["lat"]), float(r["lon"])))
+    return out
+
+
+GEO = load_geo()
+
+
 def load_rows() -> dict[str, dict[str, list[list[str]]]]:
     """Band → Reiter → Zeilen."""
     out: dict[str, dict[str, list]] = defaultdict(lambda: {k: [] for k, *_ in TABS})
@@ -64,6 +121,11 @@ def load_rows() -> dict[str, dict[str, list[list[str]]]]:
         with (CSV_DIR / fname).open(encoding="utf-8") as fh:
             for r in csv.DictReader(fh):
                 r["qa_flags"] = " ".join(r.get("qa_flags", "").replace(";", " ").split())
+                r["telefon"] = PHONE.get(r["entry_id"], "")
+                r["street_key"] = norm_street(r["street_raw"]) if r.get("street_raw") else ""
+                r["other_volume"] = OTHER.get(r["entry_id"], "")
+                r["authority"] = AUTH.get(r["entry_id"], "")
+                r["zeitreise"] = ""  # im Browser aus GEO
                 out[r["volume"]][key].append([r.get(c, "") for c in cols])
     return out
 
@@ -138,6 +200,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-v
 input[type="search"], select, input[type="text"] { font: inherit; padding: 5px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); color: var(--fg); min-width: 0; max-width: 100%; }
 input#q { flex: 1 1 220px; }
 input#street { flex: 0 1 180px; }
+.chip { display: inline-flex; gap: 6px; align-items: center; background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 999px; padding: 2px 4px 2px 10px; font-size: 0.88rem; }
+.chip button { border: 0; background: transparent; color: var(--accent); font-weight: 700; padding: 0 6px; }
 .count { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 0.9rem; }
 .flagbar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); font-size: 0.9rem; }
 .flagbar .n { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
@@ -171,7 +235,7 @@ footer { color: var(--muted); font-size: 0.8rem; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 <header>
-  <nav class="nav"><a href="./">Bern 1883–1900</a> · <a href="https://thodel.github.io/adressbuecher-bern-frueh/">Bern 1795–1848</a> · <a href="https://thodel.github.io/adressbuecher-aarau/">Aarau</a> · <a href="https://thodel.github.io/adressbuecher-basel/">Basel</a> · <a href="https://thodel.github.io/adressbuecher-baden/">Baden</a> · <a href="https://thodel.github.io/vernetzte-schweiz/">Vernetzte Schweiz</a> · <a href="__REPO__">Repo</a></nav>
+  <nav class="nav"><a href="./">Bern 1883–1900</a> · <a href="karte.html">Karte</a> · <a href="https://thodel.github.io/adressbuecher-bern-frueh/">Bern 1795–1848</a> · <a href="https://thodel.github.io/adressbuecher-aarau/">Aarau</a> · <a href="https://thodel.github.io/adressbuecher-basel/">Basel</a> · <a href="https://thodel.github.io/adressbuecher-baden/">Baden</a> · <a href="https://thodel.github.io/vernetzte-schweiz/">Vernetzte Schweiz</a> · <a href="__REPO__">Repo</a></nav>
   <h1>Adressbücher der Stadt Bern 1883–84 und 1900</h1>
   <p class="sub">Stand __DATE__ · Einwohnerverzeichnisse und Berufsregister. Die früheren Bände 1795–1848 stehen auf einer <a href="https://thodel.github.io/adressbuecher-bern-frueh/">eigenen Seite</a>.</p>
 </header>
@@ -199,6 +263,14 @@ footer { color: var(--muted); font-size: 0.8rem; }
           <li>Behörden, Vereine, Häuser- und Eigentümerverzeichnisse (1883–84 S. 247–277, 1900 S. 492–544), Stadtplan, Tarife, Inserate.</li>
           <li>Der Band 1860 (Fraktur): in der Probe waren nur 40–60&nbsp;% der Einträge korrekt.</li>
         </ul>
+        <h2>Telefonbuch</h2>
+        <ul><li>Einträge mit Telefon sind, wo möglich, mit dem PTT-Telefonbuch verbunden: zuerst über die gedruckte Nummer und den Familiennamen (höchstens 5 Jahre Abstand), sonst über die Verknüpfung von <a href="https://thodel.github.io/vernetzte-schweiz/">Vernetzte Schweiz</a>, sonst wenn im Telefonbuch der Gemeinde genau eine Person mit diesem Namen und Vornamen steht. __TELSTAT__</li></ul>
+        <h2>Verknüpfungen</h2>
+        <ul>
+          <li><b>Anderer Band:</b> __NOTHER__ Einträge sind automatisch mit derselben Person im anderen Band verbunden (gleicher Familienname, passender Vorname, dazu Beruf, Strasse, Allianzname); mehrdeutige Fälle bleiben offen.</li>
+          <li><b>Normdaten:</b> __NAUTH__ Einträge haben einen <b>ungeprüften</b> Kandidaten aus dem HLS bzw. Wikidata (Person mit Bezug zur Gemeinde, lebte im Jahr des Bandes, Name und Vorname passen, Beruf passt zum Feld oder der Name ist selten).</li>
+          <li><b>Karte damals:</b> Link auf die Siegfriedkarte des Jahres (swisstopo Zeitreise) an der Strasse (Lage nach der Hausnummerierung 1882 bzw. OpenStreetMap), sonst an der Stadtmitte. Dazu die <a href="karte.html">Karte</a> aller Einträge.</li>
+        </ul>
         <h2>Seitenbilder</h2>
         <ul><li>Die Scans liegen öffentlich auf <a href="https://www.e-rara.ch/">e-rara</a> und werden nur verlinkt. «Seite» nennt die gedruckte Seitenzahl, die ID die Seite im PDF.</li></ul>
         <h2>Lizenz</h2>
@@ -214,6 +286,8 @@ footer { color: var(--muted); font-size: 0.8rem; }
   <select id="qa" aria-label="Hinweis"><option value="">alle Hinweise</option><option value="-">ohne Hinweis</option></select>
   <input id="street" type="search" list="streets" placeholder="Strasse …" aria-label="Strasse (Anfang)">
   <datalist id="streets"></datalist>
+  <select id="tel" aria-label="Telefon"><option value="">Telefon: alle</option><option value="1">mit ☏</option><option value="link">mit Telefonbuch-Eintrag</option><option value="none">☏, kein Eintrag gefunden</option></select>
+  <span class="chip" id="skchip" hidden>Strasse (Karte) = <b id="sklabel"></b><button type="button" id="skclear" aria-label="Strassenfilter entfernen">✕</button></span>
   <label><input type="checkbox" id="onlyflag"> nur markierte</label>
   <input id="q" type="search" placeholder="Suchen: Name, Beruf, Strasse, Rubrik, ID …" aria-label="Suchen">
   <span class="count" id="count" aria-live="polite"></span>
@@ -225,7 +299,7 @@ footer { color: var(--muted); font-size: 0.8rem; }
   <button class="btn" id="clear">Flags löschen</button>
   <span class="sub">Danach: <code>python scripts/91_merge_flags.py &lt;datei.csv&gt;</code> und committen.</span>
 </div>
-<p class="legend"><b>Seite</b> = gedruckte Seitenzahl, Link öffnet die Seite auf e-rara · <b>Strasse</b> anklicken filtert · <b>Konfidenz</b>: high = keine Auffälligkeit, medium = ein Hinweis spricht für Prüfung · <b>Hinweise</b>: Maus darüber für Erklärung · <b>☏</b> = Telefonnummer genannt · <b>✓</b> = Flag schon im Repo</p>
+<p class="legend"><b>Seite</b> = gedruckte Seitenzahl, Link öffnet die Seite auf e-rara · <b>Strasse</b> anklicken filtert · <b>Konfidenz</b>: high = keine Auffälligkeit, medium = ein Hinweis spricht für Prüfung · <b>Hinweise</b>: Maus darüber für Erklärung · <b>☏</b> = Telefon genannt · <b>Telefonbuch</b>: passender Eintrag im PTT-Telefonbuch, Link auf die Person bei Vernetzte Schweiz und aufs Seitenbild; «nummer» = gleiche Nummer und Name, «name» = einzige Person mit Name und Vorname, sonst die Stufe der Verknüpfung von Vernetzte Schweiz · <b>Anderer Band</b>: dieselbe Person im anderen Band (automatisch, Stufe) · <b>Normdaten</b>: ungeprüfte Kandidaten aus HLS und Wikidata · <b>Karte damals</b>: Siegfriedkarte des Jahres bei swisstopo · <b>✓</b> = Flag schon im Repo</p>
 <div class="wrap"><table id="t"><thead></thead><tbody></tbody></table><div class="loading" id="loading" hidden>Band wird geladen …</div><button class="more" id="more" hidden>weitere Zeilen zeigen</button></div>
 <footer>Daten CC0 1.0 · Code MIT · Seitenbilder: e-rara · Quelle für <a href="https://thodel.github.io/vernetzte-schweiz/">Vernetzte Schweiz 1860–1914</a></footer>
 <div id="toast" hidden></div>
@@ -233,6 +307,8 @@ footer { color: var(--muted); font-size: 0.8rem; }
 const META = __META__;
 const LABELS = __LABELS__;
 const QA = __QA__;
+const GEO = __GEO__;
+const HOW = {nummer: 'gleiche Telefonnummer und Familienname', sicher: 'Vernetzte Schweiz: sicher', wahrscheinlich: 'Vernetzte Schweiz: wahrscheinlich', möglich: 'Vernetzte Schweiz: möglich (nur Name)', name: 'einzige Person dieses Namens und Vornamens im Telefonbuch der Gemeinde'};
 const REASONS = __REASONS__;
 const REPORTED = __REPORTED__;
 const REPO = "__REPO__";
@@ -242,11 +318,12 @@ const VOLS = {};   // Band → {einwohner: [...], berufe: [...], pages: {...}}
 const P = new URLSearchParams(location.search);
 let tab = P.get('tab') && META.tabs[P.get('tab')] ? P.get('tab') : 'einwohner';
 let shown = PAGE;
+let skF = P.get('sk') || '';
 let flags = {};
 try { flags = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { flags = {}; }
 const reported = {}; for (const f of REPORTED) reported[f.table + '|' + f.id] = f;
 const $ = id => document.getElementById(id);
-const tabsEl = $('tabs'), q = $('q'), vol = $('vol'), conf = $('conf'), qa = $('qa'), street = $('street'), onlyflag = $('onlyflag');
+const tabsEl = $('tabs'), q = $('q'), vol = $('vol'), conf = $('conf'), qa = $('qa'), street = $('street'), tel = $('tel'), onlyflag = $('onlyflag');
 const thead = document.querySelector('#t thead'), tbody = document.querySelector('#t tbody'), more = $('more'), count = $('count');
 for (const k in QA) { const o = document.createElement('option'); o.value = k; o.textContent = QA[k]; qa.appendChild(o); }
 for (const k in META.tabs) { const b = document.createElement('button'); b.setAttribute('role', 'tab'); b.textContent = `${META.tabs[k].label} (${META.tabs[k].n.toLocaleString('de-CH')})`; b.dataset.k = k; b.onclick = () => { tab = k; shown = PAGE; render(); }; tabsEl.appendChild(b); }
@@ -270,10 +347,37 @@ function issueUrl(r) {
   return `${REPO}/issues/new?title=${encodeURIComponent('Flag ' + id)}&labels=${encodeURIComponent('review')}&body=${encodeURIComponent(body)}`;
 }
 function cell(col, v, r) {
+  if (col === 'other_volume') {
+    if (!v) return '<td></td>';
+    const [tier, ov, oid, otext, ev] = v.split('|');
+    return `<td><a href="?tab=einwohner&vol=${esc(ov)}&q=${encodeURIComponent(oid)}" title="${esc(otext + ' · ' + ev)}">${esc(ov)} ↗</a> <span class="pill ${tier === 'sicher' ? 'high' : 'medium'}">${esc(tier)}</span></td>`;
+  }
+  if (col === 'authority') {
+    if (!v) return '<td></td>';
+    const [tier, label, life, hls, qid, gnd, field, note] = v.split('|');
+    const links = [hls ? `<a href="https://hls-dhs-dss.ch/de/articles/${esc(hls)}/" target="_blank" rel="noopener">HLS</a>` : '',
+      qid ? `<a href="https://www.wikidata.org/wiki/${esc(qid)}" target="_blank" rel="noopener">Wikidata</a>` : '',
+      gnd ? `<a href="https://d-nb.info/gnd/${esc(gnd)}" target="_blank" rel="noopener">GND</a>` : ''].filter(Boolean).join(' · ');
+    return `<td class="wide" title="${esc(field + (note ? ' · ' + note : ''))}">${esc(label)} <small>${esc(life)}</small> · ${links} <span class="pill ${tier === 'wahrscheinlich' ? 'high' : 'medium'}" title="ungeprüfter Kandidat">${esc(tier)}</span></td>`;
+  }
+  if (col === 'zeitreise') {
+    const g = GEO['Bern' + '|' + r[META.tabs[tab].cols.indexOf('street_key')]] || GEO['Bern' + '|'];
+    if (!g) return '<td></td>';
+    const exact = !!GEO['Bern' + '|' + r[META.tabs[tab].cols.indexOf('street_key')]];
+    return `<td><a href="https://map.geo.admin.ch/#/map?lang=de&center=${g[0]},${g[1]}&z=${exact ? 11 : 9}&crosshair=marker&bgLayer=void&layers=ch.swisstopo.zeitreihen@year=${esc(r[1])}" target="_blank" rel="noopener" title="${exact ? 'Strasse' : 'Gemeinde'} auf der Siegfriedkarte ${esc(r[1])} (swisstopo Zeitreise)">${exact ? 'Strasse' : 'Ort'} ${esc(r[1])} ↗</a></td>`;
+  }
+
   if (col === 'page') return `<td class="num">${scan(r[1], v)}</td>`;
   if (col === 'parse_confidence') return `<td><span class="pill ${esc(v)}">${esc(v)}</span></td>`;
   if (col === 'phone_flag') return `<td class="num">${v === '1' ? '<span class="star" title="Telefon">☏</span>' : ''}</td>`;
   if (col === 'street_raw') return `<td>${v ? `<button type="button" class="st" data-s="${esc(v)}" title="nach ${esc(v)} filtern">${esc(v)}</button>` : ''}</td>`;
+  if (col === 'telefon') {
+    if (!v) return r[META.tabs[tab].cols.indexOf('phone_flag')] === '1' ? '<td class="sub">nicht gefunden</td>' : '<td></td>';
+    const [how, year, name, st, phone, eid, img] = v.split('|');
+    const tip = `Telefonbuch ${year}: ${name}${st ? ', ' + st : ''}${phone ? ', Nr. ' + phone : ''} · Zuordnung: ${HOW[how] || how}`;
+    const main = eid ? `<a href="https://thodel.github.io/vernetzte-schweiz/#/e/${esc(eid)}" target="_blank" rel="noopener" title="${esc(tip)}">${esc(year)}${phone ? ' · Nr. ' + esc(phone) : ''}</a>` : `<span title="${esc(tip)}">${esc(year)}</span>`;
+    return `<td>${main}${img ? ` · <a href="${esc(img)}" target="_blank" rel="noopener" title="Seite im Telefonbuch (PTT-Archiv)">Bild</a>` : ''} <span class="pill ${how === 'nummer' || how === 'sicher' ? 'high' : 'medium'}" title="${esc(HOW[how] || how)}">${esc(how)}</span></td>`;
+  }
   if (col === 'qa_flags') return `<td>${v ? v.split(' ').map(x => `<span class="qa" title="${esc(QA[x] || x)}">${esc(x)}</span>`).join('') : ''}</td>`;
   if (col === 'entry_id') return `<td class="id">${esc(v)}</td>`;
   if (['building_no','volume'].includes(col)) return `<td class="num">${esc(v)}</td>`;
@@ -294,7 +398,7 @@ function streetList(rows, si) {
 function syncUrl() {
   const p = new URLSearchParams();
   p.set('tab', tab); p.set('vol', vol.value || 'alle');
-  if (conf.value) p.set('conf', conf.value); if (qa.value) p.set('qa', qa.value);
+  if (conf.value) p.set('conf', conf.value); if (qa.value) p.set('qa', qa.value); if (tel.value) p.set('tel', tel.value); if (skF) p.set('sk', skF);
   if (street.value.trim()) p.set('str', street.value.trim());
   if (q.value.trim()) p.set('q', q.value.trim());
   history.replaceState(null, '', location.pathname + '?' + p.toString());
@@ -309,20 +413,24 @@ function render() {
     return;
   }
   $('loading').hidden = true;
-  const cols = META.tabs[tab].cols, all = vs.flatMap(v => VOLS[v][tab]);
+  const cols = META.tabs[tab].cols, oi = META.tabs[tab].cols.indexOf('other_volume'), all = vs.flatMap(v => VOLS[v][tab]);
   const needle = q.value.trim().toLowerCase(), c = conf.value, h = qa.value, s = street.value.trim().toLowerCase();
   const ci = cols.indexOf('parse_confidence'), hi = cols.indexOf('qa_flags'), si = cols.indexOf('street_raw');
+  const pi = cols.indexOf('phone_flag'), ti = cols.indexOf('telefon'), t = tel.value, ki = cols.indexOf('street_key');
+  $('skchip').hidden = !skF; if (skF) $('sklabel').textContent = skF;
   streetList(all, si);
   const rows = all.filter(r => (!c || r[ci] === c)
     && (!h || (h === '-' ? !r[hi] : (' ' + r[hi] + ' ').includes(' ' + h + ' ')))
     && (!s || r[si].toLowerCase().startsWith(s))
+    && (!skF || r[ki] === skF)
+    && (!t || (t === '1' ? r[pi] === '1' : t === 'link' ? !!r[ti] : r[pi] === '1' && !r[ti]))
     && (!onlyflag.checked || flags[tab + '|' + r[0]] || reported[tab + '|' + r[0]])
-    && (!needle || r.join(' ').toLowerCase().includes(needle)));
-  thead.innerHTML = '<tr><th>Flag</th>' + cols.map(cc => `<th>${esc(LABELS[cc] || cc)}</th>`).join('') + '</tr>';
+    && (!needle || r.filter((_, i) => i !== oi).join(' ').toLowerCase().includes(needle)));
+  thead.innerHTML = '<tr><th>Flag</th>' + cols.filter(cc => cc !== 'street_key').map(cc => `<th>${esc(LABELS[cc] || cc)}</th>`).join('') + '</tr>';
   tbody.innerHTML = rows.slice(0, shown).map(r => {
     const key = tab + '|' + r[0];
     const cls = (flags[key] && flags[key].reason ? 'flagged ' : '') + (reported[key] ? 'reported' : '');
-    return `<tr class="${cls}" title="${reported[key] ? esc('gemeldet: ' + reported[key].reason + ' ' + reported[key].note) : ''}">${actCell(r)}${r.map((vv, i) => cell(cols[i], vv, r)).join('')}</tr>`;
+    return `<tr class="${cls}" title="${reported[key] ? esc('gemeldet: ' + reported[key].reason + ' ' + reported[key].note) : ''}">${actCell(r)}${r.map((vv, i) => cols[i] === 'street_key' ? '' : cell(cols[i], vv, r)).join('')}</tr>`;
   }).join('');
   more.hidden = rows.length <= shown;
   count.textContent = `${Math.min(shown, rows.length).toLocaleString('de-CH')} von ${rows.length.toLocaleString('de-CH')} Zeilen`;
@@ -360,10 +468,12 @@ function fallbackCopy(text) { const ta = document.createElement('textarea'); ta.
 $('clear').onclick = () => { if (!Object.keys(flags).length) return; flags = {}; save(); render(); toast('Flags gelöscht'); };
 more.onclick = () => { shown += PAGE; render(); };
 for (const el of [q, street]) el.addEventListener('input', () => { shown = PAGE; render(); });
-for (const el of [vol, conf, qa, onlyflag]) el.addEventListener('change', () => { shown = PAGE; render(); });
+for (const el of [vol, conf, qa, tel, onlyflag]) el.addEventListener('change', () => { shown = PAGE; render(); });
 if (P.get('vol')) vol.value = P.get('vol') === 'alle' ? '' : P.get('vol');
 if (P.get('conf')) conf.value = P.get('conf');
 if (P.get('qa')) qa.value = P.get('qa');
+if (P.get('tel')) tel.value = P.get('tel');
+$('skclear').onclick = () => { skF = ''; shown = PAGE; render(); };
 if (P.get('str')) street.value = P.get('str');
 if (P.get('q')) q.value = P.get('q');
 render();
@@ -391,15 +501,21 @@ def main() -> None:
             n[k][v] = len(rows[v][k])
     meta = {"volumes": VOLUMES,
             "tabs": {k: {"label": label, "cols": cols, "n": sum(n[k].values())} for k, label, _f, cols in TABS}}
+    ti = {k: cols.index("phone_flag") for k, _l, _f, cols in TABS}
+    n_tel = sum(1 for v in rows for k in rows[v] for r in rows[v][k] if r[ti[k]] == "1")
     fmt = lambda x: f"{x:,}".replace(",", " ")
     reported = load_flags()
     html = (TEMPLATE.replace("__META__", json.dumps(meta, ensure_ascii=False))
             .replace("__LABELS__", json.dumps(LABELS, ensure_ascii=False))
             .replace("__QA__", json.dumps(QA, ensure_ascii=False))
+            .replace("__GEO__", json.dumps(GEO, ensure_ascii=False, separators=(",", ":")))
+            .replace("__NOTHER__", f"{len(OTHER):,}".replace(",", "\u202f"))
+            .replace("__NAUTH__", f"{len(AUTH):,}".replace(",", "\u202f"))
             .replace("__REASONS__", json.dumps(REASONS, ensure_ascii=False))
             .replace("__REPORTED__", json.dumps(reported, ensure_ascii=False))
             .replace("__N1883__", fmt(n["einwohner"]["1883"])).replace("__N1900__", fmt(n["einwohner"]["1900"]))
             .replace("__B1883__", fmt(n["berufe"]["1883"])).replace("__B1900__", fmt(n["berufe"]["1900"]))
+            .replace("__TELSTAT__", f"{len(PHONE):,} von {n_tel:,} Einträgen mit Telefon haben einen Treffer.".replace(",", "\u202f"))
             .replace("__REPO__", REPO_URL)
             .replace("__DATE__", date.today().strftime("%d.%m.%Y")))
     (args.out / "index.html").write_text(html, encoding="utf-8")
