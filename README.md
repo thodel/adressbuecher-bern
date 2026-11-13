@@ -10,6 +10,20 @@ Telefonbüchern und den anderen Adressbüchern verknüpft werden. Die frühen Be
 | Adressbuch der Stadt Bern 1883–84 | 335 | 8 241 (S. 83–192) | 4 226 (S. 193–246) |
 | Adressbuch der Stadt Bern 1900 | 677 | 15 182 (S. 142–385) | 7 094 (S. 386–491) |
 
+## Seite
+
+Durchsuchbare Seite mit allen Einträgen, Filtern nach Band, Strasse, Konfidenz und Hinweis, Link je Zeile
+auf die Seite bei e-rara und Flagging je Zeile (wie bei Aarau, Basel und Baden):
+https://thodel.github.io/adressbuecher-bern/
+
+- `python scripts/90_seite.py --out _site` baut sie lokal (`index.html` und je Band `data/<Band>.json`,
+  die die Seite erst bei Bedarf lädt); GitHub Actions (`.github/workflows/pages.yml`) baut und
+  veröffentlicht sie bei jedem Push, der Daten oder Skript ändert.
+- `web/erara_pages.csv`: PDF-Seite → e-rara-Canvas (1883–84 titleinfo 1396077, 1900 titleinfo 1704646;
+  PDF-Seite k = Canvas k−1, weil das PDF ein Deckblatt hat).
+- Flags von der Seite: CSV exportieren, `python scripts/91_merge_flags.py <datei.csv>`, committen.
+- Plan für weitere Teile (Karte über die Hausnummern 1882, Häuserverzeichnis): `docs/SITE_PLAN.md`.
+
 ## Dateien
 
 Schema wie [adressbuecher-aarau](https://github.com/thodel/adressbuecher-aarau), dazu `municipality`
