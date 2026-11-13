@@ -363,7 +363,7 @@ function cell(col, v, r) {
   if (col === 'zeitreise') {
     const g = GEO['Bern' + '|' + r[META.tabs[tab].cols.indexOf('street_key')]] || GEO['Bern' + '|'];
     if (!g) return '<td></td>';
-    const exact = !!GEO['Bern' + '|' + r[META.tabs[tab].cols.indexOf('street_key')]];
+    const exact = !!r[META.tabs[tab].cols.indexOf('street_key')] && !!GEO['Bern' + '|' + r[META.tabs[tab].cols.indexOf('street_key')]];
     return `<td><a href="https://map.geo.admin.ch/#/map?lang=de&center=${g[0]},${g[1]}&z=${exact ? 11 : 9}&crosshair=marker&bgLayer=void&layers=ch.swisstopo.zeitreihen@year=${esc(r[1])}" target="_blank" rel="noopener" title="${exact ? 'Strasse' : 'Gemeinde'} auf der Siegfriedkarte ${esc(r[1])} (swisstopo Zeitreise)">${exact ? 'Strasse' : 'Ort'} ${esc(r[1])} ↗</a></td>`;
   }
 

@@ -134,15 +134,16 @@ function draw() {
   muniLayer.clearLayers(); streetLayer.clearLayers();
   const mc = css('--muni'), sc = css('--street');
   let tm = 0, ts = 0;
+  const maxM = Math.max(1, ...MUNI.map(m => n(m[3]))), maxS = Math.max(1, ...STREETS.map(x => n(x[4])));  // Fläche relativ zum grössten Kreis
   if ($('showMuni').checked) for (const [name, lat, lon, c] of MUNI) {
     const k = n(c); tm += k; if (!k) continue;
-    L.circleMarker([lat, lon], { radius: 4 + Math.sqrt(k) * 0.9, color: mc, weight: 1.5, fillColor: mc, fillOpacity: 0.25 })
+    L.circleMarker([lat, lon], { radius: 4 + 36 * Math.sqrt(k / maxM), color: mc, weight: 1.5, fillColor: mc, fillOpacity: 0.25 })
       .bindPopup(`<b>${esc(name)}</b><br>${k.toLocaleString('de-CH')} Einträge<br><a href="${link({ gem: name })}">Einträge zeigen</a>`)
       .bindTooltip(`${name}: ${k}`).addTo(muniLayer);
   }
   if ($('showStreet').checked) for (const [m, st, lat, lon, c, vars] of STREETS) {
     const k = n(c); ts += k; if (!k) continue;
-    L.circleMarker([lat, lon], { radius: 2.5 + Math.sqrt(k) * 0.8, color: sc, weight: 1, fillColor: sc, fillOpacity: 0.5 })
+    L.circleMarker([lat, lon], { radius: 2.5 + 22 * Math.sqrt(k / maxS), color: sc, weight: 1, fillColor: sc, fillOpacity: 0.5 })
       .bindPopup(`<b>${esc(st)}</b><br>${k.toLocaleString('de-CH')} Einträge<br><small>gedruckt: ${vars.map(esc).join(', ')}</small><br><a href="${link({ sk: st })}">Einträge zeigen</a>`)
       .bindTooltip(`${st}: ${k}`).addTo(streetLayer);
   }
