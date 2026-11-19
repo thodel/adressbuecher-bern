@@ -26,6 +26,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 norm_street = importlib.import_module("10_geo").norm_street
 import site_nav  # noqa: E402  gemeinsame Navigation und Feldsuche aller Adressbuch-Seiten
+import site_fonts  # noqa: E402  Schriften lokal (fonts/)
 
 CSV_DIR = Path("data/csv")
 REVIEW = Path("data/review/flags.csv")
@@ -157,7 +158,7 @@ TEMPLATE = r"""<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Adressbücher Bern 1883–1900</title>
 <meta name="description" content="Einträge der Adressbücher der Stadt Bern 1883–84 und 1900, maschinell gelesen mit qwen3.8, durchsuchbar nach Name, Beruf und Strasse, mit Link auf die Seite bei e-rara.">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap">
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
 /* Layout: Werkzeug wie Aarau/Basel/Baden — Kopf mit Hinweis und Filtern, darunter eine Tabelle, die den Rest füllt. */
 :root {
@@ -533,6 +534,7 @@ def main() -> None:
             .replace("__REPO__", REPO_URL)
             .replace("__DATE__", date.today().strftime("%d.%m.%Y")))
     (args.out / "index.html").write_text(html, encoding="utf-8")
+    site_fonts.copy(args.out)
     print(f"{len(reported)} gemeldete Flags → {args.out / 'index.html'}")
 
 

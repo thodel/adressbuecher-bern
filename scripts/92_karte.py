@@ -23,6 +23,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 import site_nav  # noqa: E402  gemeinsame Navigation
+import site_fonts  # noqa: E402  Schriften lokal (fonts/)
 norm_street = importlib.import_module("10_geo").norm_street
 
 CSV_DIR = Path("data/csv")
@@ -66,7 +67,7 @@ TEMPLATE = r"""<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Karte Bern 1883–1900</title>
 <meta name="description" content="Karte der Einträge der Adressbücher der Stadt Bern 1883–84 und 1900 nach Strasse.">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
 /* Layout: Karte füllt den Rest unter einem schmalen Kopf mit Steuerung. */
@@ -189,6 +190,7 @@ def main() -> None:
             .replace("__DATE__", date.today().strftime("%d.%m.%Y")))
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(html, encoding="utf-8")
+    site_fonts.copy(args.out)
     print(f"{unplaced} → {args.out}")
 
 
