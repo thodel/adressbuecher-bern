@@ -1,0 +1,59 @@
+band,jahr,gruppe,zaehler,zaehler_was,nenner,nenner_art,nenner_herleitung,quote_prozent,bemerkung
+1883–84,1883,Einträge im Einwohnerverzeichnis,8241,alle Zeilen,44252,interpoliert,"Volkszählungen 1880 und 1888, linear auf 1883",18.6,"mit Firmen, Ämtern und Verweisen"
+1883–84,1883,Personen je Einwohner,7969,Einträge von Personen,44252,interpoliert,"Volkszählungen 1880 und 1888, linear auf 1883",18.0,"Untergrenze: genannt sind Erwachsene mit eigener Adresse, nicht Köpfe"
+1883–84,1883,Personen je Haushalt,7969,Einträge von Personen,9552,geschätzt,Bevölkerung 1883 durch die Haushaltsgrösse von 1888 (4.63 Personen),83.4,über 100 heisst: mehr als eine genannte Person je Haushalt
+1883–84,1883,Firmen,151,"Personenfirmen (&, Cie., Gebr., Söhne, Erben)",,,,,
+1883–84,1883,"Ämter, Vereine, Betriebe",96,Einträge ohne Personenname,,,,,
+1883–84,1883,Verweise,25,«s. auch …» ohne Adresse,,,,,kein Eintrag im eigentlichen Sinn
+1883–84,1883,Verschiedene Namen,7420,"Name, Vorname und Allianzname verschieden",44252,interpoliert,"Volkszählungen 1880 und 1888, linear auf 1883",16.8,"Untergrenze der Personenzahl: «Müller, Joh.» steht für mehrere Personen"
+1883–84,1883,Frauen,1611,"Witwe, Fräulein, Frau oder weiblicher Vorname oder Beruf",24331,geschätzt,"Bevölkerung mal Frauenanteil, zwischen 1856 und 1930 interpoliert",6.6,Untergrenze: viele Vornamen sind abgekürzt
+1883–84,1883,Witwen,425,"«Wwe.», «Wittwe», «Witwe»",2090,geschätzt,geschätzte Verwitwete mal Frauenanteil der Verwitweten 1846 (einziges Jahr mit Zivilstand nach Geschlecht),20.3,
+1883–84,1883,Fräulein,166,"«Frl.», «Jgfr.», «Schwestern»",,,,,kein Nenner: ledige Frauen sind in BERNHIST nur 1846 ausgewiesen
+1883–84,1883,Personen mit Erwerb,6776,Berufsangabe in Sektor 1–3 oder unbestimmt,19440,geschätzt,"Bevölkerung 1883 mal Erwerbsquote, zwischen 1856 und 1910 interpoliert (43.9 %)",34.9,
+1883–84,1883,Frauen mit Erwerb,969,erkannte Frauen mit Berufsangabe,5906,geschätzt,geschätzte Erwerbstätige mal Frauenanteil der Erwerbstätigen 1910,16.4,Untergrenze
+1883–84,1883,1. Sektor,118,Personen nach erster Berufsangabe,551,geschätzt,geschätzte Erwerbstätige mal Anteil des 1. Sektors 1910,21.4,Nenner mit der Struktur von 1910
+1883–84,1883,2. Sektor,2954,Personen nach erster Berufsangabe,9595,geschätzt,geschätzte Erwerbstätige mal Anteil des 2. Sektors 1910,30.8,Nenner mit der Struktur von 1910
+1883–84,1883,3. Sektor,3493,Personen nach erster Berufsangabe,9294,geschätzt,geschätzte Erwerbstätige mal Anteil des 3. Sektors 1910,37.6,Nenner mit der Struktur von 1910
+1883–84,1883,Berufsregister: Einheiten,3880,verschiedene Namen mit Adresse im Berufsregister,6151,geschätzt,"Bevölkerung mal Anteil der Selbständigen, zwischen 1856 und 1930 interpoliert",63.1,eine Einheit kann in mehreren Rubriken stehen
+1883–84,1883,Berufsregister: im Einwohnerverzeichnis wiedergefunden,3535,gleicher Name mit gleicher Adresse oder gleichem ersten Buchstaben des Vornamens,4222,direkt,Einträge im Berufsregister ohne Verweise,83.7,grosszügig: häufige Namen treffen auch Fremde
+1883–84,1883,Berufsregister: mit gleicher Adresse wiedergefunden,1667,"gleicher Name, gleiche Strasse und Hausnummer",4222,direkt,Einträge im Berufsregister ohne Verweise,39.5,streng: Geschäfts- und Wohnadresse weichen oft ab
+1883–84,1883,Ärzte (Beruf nennt «Arzt»),21,"erste Berufsangabe mit «Arzt», ohne Zahn- und Tierärzte",82,interpoliert,"Zahl der Ärzte 1856 und 1910, linear",25.8,
+1883–84,1883,Ärzte (dazu Titel «Dr. med.»),51,"wie oben, dazu alle mit «med.» im Titel",82,interpoliert,"Zahl der Ärzte 1856 und 1910, linear",62.6,"mit Professoren, Beamten und Assistenten"
+1883–84,1883,"Ärzte (dazu Titel «Dr. med.», gegen Ärztedichte)",51,wie oben,69,geschätzt,"Bevölkerung mal Ärztedichte, zwischen 1856 und 1910 interpoliert",73.5,
+1883–84,1883,Ärzte (Rubrik im Berufsregister),,Rubrik «Aerzte»,,,,,1883–84 hat das Berufsregister keine Rubrik «Aerzte»
+1883–84,1883,Lehrer und Lehrerinnen (Primarschule genannt),31,"«Primarlehrer», «Oberlehrer» oder eine Primarschule der Stadt genannt",102,geschätzt,"Lehrer und Lehrerinnen 1895, mit der Bevölkerung auf das Bandjahr umgerechnet",30.3,Untergrenze
+1883–84,1883,Lehrer und Lehrerinnen (ohne Fach- und höhere Schulen),152,dazu «Lehrer(in)» ohne nähere Angabe,102,geschätzt,"Lehrer und Lehrerinnen 1895, mit der Bevölkerung auf das Bandjahr umgerechnet",148.5,enthält Privatschulen; Nenner meint nur die Primarschule
+1883–84,1883,Lehrer und Lehrerinnen (alle),316,jede Angabe mit «Lehrer(in)»,,,,,kein passender Nenner
+1883–84,1883,Spezereihandlungen (Rubrik im Berufsregister),119,Rubriken mit «Spezerei»,167,geschätzt,"Spezerei- und Kolonialwarengeschäfte 1901, mit der Bevölkerung auf das Bandjahr umgerechnet",71.1,
+1883–84,1883,Spezereihandlungen (Einwohnerverzeichnis),61,"Angabe mit «Spezerei», «Spezierer», «Kolonial»",167,geschätzt,"Spezerei- und Kolonialwarengeschäfte 1901, mit der Bevölkerung auf das Bandjahr umgerechnet",36.4,
+1883–84,1883,Dienstboten,16,"Magd, Knecht, Köchin, Diener, Haushälterin",5061,geschätzt,Bevölkerung mal Anteil der Dienstboten 1856 (der Wert von 1910 ist anders abgegrenzt),0.3,
+1883–84,1883,Taglöhner und Handlanger,44,"«Taglöhner», «Handlanger»",2794,geschätzt,Bevölkerung mal Anteil der Taglöhner 1856 (kein späterer Wert),1.6,
+1900,1900,Einträge im Einwohnerverzeichnis,15182,alle Zeilen,64227,direkt,Volkszählung 1900,23.6,"mit Firmen, Ämtern und Verweisen"
+1900,1900,Personen je Einwohner,14184,Einträge von Personen,64227,direkt,Volkszählung 1900,22.1,"Untergrenze: genannt sind Erwachsene mit eigener Adresse, nicht Köpfe"
+1900,1900,Personen je Haushalt,14184,Einträge von Personen,13863,geschätzt,Bevölkerung 1900 durch die Haushaltsgrösse von 1888 (4.63 Personen),102.3,über 100 heisst: mehr als eine genannte Person je Haushalt
+1900,1900,Firmen,262,"Personenfirmen (&, Cie., Gebr., Söhne, Erben)",,,,,
+1900,1900,"Ämter, Vereine, Betriebe",453,Einträge ohne Personenname,,,,,
+1900,1900,Verweise,283,«s. auch …» ohne Adresse,,,,,kein Eintrag im eigentlichen Sinn
+1900,1900,Verschiedene Namen,13200,"Name, Vorname und Allianzname verschieden",64227,direkt,Volkszählung 1900,20.6,"Untergrenze der Personenzahl: «Müller, Joh.» steht für mehrere Personen"
+1900,1900,Frauen,3189,"Witwe, Fräulein, Frau oder weiblicher Vorname oder Beruf",35316,geschätzt,"Bevölkerung mal Frauenanteil, zwischen 1856 und 1930 interpoliert",9.0,Untergrenze: viele Vornamen sind abgekürzt
+1900,1900,Witwen,1217,"«Wwe.», «Wittwe», «Witwe»",2721,geschätzt,geschätzte Verwitwete mal Frauenanteil der Verwitweten 1846 (einziges Jahr mit Zivilstand nach Geschlecht),44.7,
+1900,1900,Fräulein,399,"«Frl.», «Jgfr.», «Schwestern»",,,,,kein Nenner: ledige Frauen sind in BERNHIST nur 1846 ausgewiesen
+1900,1900,Personen mit Erwerb,12303,Berufsangabe in Sektor 1–3 oder unbestimmt,28036,geschätzt,"Bevölkerung 1900 mal Erwerbsquote, zwischen 1856 und 1910 interpoliert (43.7 %)",43.9,
+1900,1900,Frauen mit Erwerb,1909,erkannte Frauen mit Berufsangabe,8518,geschätzt,geschätzte Erwerbstätige mal Frauenanteil der Erwerbstätigen 1910,22.4,Untergrenze
+1900,1900,1. Sektor,218,Personen nach erster Berufsangabe,794,geschätzt,geschätzte Erwerbstätige mal Anteil des 1. Sektors 1910,27.5,Nenner mit der Struktur von 1910
+1900,1900,2. Sektor,5132,Personen nach erster Berufsangabe,13838,geschätzt,geschätzte Erwerbstätige mal Anteil des 2. Sektors 1910,37.1,Nenner mit der Struktur von 1910
+1900,1900,3. Sektor,6651,Personen nach erster Berufsangabe,13404,geschätzt,geschätzte Erwerbstätige mal Anteil des 3. Sektors 1910,49.6,Nenner mit der Struktur von 1910
+1900,1900,Berufsregister: Einheiten,6240,verschiedene Namen mit Adresse im Berufsregister,8068,geschätzt,"Bevölkerung mal Anteil der Selbständigen, zwischen 1856 und 1930 interpoliert",77.3,eine Einheit kann in mehreren Rubriken stehen
+1900,1900,Berufsregister: im Einwohnerverzeichnis wiedergefunden,6219,gleicher Name mit gleicher Adresse oder gleichem ersten Buchstaben des Vornamens,7086,direkt,Einträge im Berufsregister ohne Verweise,87.8,grosszügig: häufige Namen treffen auch Fremde
+1900,1900,Berufsregister: mit gleicher Adresse wiedergefunden,2625,"gleicher Name, gleiche Strasse und Hausnummer",7086,direkt,Einträge im Berufsregister ohne Verweise,37.0,streng: Geschäfts- und Wohnadresse weichen oft ab
+1900,1900,Ärzte (Beruf nennt «Arzt»),83,"erste Berufsangabe mit «Arzt», ohne Zahn- und Tierärzte",103,interpoliert,"Zahl der Ärzte 1856 und 1910, linear",80.4,
+1900,1900,Ärzte (dazu Titel «Dr. med.»),121,"wie oben, dazu alle mit «med.» im Titel",103,interpoliert,"Zahl der Ärzte 1856 und 1910, linear",117.2,"mit Professoren, Beamten und Assistenten"
+1900,1900,"Ärzte (dazu Titel «Dr. med.», gegen Ärztedichte)",121,wie oben,92,geschätzt,"Bevölkerung mal Ärztedichte, zwischen 1856 und 1910 interpoliert",131.4,
+1900,1900,Ärzte (Rubrik im Berufsregister),58,Rubrik «Aerzte»,103,interpoliert,"Zahl der Ärzte 1856 und 1910, linear",56.2,1883–84 hat das Berufsregister keine Rubrik «Aerzte»
+1900,1900,Lehrer und Lehrerinnen (Primarschule genannt),142,"«Primarlehrer», «Oberlehrer» oder eine Primarschule der Stadt genannt",149,geschätzt,"Lehrer und Lehrerinnen 1895, mit der Bevölkerung auf das Bandjahr umgerechnet",95.6,Untergrenze
+1900,1900,Lehrer und Lehrerinnen (ohne Fach- und höhere Schulen),221,dazu «Lehrer(in)» ohne nähere Angabe,149,geschätzt,"Lehrer und Lehrerinnen 1895, mit der Bevölkerung auf das Bandjahr umgerechnet",148.8,enthält Privatschulen; Nenner meint nur die Primarschule
+1900,1900,Lehrer und Lehrerinnen (alle),462,jede Angabe mit «Lehrer(in)»,,,,,kein passender Nenner
+1900,1900,Spezereihandlungen (Rubrik im Berufsregister),215,Rubriken mit «Spezerei»,243,geschätzt,"Spezerei- und Kolonialwarengeschäfte 1901, mit der Bevölkerung auf das Bandjahr umgerechnet",88.5,
+1900,1900,Spezereihandlungen (Einwohnerverzeichnis),150,"Angabe mit «Spezerei», «Spezierer», «Kolonial»",243,geschätzt,"Spezerei- und Kolonialwarengeschäfte 1901, mit der Bevölkerung auf das Bandjahr umgerechnet",61.8,
+1900,1900,Dienstboten,24,"Magd, Knecht, Köchin, Diener, Haushälterin",7346,geschätzt,Bevölkerung mal Anteil der Dienstboten 1856 (der Wert von 1910 ist anders abgegrenzt),0.3,
+1900,1900,Taglöhner und Handlanger,14,"«Taglöhner», «Handlanger»",4055,geschätzt,Bevölkerung mal Anteil der Taglöhner 1856 (kein späterer Wert),0.3,

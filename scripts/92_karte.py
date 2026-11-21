@@ -184,7 +184,7 @@ def main() -> None:
     fmt = lambda x: f"{x:,}".replace(",", "\u202f")
     unplaced = (f"{len(S)} von {len(street)} Strassennamen verortet; {fmt(lost_entries)} von {fmt(total)} Einträgen mit "
                 f"Strasse liegen an Strassen ohne Punkt (anderer Name heute, selten gedruckt oder Lesefehler).")
-    html = (TEMPLATE.replace("__CITYBAR__", site_nav.city_bar('bern', 'de')).replace("__CITYNAV__", site_nav.city_nav('Bern 1883–1900', 'https://github.com/thodel/adressbuecher-bern', "map", 'de')).replace("__NAVCSS__", site_nav.CSS).replace("__MUNI__", json.dumps(M, ensure_ascii=False, separators=(",", ":")))
+    html = (TEMPLATE.replace("__CITYBAR__", site_nav.city_bar('bern', 'de')).replace("__CITYNAV__", site_nav.city_nav('Bern 1883–1900', 'https://github.com/thodel/adressbuecher-bern', "map", 'de', extra=[("abdeckung", "abdeckung.html", "Abdeckung")])).replace("__NAVCSS__", site_nav.CSS).replace("__MUNI__", json.dumps(M, ensure_ascii=False, separators=(",", ":")))
             .replace("__STREETS__", json.dumps(S, ensure_ascii=False, separators=(",", ":")))
             .replace("__UNPLACED__", unplaced).replace("__REPO__", REPO_URL)
             .replace("__DATE__", date.today().strftime("%d.%m.%Y")))

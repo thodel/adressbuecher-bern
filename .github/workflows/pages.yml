@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - "data/csv/**"
+      - "data/abdeckung/**"
+      - "ref/**"
       - "data/review/**"
       - "scripts/**"
       - "web/**"
@@ -32,6 +34,7 @@ jobs:
         run: |
           python scripts/90_seite.py --out _site
           python scripts/92_karte.py --out _site/karte.html
+          python scripts/93_abdeckung.py --out _site/abdeckung.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

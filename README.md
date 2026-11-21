@@ -30,8 +30,32 @@ https://thodel.github.io/adressbuecher-bern/
   - `normdaten.csv` (`scripts/82_normdaten.py --vs …`): ungeprüfte Kandidaten aus HLS und Wikidata.
   - `geo/` (`scripts/10_geo.py`): Strassen nach der Hausnummerierung 1882 (aus adressbuecher-bern-frueh) und OpenStreetMap (Nominatim, Cache in `geo/nominatim_cache.json`).
   - Je Zeile ausserdem ein Link auf die Siegfriedkarte des Jahres (swisstopo Zeitreise).
+- Abdeckung: `python scripts/93_abdeckung.py --out _site/abdeckung.html` (Unterseite aus `data/abdeckung/`).
 - Flags von der Seite: CSV exportieren, `python scripts/91_merge_flags.py <datei.csv>`, committen.
 - Plan für weitere Teile (Karte über die Hausnummern 1882, Häuserverzeichnis): `docs/SITE_PLAN.md`.
+
+## Abdeckung, gemessen an BERNHIST
+
+Wie viel von der Stadt steht im Buch? `docs/abdeckung.md` misst die beiden Bände an den Zahlen von
+[BERNHIST](https://www.bernhist.ch) für die Stadt Bern; auf der Seite steht das Ergebnis unter
+[Abdeckung](https://thodel.github.io/adressbuecher-bern/abdeckung.html).
+
+| | 1883–84 | 1900 |
+|---|---:|---:|
+| Personen im Einwohnerverzeichnis | 7 969 | 14 184 |
+| je 100 Einwohner | 18,0 | 22,1 |
+| je 100 Haushalte (Haushalte geschätzt) | 83 | 102 |
+| erkannte Frauen, Anteil an den Frauen der Stadt | 6,6 % | 9,0 % |
+| Dienstboten im Buch | 16 | 24 |
+
+- `python scripts/85_abdeckung.py` rechnet alles neu (`data/abdeckung/*.csv`, Tabellen in `docs/abdeckung.md`).
+  Mit `--bernhist <sqlite>` oder `BERNHIST_SQLITE` liest es die Nenner neu aus dem lokal geladenen Dump,
+  sonst aus `ref/bernhist/werte.csv`.
+- `ref/bernhist/werte.csv`: die 46 verwendeten Einzelwerte mit Ort, Thema, Jahr und Quelle. Der Dump liegt
+  nicht hier; die Nutzungsrechte an BERNHIST sind nicht geklärt, `ref/` fällt nicht unter die CC0-Freigabe.
+- `data/abdeckung/stichprobe_sektor.csv`: 80 Berufsangaben mit Urteil zur Sektorzuordnung (78 richtig).
+- Die Spalte `entry_type` trennt Personen und Firmen nicht zuverlässig (sie trifft auch «Gesellschaftsstrasse»);
+  die Messung bestimmt die Art neu, die CSV bleibt, wie sie ist.
 
 ## Dateien
 
@@ -65,4 +89,5 @@ Der Band 1860 (Fraktur) ist nicht ganz gelesen: in der Probe waren nur 40–60 %
 
 Die Bücher sind vor 1914 erschienen; ihr Inhalt ist gemeinfrei (URG Art. 2 Abs. 1, Art. 29 Abs. 2).
 Die Daten in `data/` stehen unter [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), der Code
-unter MIT. Die Scans liegen nicht in diesem Repo.
+unter MIT. Die Scans liegen nicht in diesem Repo. `ref/bernhist/` enthält Einzelwerte aus BERNHIST und ist
+von der CC0-Freigabe ausgenommen (Rechte nicht geklärt, siehe `ref/bernhist/README.md`).

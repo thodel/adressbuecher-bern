@@ -520,7 +520,7 @@ def main() -> None:
     n_tel = sum(1 for v in rows for k in rows[v] for r in rows[v][k] if r[ti[k]] == "1")
     fmt = lambda x: f"{x:,}".replace(",", " ")
     reported = load_flags()
-    html = (TEMPLATE.replace("__CITYBAR__", site_nav.city_bar('bern', 'de')).replace("__CITYNAV__", site_nav.city_nav('Bern 1883–1900', REPO_URL, "entries", 'de')).replace("__NAVCSS__", site_nav.CSS).replace("__FSPANEL__", site_nav.search_panel('de')).replace("__FSJS__", site_nav.FIELD_SEARCH_JS).replace("__FSTX__", json.dumps(site_nav.fs_texts('de'), ensure_ascii=False)).replace("__META__", json.dumps(meta, ensure_ascii=False))
+    html = (TEMPLATE.replace("__CITYBAR__", site_nav.city_bar('bern', 'de')).replace("__CITYNAV__", site_nav.city_nav('Bern 1883–1900', REPO_URL, "entries", 'de', extra=[("abdeckung", "abdeckung.html", "Abdeckung")])).replace("__NAVCSS__", site_nav.CSS).replace("__FSPANEL__", site_nav.search_panel('de')).replace("__FSJS__", site_nav.FIELD_SEARCH_JS).replace("__FSTX__", json.dumps(site_nav.fs_texts('de'), ensure_ascii=False)).replace("__META__", json.dumps(meta, ensure_ascii=False))
             .replace("__LABELS__", json.dumps(LABELS, ensure_ascii=False))
             .replace("__QA__", json.dumps(QA, ensure_ascii=False))
             .replace("__GEO__", json.dumps(GEO, ensure_ascii=False, separators=(",", ":")))
