@@ -38,7 +38,10 @@ BAND = {"1883": "1883–84", "1900": "1900"}
 
 # ── Verwendete BERNHIST-Werte: Schlüssel → (Thema, Jahr, Rang) ────────────────────────────────────────
 # Rang wählt bei doppelten Werten (1856 und 1910 gibt es zwei Zählungen der Erwerbstätigen) den n-ten
-# nach aufsteigender data_entry.id. Die zweite Reihe 1910 (37 247) ist die einzige mit allen drei Sektoren.
+# nach aufsteigender data_entry.id. 1910 gibt es zwei Reihen: Rang 0 (35 250) im Gebietsstand von 1910, mit dem
+# 1. und 2. Sektor und Frauen/Männern; Rang 1 (37 247) mit allen drei Sektoren, aber mit Bümpliz (eingemeindet
+# 1919), während die Bevölkerung 1910 (85 651) ohne Bümpliz zählt. Verwendet wird Rang 0, der 3. Sektor ist der
+# Rest (werte_laden). Bis 23.11.2026 stand hier Rang 1; gefunden in vernetzte-schweiz, docs/durchdringung_bern.md.
 ABFRAGE = {
     "bev_1856": (990, 1856, 0), "bev_1880": (990, 1880, 0), "bev_1888": (990, 1888, 0),
     "bev_1900": (990, 1900, 0), "bev_1910": (990, 1910, 0), "bev_1930": (990, 1930, 0),
@@ -54,8 +57,7 @@ ABFRAGE = {
     "erw_s3_1856": (327, 1856, 0), "erw_1856_stellung": (342, 1856, 0),
     "selbstaendige_1856": (341, 1856, 0), "selbstaendige_1930": (341, 1930, 0),
     "dienstboten_1856": (344, 1856, 0), "dienstboten_1910": (344, 1910, 0), "tagloehner_1856": (347, 1856, 0),
-    "erw_1910": (342, 1910, 1), "erw_s1_1910": (305, 1910, 1), "erw_s2_1910": (314, 1910, 1),
-    "erw_s3_1910": (327, 1910, 0), "erw_1910_reihe_a": (342, 1910, 0),
+    "erw_1910": (342, 1910, 0), "erw_s1_1910": (305, 1910, 0), "erw_s2_1910": (314, 1910, 0),
     "erw_frauen_1910": (345, 1910, 0), "erw_maenner_1910": (346, 1910, 0),
     "aerzte_1856": (1713, 1856, 0), "aerzte_1910": (1713, 1910, 0),
     "lehrpersonen_1895": (1745, 1895, 0), "schueler_1895": (1701, 1895, 0),
@@ -97,7 +99,9 @@ def lies(pfad: Path) -> list[dict]:
 
 
 def werte_laden(pfad: Path = WERTE) -> dict[str, float]:
-    return {r["schluessel"]: float(r["wert"]) for r in lies(pfad)}
+    w = {r["schluessel"]: float(r["wert"]) for r in lies(pfad)}
+    w["erw_s3_1910"] = w["erw_1910"] - w["erw_s1_1910"] - w["erw_s2_1910"]   # Reihe 1910 ohne 3. Sektor: Rest
+    return w
 
 
 # ── Rechenlogik ──────────────────────────────────────────────────────────────────────────────────────

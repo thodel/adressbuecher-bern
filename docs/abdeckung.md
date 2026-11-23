@@ -29,8 +29,8 @@ Skript sie neu aus dem Dump. Tests: `python -m unittest discover -s tests`.
   geschätzten Witwen) und mit eigenem Erwerb (Schneiderin, Lehrerin, Wäscherin, Privatière).
 - **Nach Sektoren** ist der 3. Sektor (Handel, Verwaltung, Verkehr) übervertreten und der 2. (Gewerbe,
   Industrie) untervertreten: Im Buch von 1900 gehören 55 % der Personen mit Sektor zum 3. und 43 % zum 2.,
-  in der Volkszählung 1910 sind es 48 % und 49 %. Gemessen an den geschätzten Erwerbstätigen erfasst der
-  Band 1900 rund die Hälfte des 3. Sektors, 37 % des 2. und 28 % des 1.
+  in der Volkszählung 1910 sind es je 49 %. Gemessen an den geschätzten Erwerbstätigen erfasst der
+  Band 1900 rund die Hälfte des 3. Sektors, 39 % des 2. und 42 % des 1.
 
 ## Wen die Verzeichnisse nennen
 
@@ -75,11 +75,11 @@ folgt, wie die Nenner gebildet sind:
 |---|---|---|---|
 | Wohnbevölkerung | 44 252 | 64 227 | 1883: linear zwischen 1880 und 1888; 1900: Volkszählung |
 | Haushalte | 9 552 | 13 863 | geschätzt: Bevölkerung durch die Haushaltsgrösse von 1888 (4,63 Personen) |
-| Erwerbstätige | 19 440 | 28 036 | geschätzt: Bevölkerung mal Erwerbsquote, zwischen 1856 (44,4 %) und 1910 (43,5 %) interpoliert |
-| Erwerbstätige je Sektor | | | geschätzt: Erwerbstätige mal Anteil des Sektors 1910 (2,8 %, 49,4 %, 47,8 %) |
+| Erwerbstätige | 18 924 | 26 816 | geschätzt: Bevölkerung mal Erwerbsquote, zwischen 1856 (44,4 %) und 1910 (41,2 %) interpoliert |
+| Erwerbstätige je Sektor | | | geschätzt: Erwerbstätige mal Anteil des Sektors 1910 (1,9 %, 49,0 %, 49,1 %; Erwerbstätige 1910 im Gebietsstand von 1910, ohne Bümpliz: 35 250, der 3. Sektor als Rest) |
 | Frauen | 24 331 | 35 316 | geschätzt: Frauenanteil 1856 und 1930 je 55,0 %; dazwischen fehlt das Geschlecht |
 | Witwen | 2 090 | 2 721 | geschätzt: Anteil der Verwitweten 1856 (7,3 %) und 1910 (5,3 %) interpoliert, davon Frauen wie 1846 (75 %) |
-| Erwerbstätige Frauen | 5 906 | 8 518 | geschätzt: Erwerbstätige mal Frauenanteil 1910 (30,4 %) |
+| Erwerbstätige Frauen | 5 750 | 8 147 | geschätzt: Erwerbstätige mal Frauenanteil 1910 (30,4 %) |
 | Selbständige | 6 151 | 8 068 | geschätzt: Anteil an der Bevölkerung 1856 (16,0 %) und 1930 (10,2 %) interpoliert |
 | Ärzte | 82 / 69 | 103 / 92 | 1856: 47, 1910: 116; erste Zahl linear, zweite über die Ärztedichte |
 | Lehrer und Lehrerinnen | 102 | 149 | 1895: 131 (bei 5 151 Schülern, also Primarschule), mit der Bevölkerung umgerechnet |
@@ -131,11 +131,11 @@ wäre die Bevölkerung um rund 350 Personen grösser und die Quote um 0,1 Prozen
 | Frauen | 1 611 | 24 331 | 6,6 % | 3 189 | 35 316 | 9,0 % |
 | Witwen | 425 | 2 090 | 20,3 % | 1 217 | 2 721 | 44,7 % |
 | Fräulein | 166 | – | – | 399 | – | – |
-| Personen mit Erwerb | 6 776 | 19 440 | 34,9 % | 12 303 | 28 036 | 43,9 % |
-| Frauen mit Erwerb | 969 | 5 906 | 16,4 % | 1 909 | 8 518 | 22,4 % |
-| 1. Sektor | 118 | 551 | 21,4 % | 218 | 794 | 27,5 % |
-| 2. Sektor | 2 954 | 9 595 | 30,8 % | 5 132 | 13 838 | 37,1 % |
-| 3. Sektor | 3 493 | 9 294 | 37,6 % | 6 651 | 13 404 | 49,6 % |
+| Personen mit Erwerb | 6 776 | 18 924 | 35,8 % | 12 303 | 26 816 | 45,9 % |
+| Frauen mit Erwerb | 969 | 5 750 | 16,9 % | 1 909 | 8 147 | 23,4 % |
+| 1. Sektor | 118 | 363 | 32,5 % | 218 | 514 | 42,4 % |
+| 2. Sektor | 2 954 | 9 275 | 31,8 % | 5 132 | 13 143 | 39,0 % |
+| 3. Sektor | 3 493 | 9 286 | 37,6 % | 6 651 | 13 158 | 50,5 % |
 | Berufsregister: Einheiten | 3 880 | 6 151 | 63,1 % | 6 240 | 8 068 | 77,3 % |
 | Berufsregister: im Einwohnerverzeichnis wiedergefunden | 3 535 | 4 222 | 83,7 % | 6 219 | 7 086 | 87,8 % |
 | Berufsregister: mit gleicher Adresse wiedergefunden | 1 667 | 4 222 | 39,5 % | 2 625 | 7 086 | 37,0 % |
@@ -155,9 +155,9 @@ Verteilung der Personen nach erster Berufsangabe (Anteile in Prozent der Persone
 
 | | 1883–84: Personen | Anteil | 1900: Personen | Anteil | BERNHIST 1856 | BERNHIST 1910 |
 |---|---:|---:|---:|---:|---:|---:|
-| 1. Sektor | 118 | 1,8 | 218 | 1,8 | 45,3 | 2,8 |
-| 2. Sektor | 2 954 | 45,0 | 5 132 | 42,8 | 31,7 | 49,4 |
-| 3. Sektor | 3 493 | 53,2 | 6 651 | 55,4 | 23,0 | 47,8 |
+| 1. Sektor | 118 | 1,8 | 218 | 1,8 | 45,3 | 1,9 |
+| 2. Sektor | 2 954 | 45,0 | 5 132 | 42,8 | 31,7 | 49,0 |
+| 3. Sektor | 3 493 | 53,2 | 6 651 | 55,4 | 23,0 | 49,1 |
 | Beruf ohne Sektor (Taglöhner, Arbeiter …) | 211 |  | 302 |  |  |  |
 | ohne Erwerb (Privatier, «gew.», Witwe des …) | 371 |  | 802 |  |  |  |
 | keine Angabe | 822 |  | 1 079 |  |  |  |
@@ -192,6 +192,12 @@ Privatschulen meint.
   nur für diese beiden Jahre. Alle Quoten zu Erwerbstätigen, Sektoren, Ärzten, Dienstboten und Taglöhnern
   nehmen an, dass sich die Anteile dazwischen gleichmässig verschoben haben. Für den Band 1883–84 ist das eine
   Überbrückung von 27 Jahren und entsprechend unsicher.
+- **Erwerbstätige 1910 ohne Bümpliz (korrigiert 23.11.2026).** BERNHIST führt für 1910 zwei Reihen. Bis zum
+  23.11.2026 stand hier die Reihe mit allen drei Sektoren (37 247), die Bümpliz (eingemeindet 1919) mitzählt,
+  während die Bevölkerung 1910 (85 651) ohne Bümpliz zählt. Jetzt gilt die Reihe im Gebietsstand von 1910
+  (35 250), der 3. Sektor ist der Rest. Die Sektorquoten 1900 ändern sich um 1 bis 2 Punkte, die des 1. Sektors
+  stärker (27,5 % → 42,4 %), weil Bümpliz bäuerlich war. Gefunden in `thodel/vernetzte-schweiz`,
+  `docs/durchdringung_bern.md`.
 - **Die Sektoren von 1856 sind nicht vergleichbar.** BERNHIST weist für die Stadt 1856 im 1. Sektor 45 % der
   Erwerbstätigen aus (5 296 von 11 701). Für eine Stadt ist das nicht plausibel; vermutlich sind Dienstboten und
   Taglöhner dort eingerechnet, geprüft ist das nicht. Die Sektorquoten rechnen darum nur mit der Struktur von 1910.

@@ -50,6 +50,13 @@ class Nenner(unittest.TestCase):
         self.assertEqual(round(n[0]), round(64227 * 9931 / 46009))
         self.assertEqual(n[1], "geschätzt")
 
+    def test_erwerbstaetige_1910_im_gebietsstand_von_1910(self):
+        # Bevölkerung 1910 zählt ohne Bümpliz; die Erwerbstätigen müssen aus derselben Reihe kommen wie Frauen und
+        # Männer (Gebietsstand 1910), nicht aus der Reihe mit Bümpliz (37 247).
+        w = m.werte_laden()
+        self.assertEqual(w["erw_1910"], w["erw_frauen_1910"] + w["erw_maenner_1910"])
+        self.assertEqual(w["erw_s3_1910"], w["erw_1910"] - w["erw_s1_1910"] - w["erw_s2_1910"])
+
     def test_sektoren_summieren_zu_den_erwerbstaetigen(self):
         for band in ("1883", "1900"):
             n = m.nenner(self.w, band)

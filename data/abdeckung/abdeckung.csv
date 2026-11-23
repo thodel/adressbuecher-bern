@@ -9,11 +9,11 @@ band,jahr,gruppe,zaehler,zaehler_was,nenner,nenner_art,nenner_herleitung,quote_p
 1883–84,1883,Frauen,1611,"Witwe, Fräulein, Frau oder weiblicher Vorname oder Beruf",24331,geschätzt,"Bevölkerung mal Frauenanteil, zwischen 1856 und 1930 interpoliert",6.6,Untergrenze: viele Vornamen sind abgekürzt
 1883–84,1883,Witwen,425,"«Wwe.», «Wittwe», «Witwe»",2090,geschätzt,geschätzte Verwitwete mal Frauenanteil der Verwitweten 1846 (einziges Jahr mit Zivilstand nach Geschlecht),20.3,
 1883–84,1883,Fräulein,166,"«Frl.», «Jgfr.», «Schwestern»",,,,,kein Nenner: ledige Frauen sind in BERNHIST nur 1846 ausgewiesen
-1883–84,1883,Personen mit Erwerb,6776,Berufsangabe in Sektor 1–3 oder unbestimmt,19440,geschätzt,"Bevölkerung 1883 mal Erwerbsquote, zwischen 1856 und 1910 interpoliert (43.9 %)",34.9,
-1883–84,1883,Frauen mit Erwerb,969,erkannte Frauen mit Berufsangabe,5906,geschätzt,geschätzte Erwerbstätige mal Frauenanteil der Erwerbstätigen 1910,16.4,Untergrenze
-1883–84,1883,1. Sektor,118,Personen nach erster Berufsangabe,551,geschätzt,geschätzte Erwerbstätige mal Anteil des 1. Sektors 1910,21.4,Nenner mit der Struktur von 1910
-1883–84,1883,2. Sektor,2954,Personen nach erster Berufsangabe,9595,geschätzt,geschätzte Erwerbstätige mal Anteil des 2. Sektors 1910,30.8,Nenner mit der Struktur von 1910
-1883–84,1883,3. Sektor,3493,Personen nach erster Berufsangabe,9294,geschätzt,geschätzte Erwerbstätige mal Anteil des 3. Sektors 1910,37.6,Nenner mit der Struktur von 1910
+1883–84,1883,Personen mit Erwerb,6776,Berufsangabe in Sektor 1–3 oder unbestimmt,18924,geschätzt,"Bevölkerung 1883 mal Erwerbsquote, zwischen 1856 und 1910 interpoliert (42.8 %)",35.8,
+1883–84,1883,Frauen mit Erwerb,969,erkannte Frauen mit Berufsangabe,5750,geschätzt,geschätzte Erwerbstätige mal Frauenanteil der Erwerbstätigen 1910,16.9,Untergrenze
+1883–84,1883,1. Sektor,118,Personen nach erster Berufsangabe,363,geschätzt,geschätzte Erwerbstätige mal Anteil des 1. Sektors 1910,32.5,Nenner mit der Struktur von 1910
+1883–84,1883,2. Sektor,2954,Personen nach erster Berufsangabe,9275,geschätzt,geschätzte Erwerbstätige mal Anteil des 2. Sektors 1910,31.8,Nenner mit der Struktur von 1910
+1883–84,1883,3. Sektor,3493,Personen nach erster Berufsangabe,9286,geschätzt,geschätzte Erwerbstätige mal Anteil des 3. Sektors 1910,37.6,Nenner mit der Struktur von 1910
 1883–84,1883,Berufsregister: Einheiten,3880,verschiedene Namen mit Adresse im Berufsregister,6151,geschätzt,"Bevölkerung mal Anteil der Selbständigen, zwischen 1856 und 1930 interpoliert",63.1,eine Einheit kann in mehreren Rubriken stehen
 1883–84,1883,Berufsregister: im Einwohnerverzeichnis wiedergefunden,3535,gleicher Name mit gleicher Adresse oder gleichem ersten Buchstaben des Vornamens,4222,direkt,Einträge im Berufsregister ohne Verweise,83.7,grosszügig: häufige Namen treffen auch Fremde
 1883–84,1883,Berufsregister: mit gleicher Adresse wiedergefunden,1667,"gleicher Name, gleiche Strasse und Hausnummer",4222,direkt,Einträge im Berufsregister ohne Verweise,39.5,streng: Geschäfts- und Wohnadresse weichen oft ab
@@ -38,11 +38,11 @@ band,jahr,gruppe,zaehler,zaehler_was,nenner,nenner_art,nenner_herleitung,quote_p
 1900,1900,Frauen,3189,"Witwe, Fräulein, Frau oder weiblicher Vorname oder Beruf",35316,geschätzt,"Bevölkerung mal Frauenanteil, zwischen 1856 und 1930 interpoliert",9.0,Untergrenze: viele Vornamen sind abgekürzt
 1900,1900,Witwen,1217,"«Wwe.», «Wittwe», «Witwe»",2721,geschätzt,geschätzte Verwitwete mal Frauenanteil der Verwitweten 1846 (einziges Jahr mit Zivilstand nach Geschlecht),44.7,
 1900,1900,Fräulein,399,"«Frl.», «Jgfr.», «Schwestern»",,,,,kein Nenner: ledige Frauen sind in BERNHIST nur 1846 ausgewiesen
-1900,1900,Personen mit Erwerb,12303,Berufsangabe in Sektor 1–3 oder unbestimmt,28036,geschätzt,"Bevölkerung 1900 mal Erwerbsquote, zwischen 1856 und 1910 interpoliert (43.7 %)",43.9,
-1900,1900,Frauen mit Erwerb,1909,erkannte Frauen mit Berufsangabe,8518,geschätzt,geschätzte Erwerbstätige mal Frauenanteil der Erwerbstätigen 1910,22.4,Untergrenze
-1900,1900,1. Sektor,218,Personen nach erster Berufsangabe,794,geschätzt,geschätzte Erwerbstätige mal Anteil des 1. Sektors 1910,27.5,Nenner mit der Struktur von 1910
-1900,1900,2. Sektor,5132,Personen nach erster Berufsangabe,13838,geschätzt,geschätzte Erwerbstätige mal Anteil des 2. Sektors 1910,37.1,Nenner mit der Struktur von 1910
-1900,1900,3. Sektor,6651,Personen nach erster Berufsangabe,13404,geschätzt,geschätzte Erwerbstätige mal Anteil des 3. Sektors 1910,49.6,Nenner mit der Struktur von 1910
+1900,1900,Personen mit Erwerb,12303,Berufsangabe in Sektor 1–3 oder unbestimmt,26816,geschätzt,"Bevölkerung 1900 mal Erwerbsquote, zwischen 1856 und 1910 interpoliert (41.8 %)",45.9,
+1900,1900,Frauen mit Erwerb,1909,erkannte Frauen mit Berufsangabe,8147,geschätzt,geschätzte Erwerbstätige mal Frauenanteil der Erwerbstätigen 1910,23.4,Untergrenze
+1900,1900,1. Sektor,218,Personen nach erster Berufsangabe,514,geschätzt,geschätzte Erwerbstätige mal Anteil des 1. Sektors 1910,42.4,Nenner mit der Struktur von 1910
+1900,1900,2. Sektor,5132,Personen nach erster Berufsangabe,13143,geschätzt,geschätzte Erwerbstätige mal Anteil des 2. Sektors 1910,39.0,Nenner mit der Struktur von 1910
+1900,1900,3. Sektor,6651,Personen nach erster Berufsangabe,13158,geschätzt,geschätzte Erwerbstätige mal Anteil des 3. Sektors 1910,50.5,Nenner mit der Struktur von 1910
 1900,1900,Berufsregister: Einheiten,6240,verschiedene Namen mit Adresse im Berufsregister,8068,geschätzt,"Bevölkerung mal Anteil der Selbständigen, zwischen 1856 und 1930 interpoliert",77.3,eine Einheit kann in mehreren Rubriken stehen
 1900,1900,Berufsregister: im Einwohnerverzeichnis wiedergefunden,6219,gleicher Name mit gleicher Adresse oder gleichem ersten Buchstaben des Vornamens,7086,direkt,Einträge im Berufsregister ohne Verweise,87.8,grosszügig: häufige Namen treffen auch Fremde
 1900,1900,Berufsregister: mit gleicher Adresse wiedergefunden,2625,"gleicher Name, gleiche Strasse und Hausnummer",7086,direkt,Einträge im Berufsregister ohne Verweise,37.0,streng: Geschäfts- und Wohnadresse weichen oft ab
