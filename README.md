@@ -51,7 +51,7 @@ Wie viel von der Stadt steht im Buch? `docs/abdeckung.md` misst die beiden Bänd
 - `python scripts/85_abdeckung.py` rechnet alles neu (`data/abdeckung/*.csv`, Tabellen in `docs/abdeckung.md`).
   Mit `--bernhist <sqlite>` oder `BERNHIST_SQLITE` liest es die Nenner neu aus dem lokal geladenen Dump,
   sonst aus `ref/bernhist/werte.csv`.
-- `ref/bernhist/werte.csv`: die 46 verwendeten Einzelwerte mit Ort, Thema, Jahr und Quelle. Der Dump liegt
+- `ref/bernhist/werte.csv`: die 44 verwendeten Einzelwerte mit Ort, Thema, Jahr und Quelle. Der Dump liegt
   nicht hier. BERNHIST steht unter der MIT-Lizenz (© 2019 Universität Bern, Universitätsbibliothek); `ref/bernhist/`
   übernimmt sie (`ref/bernhist/LICENSE`) und fällt nicht unter die CC0-Freigabe.
 - `data/abdeckung/stichprobe_sektor.csv`: 80 Berufsangaben mit Urteil zur Sektorzuordnung (78 richtig).
