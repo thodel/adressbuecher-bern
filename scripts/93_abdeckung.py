@@ -34,7 +34,8 @@ BLOECKE = [
                         "Berufsregister: mit gleicher Adresse wiedergefunden"]),
     ("Gruppen mit eigenem Nenner", [
         "Ärzte (Beruf nennt «Arzt»)", "Ärzte (dazu Titel «Dr. med.»)", "Ärzte (dazu Titel «Dr. med.», gegen Ärztedichte)",
-        "Ärzte (Rubrik im Berufsregister)", "Lehrer und Lehrerinnen (Primarschule genannt)",
+        "Ärzte (Rubrik im Berufsregister)", "Lehrer und Lehrerinnen (öffentliche Schule genannt)",
+        "Lehrer und Lehrerinnen (Primarschule genannt)",
         "Lehrer und Lehrerinnen (ohne Fach- und höhere Schulen)", "Lehrer und Lehrerinnen (alle)",
         "Spezereihandlungen (Rubrik im Berufsregister)", "Spezereihandlungen (Einwohnerverzeichnis)",
         "Dienstboten", "Taglöhner und Handlanger"]),
@@ -158,21 +159,21 @@ __CITYBAR__
 <ul>
   <li><b>Haushaltsvorstände statt Köpfe.</b> Die Quote an der Bevölkerung ist eine Untergrenze für die Reichweite des Buchs; Ehefrauen, Kinder und Dienstboten im Haushalt haben keinen eigenen Eintrag.</li>
   <li><b>Nenner aus anderen Jahren.</b> Erwerbstätige, Sektoren, Ärzte, Dienstboten und Taglöhner gibt es in BERNHIST nur für 1856 und 1910. Für den Band 1883–84 überbrückt die Rechnung 27 Jahre.</li>
-  <li><b>Nicht dasselbe gezählt.</b> Die Zahl der Lehrpersonen 1895 meint die Primarschule; «Dr. med.» reicht weiter als «Arzt»; die Dienstboten von 1910 sind anders abgegrenzt als die von 1856. Quoten über 100 % zeigen solche Unterschiede an.</li>
+  <li><b>Nicht dasselbe gezählt.</b> Die 131 Lehrpersonen von 1895 sind mehrheitlich Primarlehrkräfte, die Abgrenzung ist nicht bekannt; «Dr. med.» reicht weiter als «Arzt»; die Dienstboten von 1910 sind anders abgegrenzt als die von 1856. Quoten über 100 % zeigen solche Unterschiede an.</li>
   <li><b>Lesefehler.</b> 84 % und 83 % der Einträge waren in der Stichprobe voll korrekt. Verlesene Berufe fallen zum Teil aus den Gruppen; die Zahl der Frauen ist eine Untergrenze, weil viele Vornamen abgekürzt sind.</li>
 </ul>
 <p>Methode, Herleitung der Nenner und alle Grenzen: <a href="__REPO__/blob/main/docs/abdeckung.md">docs/abdeckung.md</a>. Tabellen: <a href="__REPO__/tree/main/data/abdeckung">data/abdeckung</a>. Skript: <a href="__REPO__/blob/main/scripts/85_abdeckung.py">scripts/85_abdeckung.py</a>.</p>
 
 <details>
   <summary>Verwendete Werte aus BERNHIST (__NWERTE__)</summary>
-  <p class="sub">Einwohnergemeinde Bern (Ort 457). Quelle: BERNHIST, Historisch-statistische Datenbank des Kantons Bern, Dump <code>ub-unibe-ch/bernhist</code> (Stand 22.03.2024). Die Nutzungsrechte an diesen Daten sind nicht ausgewiesen; hier stehen nur die verwendeten Einzelwerte.</p>
+  <p class="sub">Einwohnergemeinde Bern (Ort 457). Quelle: BERNHIST, Historisch-statistische Datenbank des Kantons Bern, Dump <code>ub-unibe-ch/bernhist</code> (Stand 22.03.2024). Lizenz: MIT, © 2019 Universität Bern, Universitätsbibliothek (<a href="https://github.com/ub-unibe-ch/bernhist/blob/main/LICENSE">Lizenztext</a>); hier stehen nur die verwendeten Einzelwerte. Zur Datenbank: Christian Pfister, Niklaus Schranz, BERNHIST – Plattform für fächerübergreifendes Forschen und Lehren in Raum und Zeit, Itinera 17 (1995), 46–78.</p>
   <div class="wrap"><table>
   <thead><tr><th>Thema</th><th>Bereich</th><th class="n">Jahr</th><th class="n">Wert</th></tr></thead>
   <tbody>__WERTE__</tbody>
   </table></div>
 </details>
 </main>
-<footer>Zähler: Adressbuch der Stadt Bern 1883–84 und 1900, maschinell gelesen (CC0). Nenner: <a href="https://www.bernhist.ch">BERNHIST</a>. <a href="__REPO__">Daten und Code</a>.</footer>
+<footer>Zähler: Adressbuch der Stadt Bern 1883–84 und 1900, maschinell gelesen (CC0). Nenner: <a href="https://www.bernhist.ch">BERNHIST</a>, Universitätsbibliothek Bern (MIT-Lizenz). <a href="__REPO__">Daten und Code</a>.</footer>
 </html>
 """
 
@@ -262,7 +263,7 @@ def main() -> None:
     texte = {
         "__T_BEV__": f'1883–84 stehen {z(A, "Personen je Einwohner")} Personen im Einwohnerverzeichnis, {q(A, "Personen je Einwohner")} der Wohnbevölkerung ({n(A, "Personen je Einwohner")}, interpoliert) und {q(A, "Personen je Haushalt").replace(chr(160) + "%", "")} je 100 Haushalte. 1900 sind es {z(B, "Personen je Einwohner")} Personen, {q(B, "Personen je Einwohner")} der Bevölkerung ({n(B, "Personen je Einwohner")}) und {q(B, "Personen je Haushalt").replace(chr(160) + "%", "")} je 100 Haushalte.',
         "__T_WACHSTUM__": f'Die Bevölkerung wächst von 1883 bis 1900 um {pj("Wohnbevölkerung (BERNHIST)")} im Jahr, die Zahl der Personen im Einwohnerverzeichnis um {pj("Personen im Einwohnerverzeichnis")}, das Berufsregister um {pj("Einheiten im Berufsregister")} (verschiedene Namen mit Adresse). Der Band 1900 erfasst einen grösseren Teil der Stadt als der Band 1883–84.',
-        "__T_VOLL__": f'Ärzte ({z(B, "Ärzte (Beruf nennt «Arzt»)")} mit der Berufsangabe «Arzt» bei {n(B, "Ärzte (dazu Titel «Dr. med.», gegen Ärztedichte)")} bis {n(B, "Ärzte (Beruf nennt «Arzt»)")} erwarteten), Lehrerinnen und Lehrer der Primarschulen ({z(B, "Lehrer und Lehrerinnen (Primarschule genannt)")} bei rund {n(B, "Lehrer und Lehrerinnen (Primarschule genannt)")}), Spezereihandlungen ({z(B, "Spezereihandlungen (Rubrik im Berufsregister)")} im Berufsregister bei rund {n(B, "Spezereihandlungen (Rubrik im Berufsregister)")}). Der Band 1883–84 liegt überall tiefer.',
+        "__T_VOLL__": f'Ärzte ({z(B, "Ärzte (Beruf nennt «Arzt»)")} mit der Berufsangabe «Arzt» bei {n(B, "Ärzte (dazu Titel «Dr. med.», gegen Ärztedichte)")} bis {n(B, "Ärzte (Beruf nennt «Arzt»)")} erwarteten), Lehrerinnen und Lehrer der Primarschulen ({z(B, "Lehrer und Lehrerinnen (Primarschule genannt)")} bei rund {n(B, "Lehrer und Lehrerinnen (Primarschule genannt)")} Lehrpersonen insgesamt), Spezereihandlungen ({z(B, "Spezereihandlungen (Rubrik im Berufsregister)")} im Berufsregister bei rund {n(B, "Spezereihandlungen (Rubrik im Berufsregister)")}). Der Band 1883–84 liegt überall tiefer.',
         "__T_KAUM__": f'{z(A, "Dienstboten")} und {z(B, "Dienstboten")} Einträge von Dienstboten, {z(A, "Taglöhner und Handlanger")} und {z(B, "Taglöhner und Handlanger")} von Taglöhnern, bei jeweils mehreren Tausend in der Stadt.',
         "__T_FRAUEN__": f'{z(A, "Frauen")} und {z(B, "Frauen")} erkannte Frauen sind {q(A, "Frauen")} und {q(B, "Frauen")} der Frauen in der Stadt; bei den Witwen sind es {q(A, "Witwen")} und {q(B, "Witwen")} (Nenner geschätzt).',
         "__T_SEKTOR__": f'Im Band 1900 gehören {S["3. Sektor"]["anteil_1900"]} % der Personen mit Sektor zum 3. Sektor und {S["2. Sektor"]["anteil_1900"]} % zum 2.; in der Volkszählung 1910 sind es {S["3. Sektor"]["bernhist_1910"]} % und {S["2. Sektor"]["bernhist_1910"]} %. Gemessen an den geschätzten Erwerbstätigen erfasst der Band 1900 {q(B, "3. Sektor")} des 3., {q(B, "2. Sektor")} des 2. und {q(B, "1. Sektor")} des 1. Sektors.',

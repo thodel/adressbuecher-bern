@@ -1,6 +1,6 @@
 # Abdeckung der Adressbücher 1883–84 und 1900, gemessen an BERNHIST
 
-Stand 21.11.2026. Die Frage: Welchen Teil der Stadt Bern bilden die beiden maschinell gelesenen Adressbücher ab,
+Stand 23.11.2026. Die Frage: Welchen Teil der Stadt Bern bilden die beiden maschinell gelesenen Adressbücher ab,
 und welche Gruppen stehen fast vollständig darin, welche kaum? Die Nenner kommen aus BERNHIST (Stadt Bern,
 Ort 457), die Zähler aus `data/csv/04_entries.csv` und `04_berufe.csv`.
 
@@ -20,7 +20,7 @@ Skript sie neu aus dem Dump. Tests: `python -m unittest discover -s tests`.
   Stadt als der Band 1883–84. Das Berufsregister wächst mit 2,8 % (Einheiten) nur wenig schneller als die Stadt.
 - **Fast vollständig** sind 1900 die Gruppen, die ein Gewerbe, ein Amt oder eine Praxis haben: Ärzte (83 mit
   der Berufsangabe «Arzt» bei 92 bis 103 erwarteten; mit allen «Dr. med.» 121), Lehrerinnen und Lehrer der
-  Primarschulen (142 bei rund 149), Spezereihandlungen (215 im Berufsregister bei rund 243). Der Band 1883–84
+  Primarschulen (143 bei rund 149 Lehrpersonen insgesamt), Spezereihandlungen (215 im Berufsregister bei rund 243). Der Band 1883–84
   liegt überall tiefer (Spezereihandlungen 119 bei rund 167).
 - **Kaum vorhanden** sind Dienstboten (16 und 24 Einträge bei mehreren Tausend) und Taglöhner (44 und 14).
   Wer im Haushalt des Arbeitgebers wohnt oder keinen festen Erwerb hat, steht nicht im Buch.
@@ -82,13 +82,13 @@ folgt, wie die Nenner gebildet sind:
 | Erwerbstätige Frauen | 5 750 | 8 147 | geschätzt: Erwerbstätige mal Frauenanteil 1910 (30,4 %) |
 | Selbständige | 6 151 | 8 068 | geschätzt: Anteil an der Bevölkerung 1856 (16,0 %) und 1930 (10,2 %) interpoliert |
 | Ärzte | 82 / 69 | 103 / 92 | 1856: 47, 1910: 116; erste Zahl linear, zweite über die Ärztedichte |
-| Lehrer und Lehrerinnen | 102 | 149 | 1895: 131 (bei 5 151 Schülern, also Primarschule), mit der Bevölkerung umgerechnet |
+| Lehrer und Lehrerinnen | 102 | 149 | 1895: 131 bei 5 151 Schülern (öffentliche Schulen, mehrheitlich Primarstufe), mit der Bevölkerung umgerechnet |
 | Spezereigeschäfte | 167 | 243 | 1901: 251, mit der Bevölkerung umgerechnet |
 | Dienstboten | 5 061 | 7 346 | 1856: 3 016 (11,4 % der Bevölkerung), mit der Bevölkerung umgerechnet |
 | Taglöhner | 2 794 | 4 055 | 1856: 1 665 (6,3 %), mit der Bevölkerung umgerechnet |
 
 «Geschätzt» heisst: BERNHIST hat für das Bandjahr keinen Wert, und die Zahl ruht auf einer Annahme, die in
-`abdeckung.csv` in der Spalte `nenner_herleitung` steht. Der Band 1883–84 ist auf 1883 gerechnet; mit 1884
+`abdeckung.csv` in der Spalte `nenner_herleitung` steht. Der Band 1883–84 gibt den Stand von 1883 wieder und ist auf 1883 gerechnet (bestätigt von Tobias Hodel); mit 1884
 wäre die Bevölkerung um rund 350 Personen grösser und die Quote um 0,1 Prozentpunkte kleiner.
 
 ## Zähler
@@ -113,7 +113,9 @@ wäre die Bevölkerung um rund 350 Personen grösser und die Quote um 0,1 Prozen
 - **Einzelne Gruppen** (`gruppe()`): Ärzte ohne Zahn- und Tierärzte, einmal nur nach der Berufsangabe, einmal
   mit allen, die «Dr. med.» im Titel führen (Professoren, Beamte des Gesundheitsamts, Assistenten). Lehrer und
   Lehrerinnen einmal nur dort, wo eine Primarschule genannt ist (1900 meist: «Lehrerin a. d. Mattenschule»;
-  1883–84 selten), einmal mit allen «Lehrer(in)» ohne Fach und ohne höhere Schule. Spezereihandlungen nach der
+  1883–84 selten), einmal mit allen, die eine öffentliche Schule nennen (dazu Sekundarschulen, städtisches
+  Gymnasium, Progymnasium; ohne Lerberschule bzw. Freies Gymnasium, Neue Mädchenschule und Evangelisches Seminar,
+  die privat waren), einmal mit allen «Lehrer(in)» ohne Fach und ohne höhere Schule. Spezereihandlungen nach der
   Rubrik des Berufsregisters und nach der Berufsangabe im Einwohnerverzeichnis.
 
 ## Ergebnis
@@ -143,7 +145,8 @@ wäre die Bevölkerung um rund 350 Personen grösser und die Quote um 0,1 Prozen
 | Ärzte (dazu Titel «Dr. med.») | 51 | 82 | 62,6 % | 121 | 103 | 117,2 % |
 | Ärzte (dazu Titel «Dr. med.», gegen Ärztedichte) | 51 | 69 | 73,5 % | 121 | 92 | 131,4 % |
 | Ärzte (Rubrik im Berufsregister) | – | – | – | 58 | 103 | 56,2 % |
-| Lehrer und Lehrerinnen (Primarschule genannt) | 31 | 102 | 30,3 % | 142 | 149 | 95,6 % |
+| Lehrer und Lehrerinnen (öffentliche Schule genannt) | 70 | 102 | 68,4 % | 226 | 149 | 152,1 % |
+| Lehrer und Lehrerinnen (Primarschule genannt) | 33 | 102 | 32,2 % | 143 | 149 | 96,3 % |
 | Lehrer und Lehrerinnen (ohne Fach- und höhere Schulen) | 152 | 102 | 148,5 % | 221 | 149 | 148,8 % |
 | Lehrer und Lehrerinnen (alle) | 316 | – | – | 462 | – | – |
 | Spezereihandlungen (Rubrik im Berufsregister) | 119 | 167 | 71,1 % | 215 | 243 | 88,5 % |
@@ -207,8 +210,12 @@ Privatschulen meint.
   eine Grössenordnung, keine Zählung. Am Befund ändert das nichts, weil die Bücher nur 16 bis 44 solche
   Einträge haben.
 - **Ärzte und Lehrpersonen.** Woher BERNHIST die Zahl der Ärzte nimmt und ob Spital- und Amtsärzte mitzählen,
-  ist nicht bekannt. Die Zahl der Lehrpersonen 1895 meint nach der Schülerzahl die Primarschule; private und
-  höhere Schulen fehlen im Nenner.
+  ist nicht bekannt. Was die 131 Lehrpersonen von 1895 umfassen, sagt BERNHIST nicht; nach
+  Auskunft von Tobias Hodel wohl nicht nur die Primarschule, aber mehrheitlich Lehrpersonen der Primarstufe. Die
+  Bücher sprechen eher für eine enge Abgrenzung: 1900 nennen 143 Personen eine Primarschule, 226 eine öffentliche
+  Schule überhaupt, bei rund 149 erwarteten Lehrpersonen. Umfasste der Nenner alle öffentlichen Schulen, stünden
+  im Buch die Hälfte mehr Lehrpersonen, als es gab. Die Quote der Primarlehrpersonen (96 %) ist darum die
+  verlässlichere Zahl; privat Unterrichtende fehlen im Nenner sicher.
 - **Stichtage.** Der Band 1900 gibt den Stand von 1899 oder Anfang 1900 wieder, die Volkszählung den vom
   1. Dezember 1900. Bei 2,8 % Wachstum im Jahr ist die Quote des Bands 1900 damit um etwa einen halben
   Prozentpunkt zu tief angesetzt.
@@ -221,5 +228,9 @@ Privatschulen meint.
   Nenner für Witwen verbindet drei Schätzungen (Bevölkerung, Anteil der Verwitweten, Frauenanteil von 1846).
 - **Burger und Einsassen** lassen sich nicht messen: BERNHIST hat die Burger der Stadt für 1888, aber die
   Bände nennen das Burgerrecht nicht (`citizen_flag` ist leer).
-- **Rechte.** Die Nutzungsrechte an BERNHIST sind nicht geklärt. Im Repo liegen nur die verwendeten Einzelwerte
-  mit Ort, Thema, Jahr und Quelle (`ref/bernhist/werte.csv`), ausserhalb der CC0-Freigabe von `data/`.
+- **Lizenz und Zitat.** BERNHIST steht im Repo `ub-unibe-ch/bernhist`, das auch den Dump enthält, unter der
+  MIT-Lizenz (© 2019 Universität Bern, Universitätsbibliothek). Die verwendeten Einzelwerte liegen mit Ort, Thema,
+  Jahr und Quelle in `ref/bernhist/werte.csv` und übernehmen diese Lizenz (`ref/bernhist/LICENSE`), ausserhalb der
+  CC0-Freigabe von `data/`. Die MIT-Lizenz nennt «Software»; eine eigene Datenlizenz gibt es nicht. Zitieren:
+  BERNHIST, Universitätsbibliothek Bern, https://www.bernhist.ch; Pfister und Schranz, Itinera 17 (1995), 46–78;
+  Pfister, Im Strom der Modernisierung, Bern 1995.

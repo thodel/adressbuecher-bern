@@ -52,7 +52,8 @@ Wie viel von der Stadt steht im Buch? `docs/abdeckung.md` misst die beiden Bänd
   Mit `--bernhist <sqlite>` oder `BERNHIST_SQLITE` liest es die Nenner neu aus dem lokal geladenen Dump,
   sonst aus `ref/bernhist/werte.csv`.
 - `ref/bernhist/werte.csv`: die 46 verwendeten Einzelwerte mit Ort, Thema, Jahr und Quelle. Der Dump liegt
-  nicht hier; die Nutzungsrechte an BERNHIST sind nicht geklärt, `ref/` fällt nicht unter die CC0-Freigabe.
+  nicht hier. BERNHIST steht unter der MIT-Lizenz (© 2019 Universität Bern, Universitätsbibliothek); `ref/bernhist/`
+  übernimmt sie (`ref/bernhist/LICENSE`) und fällt nicht unter die CC0-Freigabe.
 - `data/abdeckung/stichprobe_sektor.csv`: 80 Berufsangaben mit Urteil zur Sektorzuordnung (78 richtig).
 - Die Spalte `entry_type` trennt Personen und Firmen nicht zuverlässig (sie trifft auch «Gesellschaftsstrasse»);
   die Messung bestimmt die Art neu, die CSV bleibt, wie sie ist.
@@ -89,5 +90,5 @@ Der Band 1860 (Fraktur) ist nicht ganz gelesen: in der Probe waren nur 40–60 %
 
 Die Bücher sind vor 1914 erschienen; ihr Inhalt ist gemeinfrei (URG Art. 2 Abs. 1, Art. 29 Abs. 2).
 Die Daten in `data/` stehen unter [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), der Code
-unter MIT. Die Scans liegen nicht in diesem Repo. `ref/bernhist/` enthält Einzelwerte aus BERNHIST und ist
-von der CC0-Freigabe ausgenommen (Rechte nicht geklärt, siehe `ref/bernhist/README.md`).
+unter MIT. Die Scans liegen nicht in diesem Repo. `ref/bernhist/` enthält Einzelwerte aus BERNHIST und
+steht wie BERNHIST unter der MIT-Lizenz (© 2019 Universität Bern, Universitätsbibliothek; `ref/bernhist/LICENSE`).

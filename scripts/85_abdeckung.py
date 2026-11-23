@@ -30,9 +30,9 @@ WERTE = ROOT / "ref" / "bernhist" / "werte.csv"
 STICHPROBE = OUT_DIR / "stichprobe_sektor.csv"
 DOC = ROOT / "docs" / "abdeckung.md"
 ORT = 457  # Einwohnergemeinde Bern
-QUELLE = "BERNHIST, Dump ub-unibe-ch/bernhist (Stand 22.03.2024)"
+QUELLE = "BERNHIST, Dump ub-unibe-ch/bernhist (Stand 22.03.2024), MIT-Lizenz, © Universität Bern, Universitätsbibliothek"
 
-# Redaktionsjahr je Band: Der Band 1883–84 erschien 1883; die Volkszählungen waren am 1. Dezember.
+# Redaktionsjahr je Band: Der Band 1883–84 gibt den Stand von 1883 wieder (von Tobias Hodel bestätigt, 23.11.2026).
 JAHR = {"1883": 1883, "1900": 1900}
 BAND = {"1883": "1883–84", "1900": "1900"}
 
@@ -164,7 +164,7 @@ def nenner(w: dict[str, float], band: str) -> dict[str, tuple[float, str, str]]:
                            f"geschätzte Erwerbstätige mal Anteil des {s}. Sektors 1910")
     b1895 = interpoliere(1888, w["bev_1888"], 1900, w["bev_1900"], 1895)
     n["lehrpersonen"] = (b * w["lehrpersonen_1895"] / b1895, "geschätzt",
-                         "Lehrer und Lehrerinnen 1895, mit der Bevölkerung auf das Bandjahr umgerechnet")
+                         "Lehrer und Lehrerinnen 1895 (öffentliche Schulen, mehrheitlich Primarstufe), mit der Bevölkerung auf das Bandjahr umgerechnet")
     b1901 = interpoliere(1900, w["bev_1900"], 1910, w["bev_1910"], 1901)
     n["spezerei"] = (b * w["spezerei_1901"] / b1901, "geschätzt",
                      "Spezerei- und Kolonialwarengeschäfte 1901, mit der Bevölkerung auf das Bandjahr umgerechnet")
@@ -344,8 +344,13 @@ GRUPPEN = {
 }
 NICHT_ARZT = re.compile(r"zahn|tier|thier|vieh|pferde", re.I)
 # Lehrpersonen an öffentlichen Volksschulen: die Zahl von 1895 (131 bei 5151 Schülern) meint die Primarschule.
-PRIMAR = re.compile(r"primar|oberlehrer|längg|matten|lorraine|friedbühl|sulgenbach|breitenrain|postgass|"
+PRIMAR = re.compile(r"primar|neugass|staldensch|schoss-?halden|oberlehrer|längg|matten|lorraine|friedbühl|sulgenbach|breitenrain|postgass|"
                     r"kirchenfeld|schosshalde|brunnmatt|unter(?:n|en) stadt|mittl|ob(?:ern|eren|\.) stadt|spitalacker", re.I)
+# Öffentliche höhere Schulen der Stadt; Lerberschule (Freies Gymnasium), Neue Mädchenschule und das Evangelische
+# Seminar waren privat.
+OEFFENTLICH = re.compile(r"sekund|\bsek\b|sek\.|städt|gymnas|gymn\b|gymn\.|progymn", re.I)
+PRIVATSCHULE = re.compile(r"lerber|freie|fr\. gymn|neue|n\. mädch|evang|ev\. sem|musik|kunst|handelssch|privat|\bgew|\balt\b|"
+                          r"turn|zeichn|arbeitsl|tierarznei|thierarznei|hochschule|privatdoc", re.I)
 NICHT_VOLKSSCHULE = re.compile(r"alt|gewes|lerber|mädchensch|israel|isr\.|buchhalt|mathem|beschlag|stick|piano|klav|"
                                r"clav|institut|waisen|pension|musik|klavier|gesang|sprach|tanz|turn|fecht|reit|zeichn|arbeits|gymnas|sekund|"
                                r"sek\.|progymn|seminar|kunst|privat|haus|handels|gewerb|kleinkinder|kinderg|"
@@ -361,6 +366,9 @@ def gruppe(name: str, beruf: str, titel: str = "") -> bool:
             r"cand|vet|dent", titel, re.I) and not NICHT_ARZT.search(beruf))
     if name == "lehrpersonen_primar":
         return bool(GRUPPEN["lehrpersonen_alle"].search(kopf) and PRIMAR.search(kopf) and not re.search(r"\bgew|\balt", kopf, re.I))
+    if name == "lehrpersonen_oeffentlich":  # Primarschule oder öffentliche höhere Schule genannt
+        return gruppe("lehrpersonen_primar", beruf) or bool(
+            GRUPPEN["lehrpersonen_alle"].search(kopf) and OEFFENTLICH.search(kopf) and not PRIVATSCHULE.search(kopf))
     if name == "lehrpersonen_volksschule":
         return gruppe("lehrpersonen_primar", beruf) or bool(GRUPPEN["lehrpersonen_alle"].search(kopf) and not NICHT_VOLKSSCHULE.search(kopf))
     return bool(GRUPPEN[name].search(kopf))
@@ -402,7 +410,7 @@ def zaehle(einwohner: list[dict], berufe: list[dict], band: str) -> dict:
     z["erwerb"] = sek["1"] + sek["2"] + sek["3"] + sek["unbestimmt"]
     z["erwerb_frauen"] = sum(1 for r in p if frau(r) and sektor_von(r) in ("1", "2", "3", "unbestimmt"))
     z["gruppe"] = {g: sum(1 for r in p if gruppe(g, r["occupation_raw"], r["title"]))
-                   for g in ("aerzte", "aerzte_med", "lehrpersonen_alle", "lehrpersonen_volksschule", "lehrpersonen_primar",
+                   for g in ("aerzte", "aerzte_med", "lehrpersonen_alle", "lehrpersonen_volksschule", "lehrpersonen_primar", "lehrpersonen_oeffentlich",
                              "spezerei", "dienstboten", "tagloehner")}
     z["spezerei_alle"] = sum(1 for r in e if art(r) != "verweis" and gruppe("spezerei", r["occupation_raw"]))
     # Berufsregister
@@ -457,6 +465,7 @@ def zeilen(w: dict[str, float], z: dict[str, dict]) -> list[dict]:
         add("Ärzte (dazu Titel «Dr. med.»)", c["gruppe"]["aerzte_med"], "wie oben, dazu alle mit «med.» im Titel", "aerzte_linear", "mit Professoren, Beamten und Assistenten")
         add("Ärzte (dazu Titel «Dr. med.», gegen Ärztedichte)", c["gruppe"]["aerzte_med"], "wie oben", "aerzte_dichte")
         add("Ärzte (Rubrik im Berufsregister)", c["rubrik"]["aerzte"] or None, "Rubrik «Aerzte»", "aerzte_linear", "1883–84 hat das Berufsregister keine Rubrik «Aerzte»")
+        add("Lehrer und Lehrerinnen (öffentliche Schule genannt)", c["gruppe"]["lehrpersonen_oeffentlich"], "Primarschule, Sekundarschule, städtisches Gymnasium oder Progymnasium genannt", "lehrpersonen", "Untergrenze; ohne Privatschulen und Fachlehrer")
         add("Lehrer und Lehrerinnen (Primarschule genannt)", c["gruppe"]["lehrpersonen_primar"], "«Primarlehrer», «Oberlehrer» oder eine Primarschule der Stadt genannt", "lehrpersonen", "Untergrenze")
         add("Lehrer und Lehrerinnen (ohne Fach- und höhere Schulen)", c["gruppe"]["lehrpersonen_volksschule"], "dazu «Lehrer(in)» ohne nähere Angabe", "lehrpersonen", "enthält Privatschulen; Nenner meint nur die Primarschule")
         add("Lehrer und Lehrerinnen (alle)", c["gruppe"]["lehrpersonen_alle"], "jede Angabe mit «Lehrer(in)»", None, "kein passender Nenner")
