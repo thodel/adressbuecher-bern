@@ -1,0 +1,3 @@
+# Lauf Bern, Strom A (scripts/weekly/README.md). Stündlich gestartet; ein Sperrfile lässt nur einen Lauf zu.
+# Der Lauf beginnt keinen Band, solange run_qwen.py oder zh_weekly.py läuft (das Zürcher Fenster hat Vorrang).
+45 * * * * cd /home/dh/adressbuch_qwen/weekly_bern && nohup python3 be_weekly.py >> cron.log 2>&1

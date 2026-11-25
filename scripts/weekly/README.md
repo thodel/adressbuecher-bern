@@ -30,9 +30,35 @@ und ist nicht Band für Band nachgezählt. Ob die Lücken wirklich nicht erschie
 sind oder nur nicht digitalisiert wurden, ist offen. 1859 («Hand- und Adressbuch der Bundesstadt Bern»,
 doi:10.3931/e-rara-7083) ist ein eigener Titel und steht nicht in der Warteschlange.
 
-## Noch nicht eingerichtet
+## Lauf auf tei (Strom A)
 
-Den Lauf auf tei gibt es noch nicht. Der cron dort liest bis auf Weiteres das Zürcher Fenster 1900–1920
-(`adressbuecher-zuerich/scripts/weekly`). Bern kommt als Nächstes dran: Der Leser für Strom A ist
-`zh_weekly.py` mit e-rara statt ZOP, der für Strom B `02d_llm_pages.py` aus adressbuecher-aarau mit einer
-Berner Anweisung.
+Seit 25.11.2026 liest `be_weekly.py` auf tei die Bände von Strom A, einen nach dem anderen, in der
+Reihenfolge von `queue.csv` (Kopie mit `queue.csv` in `tei:/home/dh/adressbuch_qwen/weekly_bern/`, cron
+stündlich um :45, `crontab.txt`). Er beginnt keinen Band, solange `run_qwen.py` oder der Zürcher Lauf
+`zh_weekly.py` läuft: Das Zürcher Fenster 1900–1920 geht vor. Umgekehrt wartet `zh_weekly.py`, solange
+`be_weekly.py` liest. Je Band:
+
+1. Manifest bei e-rara holen, Seitentabelle schreiben (`weekly_bern/<Band>/iiif_pages.csv`).
+2. Jede Seite zuordnen (Bild 600 px breit, qwen3.8 nennt den Teil). Der grösste Block ergibt die
+   Seitenbereiche Einwohner und Berufe.
+3. Diese Seiten über IIIF holen (halbe Breite des Scans, mindestens 1100, höchstens 1200 px), mit `run_qwen.py` lesen
+   (2× vergrössert, zwei Durchgänge), mit `collect.py` sammeln.
+4. Ergebnis auf den Forschungsspeicher (`/mnt/wbkolleg_dh_1/tei/adressbuch_qwen/full/bern<Band>/`, Zuordnung
+   unter `weekly_bern/<Band>/`), Seitenbilder löschen.
+
+Stand: `python3 be_weekly.py --status` (`state.json`, Protokoll `weekly.log`). Einen Band einzeln lesen,
+auch neben Zürich: `python3 be_weekly.py --only 1881`.
+
+Probe 1881 (25.11.2026): Die Zuordnung ergab Einwohner S. 80–193 und Berufe S. 194–249; an den Seitenbildern
+geprüft, beide Grenzen stimmen (davor Behörden, danach Hauseigentümer). Leseprobe S. 120 (Einwohner) in 800 und
+1100 px: 80 von 93 Einträgen gleich; von den übrigen war am Seitenbild 1100 px öfter richtig
+(Sonnegg, Gerechtigkeitsgasse 88, Schwarzthorstr.), daher mindestens 1100 px. Beide lasen «Brunng.»
+falsch («Brunn g.» bzw. «Brung.»): bei der Übernahme prüfen. S. 210 (Berufe, 800 px): die ersten 10 Einträge
+wortgenau.
+
+## Noch offen
+
+- Übernahme ins Repo: wie bei Zürich (`adressbuecher-zuerich/scripts/weekly/TASK.md`) holen, Stichprobe,
+  `convert.py` um die Bände erweitern. Dafür gibt es noch keinen Auftrag.
+- Strom B (Fraktur, Gemini) hat noch keinen Lauf: vorgesehen ist `02d_llm_pages.py` aus adressbuecher-aarau
+  mit einer Berner Anweisung.
