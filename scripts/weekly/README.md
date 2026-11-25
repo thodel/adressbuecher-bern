@@ -56,9 +56,10 @@ geprüft, beide Grenzen stimmen (davor Behörden, danach Hauseigentümer). Lesep
 falsch («Brunn g.» bzw. «Brung.»): bei der Übernahme prüfen. S. 210 (Berufe, 800 px): die ersten 10 Einträge
 wortgenau.
 
-## Noch offen
+## Übernahme und Offenes
 
-- Übernahme ins Repo: wie bei Zürich (`adressbuecher-zuerich/scripts/weekly/TASK.md`) holen, Stichprobe,
-  `convert.py` um die Bände erweitern. Dafür gibt es noch keinen Auftrag.
+- Übernahme ins Repo: Der geplante Claude-Auftrag «Bern: gelesene Bände übernehmen» (alle 4 Stunden) folgt
+  [TASK.md](TASK.md) und trägt jeden Band in `ingested.csv` ein. Vor dem ersten Band stellt er das Repo auf
+  eine Datei je Band und Bandlisten aus `00_volumes.csv` um.
 - Strom B (Fraktur, Gemini) hat noch keinen Lauf: vorgesehen ist `02d_llm_pages.py` aus adressbuecher-aarau
   mit einer Berner Anweisung.
