@@ -1,3 +1,5 @@
 volume,date,commit,entries,berufe,sample,note
 1861,2026-11-26,d8fadda,4073,2361,16/20,"gemini, 106 S., 4.88 $ (198 432 Token ein, 508 984 aus); Fehler: Strassenkürzel 2, F/J 1, Feld 1; Vernetzte Schweiz c483fe8"
 1862,2026-11-26,d8fadda,4096,2672,16/20,"gemini, 116 S., 5.37 $ (217 698 Token ein, 560 260 aus); Fehler: Strassenkürzel 1, Strasse ausgeschrieben 1, Feld 2; Vernetzte Schweiz c483fe8"
+1863,2026-11-26,f38b2c7,4053,2685,18/20,"gemini, 116 S., 5.28 $ (217 152 Token ein, 550 353 aus); Fehler: Feld 2 («=» übersehen, Ort im Beruf); Vernetzte Schweiz b31dd7e"
+1865,2026-11-26,f38b2c7,4240,2831,17/20,"gemini, 127 S., 5.73 $ (241 173 Token ein, 596 550 aus); Seitenbereiche aus --status korrigiert (Einwohner 94–169, Berufe 170–218); Fehler: Rubrik 1, Strassenkürzel 1, Feld 1; Vernetzte Schweiz b31dd7e"
