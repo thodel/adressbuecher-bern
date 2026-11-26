@@ -1,0 +1,21 @@
+nr,entry_id,page,text,voll_korrekt,fehler,bemerkung
+1,1877-einwohner-195-006,195,"— K., Tapezierer und Möbelhändler, Zeughausg. 11 (Wohnung Mezg. 83.)",ja,,Felder richtig; im Lesetext «(Wohnung Mezg. 83.)» statt Druck «Metzg. 83»
+2,1877-einwohner-259-035,259,"— Friedr., Schreiner und Glaſer, Junkerng. 147",ja,,
+3,1877-einwohner-245-040,245,"— Fried., Coiffeur, Marktgasse 83",ja,,Familienname Scherz nur aus Kontext erschlossen
+4,1877-einwohner-196-030,196,"— Johann Jak., Commis, Aarbergg. 51",ja,,
+5,1877-einwohner-273-028,273,"— Chr., Bäck u. Mehlhändl., Lorraine 152",ja,,
+6,1877-berufe-329-052,329,"Liechti, J. L., Lorr. 58c",ja,,
+7,1877-einwohner-203-036,203,"— Jos., Kommiß. u. Placirungsbüreau, Spitlg. 159",ja,,"Druck «Kommiſſ.», gelesen «Kommiß.» (nur ſſ→ß)"
+8,1877-einwohner-237-012,237,"Ritter, Philipp, Fürsprecher, eidg. Archivar, Linde 184q",ja,,
+9,1877-einwohner-215-017,215,"Madrenas, M., Weinhändler, Brunngasse 39",ja,,"Feld heading «M.» im Einwohnerteil, nicht gewertet"
+10,1877-berufe-320-024,320,"Frey-Hubacher Wwe., Metzgergasse 106",ja,,
+11,1877-einwohner-270-010,270,"— A., Schneider, Brunngasse 32",ja,,Familienname Walther auf ganzer Seite geprüft
+12,1877-berufe-339-070,339,"Scheiben Joh., Aarbergerg. 44",ja,,
+13,1877-berufe-310-023,310,"Dick, Friedr., Neueng. 116",ja,,
+14,1877-berufe-337-052,337,"Weber, J. G., Matte 95, Zähringerhof",ja,,
+15,1877-berufe-304-002,304,"Gerber, J. Jl. E., Matte 51",ja,,
+16,1877-einwohner-162-038,162,"— Jakob, Hufschmd, Mt. 91",ja,,
+17,1877-einwohner-251-025,251,"Schuppli, Melchior, Direkt. d. N. Mädchenschule, Mrktg. 80 u. Stadtbach 177 H",nein,Feld,"Druck «Mrktg. 80 u. Stadtbach 177 H»: erste Adresse Mrktg. 80 fehlt, nur die zweite übernommen"
+18,1877-berufe-329-030,329,"Blau U., Schauplatzg. 207",ja,,
+19,1877-einwohner-151-015,151,"— Henr., Judeng. 129",ja,,
+20,1877-einwohner-222-032,222,"— Joh., Leinwb., Matte 59",ja,,

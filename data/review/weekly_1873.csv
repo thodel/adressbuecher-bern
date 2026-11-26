@@ -1,0 +1,21 @@
+nr,entry_id,page,text,voll_korrekt,fehler,bemerkung
+1,1873-einwohner-136-012,136,"Baumeister L., Bierbrauer im Maulbeerbaum",nein,Feld,"Druck «Bierbrauer im Maulbeerbaum»: «im Maulbeerbaum» ist die Adresse, steht im Beruf, Strasse leer"
+2,1873-einwohner-149-037,149,"— Marg., Privat., Marktgasse 54",ja,,
+3,1873-einwohner-133-017,133,— Jb. Revis. d. Kts.-Buchhlt. Gerechtigkeitsg. 102,ja,,
+4,1873-berufe-285-026,285,"Tschiffeli, Frau, geb. Christen, Gerechtigkg. 111",ja,,"«geb. …» steht im Feld Stand (civil_status); so wie 1863 Nr. 15, 1865 Nr. 18 gewertet"
+5,1873-berufe-271-011,271,"Flückiger Ulr., bei der großen Schanze, hinter dem Burgerspital.",ja,,
+6,1873-einwohner-197-032,197,"— Friedr., Gypser u. Maler, Käfichg. 104",ja,,Familienname Maurer auf ganzer Seite geprüft
+7,1873-einwohner-243-007,243,"Wiedmer, J. C., Schneider, Käfichgäßchen 110",ja,,
+8,1873-berufe-286-001,286,"Bächler geb. Schäfer, Mktg. 64",ja,,"«geb. …» steht im Feld Stand (civil_status); so wie 1863 Nr. 15, 1865 Nr. 18 gewertet"
+9,1873-berufe-305-023,305,"Wildi J., Stalden 4",ja,,
+10,1873-berufe-302-038,302,"Blaser J., Spitalg. 177",ja,,
+11,1873-berufe-278-051,278,"Moser J. U., Altenb. 159",ja,,
+12,1873-berufe-282-035,282,"Egger, Töchtern, Spitalg. 136",nein,Feld,"Druck «Egger, Töchtern, Spitalg. 136» (S. 282, Näherinnen): «Töchtern» in keinem Feld (vgl. «Frauen» als Stand 1871)"
+13,1873-einwohner-240-005,240,"— Franz, Commis, Kramgasse 152",ja,,
+14,1873-einwohner-228-028,228,"Staub-Henzi, M., Sensal, Lorraine 11, Ablage Käfichgäßlein 19 c",ja,,
+15,1873-einwohner-243-041,243,"— Wascher. u. Glätt., Stld. 4",ja,,
+16,1873-einwohner-233-033,233,,nein,Familienname,"Lesetext leer; Druck «v. Stürler=v. Steiger» als Kopf, «— A., gw. Oberst, Sptlg. 123»: Familienname ohne «v.»"
+17,1873-einwohner-201-009,201,"v. Morlot-Ingilby Ww., Junkerngaſse 150",ja,,
+18,1873-berufe-281-051,281,"Walther J, Matte 22",ja,,
+19,1873-einwohner-203-020,203,"— Jos., Schrifts., Sptlg. 162",ja,,Familienname Müller auf ganzer Seite geprüft
+20,1873-berufe-287-030,287,"Beutler Joh., Brunng. 32",ja,,Rubrik Schirmfabrikanten auf ganzer Seite geprüft

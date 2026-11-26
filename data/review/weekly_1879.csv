@@ -1,0 +1,21 @@
+nr,entry_id,page,text,voll_korrekt,fehler,bemerkung
+1,1879-einwohner-222-023,222,"— E. K. E., Fürsprech, Falkenplätzli 184 e",ja,,Familienname Müller auf ganzer Seite geprüft
+2,1879-einwohner-152-035,152,"Brawand, Alex. Ad., Buchh. d. Mil.-Dir., Schauplg. 196",ja,,
+3,1879-berufe-320-024,320,"Löhrer-Meyerhofer, E., Kramgasse 200",ja,,
+4,1879-einwohner-150-002,150,"— Jul., Dr. phil. Laupstr. 171",ja,,
+5,1879-einwohner-264-010,264,"Volmar, Pl., Zeichnungslehrer und Privatdozent, Ostermundigen",ja,,
+6,1879-berufe-350-025,350,"Hänsler, H., Käfichg. 95",ja,,
+7,1879-einwohner-176-034,176,,ja,,"Lesetext leer, Felder entsprechen Druck «Gremmi, Ing., Mattenh. 302 e»"
+8,1879-einwohner-277-007,277,"— J. U., Verwalt. d. Ziegleshospitals, Ablage in der Bäckerei Marktg. 75",nein,Lesung,"Druck «Verwalt. d. Zieglerſpitals», gelesen «Ziegleshospitals»"
+9,1879-einwohner-233-004,233,"Rikli, Jos., Oberstlt., Wirth, Hirschengraben 189 d",nein,Familienname,"Druck «Rickli, Joſ.», gelesen «Rikli»"
+10,1879-einwohner-268-008,268,"Weidmann, Anna, Damenschneiderin, Bärenpl. 241",ja,,
+11,1879-berufe-292-010,292,"Wettach, Schwest., Kramg. 222",ja,,
+12,1879-einwohner-165-034,165,"— Franz, Angeſt. d. eidgen. Statiſt. Bnr., Stalden 225",ja,,"Druck hat tatsächlich «Bnr.»; Feld heading «F.» im Einwohnerteil, nicht gewertet"
+13,1879-berufe-306-018,306,"Wenger, Louis, Längg. 381 e",ja,,
+14,1879-berufe-333-013,333,"Meyer, Elise, Aarbergerg. 52",ja,,Rubrik «a) Damenschneiderinnen.» nicht im Ausschnitt geprüft
+15,1879-berufe-322-002,322,"Berner, Aug., Spitalg. 165",ja,,
+16,1879-einwohner-265-033,265,"— Ed., Schriftſ., Zeughg. 11",ja,,
+17,1879-einwohner-183-032,183,"— Wwe., Wirthin, Aarbg. 51",ja,,
+18,1879-berufe-335-046,335,"Herzog J. B., Matte 55",ja,,
+19,1879-berufe-338-056,338,"Neuenschwander J., Mrktg. 77",ja,,
+20,1879-einwohner-171-002,171,"Gafner, Chr., Lehenm., Brunnadern 27",ja,,

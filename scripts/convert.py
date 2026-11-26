@@ -53,11 +53,27 @@ def reader(volume: str) -> str:
 MUNICIPALITY = "Bern"
 SECTIONS = {
     "1861": [("einwohner", 79, 145), ("berufe", 146, 184)],  # davor Versicherungsagenten, danach Wirthschaften
-    "1862": [("einwohner", 87, 157), ("berufe", 158, 202)],  # davor Versicherungsagenten, danach Hauseigentümer
+    "1862": [("einwohner", 87, 157), ("berufe", 158, 200)],  # davor Versicherungsagenten; Bild 201–202 Wirthschaften
+                                                              # (bis 26.11.2026 mitgezählt, 68 Einträge)
     "1863": [("einwohner", 85, 156), ("berufe", 157, 200)],  # davor Versicherungsagenten, danach Wirthschaften
     # 1865: be_gemini --status nannte Einwohner 94–173, Berufe 174–220; das Berufsregister beginnt aber auf
     # Bild 170 (Druckseite 160) und endet auf 218, Bild 219–220 sind Wirthschaften.
     "1865": [("einwohner", 94, 169), ("berufe", 170, 218)],  # davor Versicherungsagenten
+    # 1864–1879: am Bild geprüft (Titel «VIII. Alphabetisches Verzeichniß der ständigen Einwohner» und «IX. Verzeichniß
+    # der Künstler, Handels- und Gewerbsleute», davor Versicherungsagenten, danach «X. Wirthschaften»). Abweichend von
+    # be_gemini --status: 1866 und 1868 enden die Berufe vor den Wirthschaften (Bild 238, 274), 1875 und 1879 beginnen
+    # sie früher (Bild 279, 278). Ab 1873 beginnen die Wirthschaften auf derselben Seite (cut_wirthschaften).
+    # 1864: das Berufsregister geht auf Bild 213 weiter (Zügler, Zurichter), das Strom B nicht gelesen hat.
+    # "1864": [("einwohner", 91, 165), ("berufe", 166, 212)],  zurückgestellt 26.11.2026: Stichprobe 15/20 (75 %; vier Lesefehler in Namen, eine Rubrik leer) und Bild 213 ungelesen
+    "1866": [("einwohner", 101, 186), ("berufe", 187, 238)],
+    # "1867": [("einwohner", 106, 200), ("berufe", 201, 255)],  zurückgestellt 26.11.2026: Stichprobe 14/20 (70 %; Strassenkürzel ×3, Allianzname aus Firmenzeile geerbt, «Geschw.» als Vorname, «Regt.»)
+    "1868": [("einwohner", 113, 214), ("berufe", 215, 274)],
+    "1870": [("einwohner", 117, 236), ("berufe", 237, 296)],
+    "1871": [("einwohner", 123, 242), ("berufe", 243, 301)],
+    "1873": [("einwohner", 131, 249), ("berufe", 250, 308)],
+    "1875": [("einwohner", 145, 278), ("berufe", 279, 342)],
+    "1877": [("einwohner", 138, 283), ("berufe", 284, 354)],
+    "1879": [("einwohner", 138, 277), ("berufe", 278, 355)],
     "1883": [("einwohner", 83, 192), ("berufe", 193, 246)],
     "1900": [("einwohner", 142, 385), ("berufe", 386, 491)],
 }
@@ -103,6 +119,19 @@ def split_run_in(r: dict) -> list[dict]:
                     "street": street, "building_no": number.replace(" ", ""), "phone": "",
                     "qa_flags": ";".join(f for f in (r["qa_flags"], "fliesstext") if f)})
     return out or [r]
+
+
+# Abschnitt «X. Wirthschaften» (a. Gasthäuser, b. Cafés, c. Speisewirthschaften, d. Badwirthschaften) beginnt ab
+# 1873 auf der letzten Seite des Berufsregisters (1873 Bild 308, 1875 342, 1877 354, 1879 355).
+WIRTHSCHAFTEN = re.compile(r"^[a-e]\.\s*(Gasth|Caf|Speise|Bad)")
+
+
+def cut_wirthschaften(rows: list[dict]) -> list[dict]:
+    """Berufsregister bis zur ersten Rubrik des Abschnitts Wirthschaften; was danach kommt, gehört nicht dazu."""
+    for i, r in enumerate(rows):
+        if WIRTHSCHAFTEN.match(r["heading"].strip()):
+            return rows[:i]
+    return rows
 
 
 def carry_heading(rows: list[dict]) -> list[dict]:
@@ -156,7 +185,7 @@ def convert(volume: str) -> tuple[list[dict], Counter]:
     rows = list(csv.DictReader(open(src / volume / "entries.csv", encoding="utf-8")))
     if reader(volume) == "gemini":
         rows = [x for r in rows for x in (split_run_in(r) if section_of(volume, int(r["page"])) == "berufe" else [r])]
-        berufe = carry_heading([r for r in rows if section_of(volume, int(r["page"])) == "berufe"])
+        berufe = carry_heading(cut_wirthschaften([r for r in rows if section_of(volume, int(r["page"])) == "berufe"]))
         rows = [r for r in rows if section_of(volume, int(r["page"])) != "berufe"] + berufe
     pages = Counter(int(r["page"]) for r in rows)
     # Strom B liest nur die Seiten der Verzeichnisse (be_gemini.py klassiert vorher); die letzte Seite eines

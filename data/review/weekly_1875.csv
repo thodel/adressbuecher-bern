@@ -1,0 +1,21 @@
+nr,entry_id,page,text,voll_korrekt,fehler,bemerkung
+1,1875-einwohner-230-031,230,"Petter, K., Sattler, Mrz. 31 f",ja,,
+2,1875-einwohner-249-021,249,"— Christ., Postkondkt., Länggasse 216",ja,,Familienname Schwarz (Schwarz=Wälly) nur aus Kontext erschlossen
+3,1875-einwohner-254-008,254,"— F. R., gew. Gastwirth zu Schmieden, Mttnh. 308",ja,,
+4,1875-einwohner-271-036,271,"— Verena, Kostgeberin, Gerechtigkg. 107",ja,,
+5,1875-einwohner-225-039,225,"v. Mutach Fr., gew. neap. Offiz. Schoßhalde 54 a",nein,Feld,"Druck «v. Mutach Fr.»: «v.» steht im Stand, Familienname nur «Mutach»"
+6,1875-einwohner-178-032,178,"Gerwer C. F., Oberst, Laupenstr. 171 c",ja,,
+7,1875-berufe-329-029,329,"Lüthi U., Postg. 31",ja,,
+8,1875-berufe-283-055,283,"Marti, Frau, Marktg. 63",ja,,Rubrik auf ganzer Seite geprüft
+9,1875-einwohner-212-004,212,"— Carol. geb. Stadelmann, Schneiderin, Metzgg. 106",ja,,"«geb. …» steht im Feld Stand (civil_status); so wie 1863 Nr. 15, 1865 Nr. 18 gewertet"
+10,1875-berufe-323-072,323,"Gerber Elise, Spitalg. 136",ja,,
+11,1875-einwohner-249-012,249,"— Friedr., Spez., Aarbg. 78",ja,,
+12,1875-einwohner-272-007,272,"— Jd., Polizeisubst., Keßlergasse 244",nein,Lesung,"Druck «— Fd., Polizeiſubſt.», gelesen «Jd.» (F/J)"
+13,1875-einwohner-245-031,245,"— Jak., Bäcker, in Hollg. 143",ja,,Familienname Schmid (Schmid=Sprüngli) auf ganzer Seite geprüft
+14,1875-einwohner-171-045,171,"— Chr., Mechaniker, Holl. 152",ja,,
+15,1875-einwohner-203-018,203,"— =Läderach, J. J., Schreibmaterialien= und Buchhandlung, Gerechtigkg. 99",ja,,Familienname Kißling auf ganzer Seite geprüft
+16,1875-einwohner-269-034,269,"Werder, J., Direktor der Spinnerei Felsenau",ja,,
+17,1875-berufe-289-007,289,"Trümpler, J., Aarberg. 67",ja,,Rubrik Chirurgen auf ganzer Seite geprüft
+18,1875-einwohner-260-017,260,"Thierstein, J., Postbeamter, Längg. 212 d",ja,,
+19,1875-einwohner-240-038,240,"— Gust., Buchhalt., Lor. 208c",ja,,Familienname Rytz auf ganzer Seite geprüft
+20,1875-einwohner-264-017,264,"Wäber C., Archit., Lpnstr. 172",ja,,"Feld heading «W.» ist der Buchstabenkopf im Einwohnerteil, nicht gewertet"

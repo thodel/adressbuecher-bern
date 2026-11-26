@@ -1,0 +1,21 @@
+nr,entry_id,page,text,voll_korrekt,fehler,bemerkung
+1,1868-berufe-255-074,255,"Großen Anna, Mezg. 125",nein,Lesung,"Druck: Grossen Anna, Metzg. 125; gelesen «Großen» und «Mezg.» (Strassenkürzel ebenfalls falsch)"
+2,1868-berufe-261-058,261,"Siegfried J., Hollig. 141",ja,,
+3,1868-einwohner-176-001,176,"Münger geb. Steck, Wwe., Altenberg 169 (Kellerhaus)",ja,,"Einwohnerregister: heading «N.» falsch (Eintrag steht unter M), Rubrik hier aber kein Prüffeld"
+4,1868-berufe-232-013,232,"Howald, Wwe., Lorraine 163",ja,,
+5,1868-einwohner-192-007,192,"— geb. Hohlenweg, Garnwägerin, Stald. 5",ja,,
+6,1868-einwohner-148-002,148,"Heinzelmann A. J., Bierbrauer u. Wirth zum Klösterli",nein,Lesung,Druck: Heinzelmann A. F. (F/J); gelesen «A. J.»
+7,1868-einwohner-205-046,205,"— Sl., Mehlhndl., Pstg. 43",ja,,
+8,1868-einwohner-173-043,173,"— H., Büchsenm., Aarbg. 16",ja,,
+9,1868-einwohner-200-011,200,,ja,,"text leer; Felder stimmen (Studer — G., Lohnbed., Neueng. 103)"
+10,1868-berufe-267-030,267,"Stuber-Lehmann, Waisenhausplatz 27 (Stadt Havanna).",ja,,
+11,1868-einwohner-161-025,161,"Krugler, Jb., Not., Käfichg. 101",ja,,
+12,1868-einwohner-210-034,210,"— N. B., Schuhm., Lindh. 186",ja,,N. B. vs R. B. im Druck schwer zu unterscheiden
+13,1868-einwohner-163-014,163,"Lachat — Angestellter d. Ohmgeld- u. Steuerverw., Kramg. 199",ja,,
+14,1868-berufe-243-001,243,"Lauterburg u. Sohn, Mrktg. 47",ja,,Rubrik nur alphabetisch plausibel (Vorseite nicht geprüft)
+15,1868-einwohner-141-020,141,"— Lithograph, Aarbergg. 62",ja,,
+16,1868-einwohner-156-006,156,"— Chr., Holzhauer, Schifflände 49",ja,,
+17,1868-berufe-245-003,245,"Berger, Rosa, Länggaß 215",ja,,
+18,1868-einwohner-142-009,142,"— geb. v. Pourtalès, Frau, Junkerng. 171",ja,,
+19,1868-einwohner-164-034,164,"— Johann, auf d. Baudirektion, Junkerng. 146 d",ja,,
+20,1868-berufe-246-054,246,"Thiele, Waisenhauspl. 19 b",ja,,

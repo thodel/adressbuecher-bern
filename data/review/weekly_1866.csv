@@ -1,0 +1,21 @@
+nr,entry_id,page,text,voll_korrekt,fehler,bemerkung
+1,1866-einwohner-184-047,184,"Zahn Bab., Schnd., Spitg 153",ja,,
+2,1866-einwohner-168-009,168,"Schwab J., Pferdehdl. Abg. 77",ja,,
+3,1866-einwohner-102-054,102,"Anken, Vorsteh. d. Blindenanstalt, Speicherg. 5",ja,,
+4,1866-einwohner-148-050,148,"Maser D. A., Sachw., Mezgg. 133 u. Stalden 17",nein,Strassenkürzel,Druck: Metzg. 133 u. Stalden 17; gelesen «Mezgg.» (zweite Adresse fehlt in den Feldern)
+5,1866-einwohner-161-006,161,"— Frz., Schrifts., Sptlg. 161",ja,,
+6,1866-berufe-189-028,189,"Buri, Joh., inn. Bollw. 81",ja,,
+7,1866-einwohner-128-039,128,"Hähni J., Amtsnotar, Käfg. 28",ja,,
+8,1866-berufe-201-036,201,"Großenbacher B., Kirchg. 266",ja,,
+9,1866-einwohner-147-011,147,"— F., Fürspr., Sekr. u. Kassier d. Mobil.-Assekur.-Gesellschaft, Marktg. 84",ja,,
+10,1866-einwohner-146-061,146,"— Weber Th., Commandt., Negot., Brückfeld 232",ja,,
+11,1866-einwohner-171-021,171,,nein,Feld,"text leer; Druck: Stauber M. S., Lehrerin, Holligen 108; Strasse «Holligen» steht im Berufsfeld, street_raw leer"
+12,1866-einwohner-123-038,123,"Gempeler, R., Dachd., Schauplatzg. 216",ja,,
+13,1866-berufe-200-052,200,"Meyer F., Neueng. 121",ja,,
+14,1866-berufe-193-039,193,"Steiner, Frau, Junkg. 149",ja,,
+15,1866-einwohner-122-023,122,"Fuhrer u. Koslowsky, Gypser u. Maler, Brunng. 11",ja,,
+16,1866-einwohner-129-014,129,"— Wittwe, Postg. 32",ja,,
+17,1866-einwohner-105-006,105,"— Jaques, Viktualienhandl., Galerie Rebold.",nein,Lesung,Druck: Gallerie Rebold.; gelesen «Galerie»
+18,1866-berufe-228-059,228,"Ort-Brennwald, Frau, Kirchgasse 260",ja,,
+19,1866-einwohner-102-030,102,"— Emil, Kaffeew. u. Schreiner, Bollw. 81",ja,,
+20,1866-einwohner-166-060,166,"— Jb., Schneider, Brunng. 20",ja,,
