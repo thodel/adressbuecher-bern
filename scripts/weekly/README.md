@@ -61,5 +61,25 @@ wortgenau.
 - Übernahme ins Repo: Der geplante Claude-Auftrag «Bern: gelesene Bände übernehmen» (alle 4 Stunden) folgt
   [TASK.md](TASK.md) und trägt jeden Band in `ingested.csv` ein. Vor dem ersten Band stellt er das Repo auf
   eine Datei je Band und Bandlisten aus `00_volumes.csv` um.
-- Strom B (Fraktur, Gemini) hat noch keinen Lauf: vorgesehen ist `02d_llm_pages.py` aus adressbuecher-aarau
-  mit einer Berner Anweisung.
+- Strom B: siehe unten.
+
+## Lauf auf tei (Strom B, Fraktur, Gemini)
+
+`be_gemini.py` liest die 14 Fraktur-Bände 1861–1879 mit `gemini-3.5-flash`, aufsteigend, als
+systemd-Einheit `bern-gemini` auf tei (unabhängig vom Laptop; Gemini teilt sich die GPU nicht mit Zürich).
+Die Seitenzuordnung macht wie in Strom A qwen3.8 (nur der Teil einer Seite, kostenlos); Gemini liest nur
+die Seiten der Einwohner- und Berufsteile, Bild über IIIF in der Breite des Scans (höchstens 1600 px).
+Je Seite steht die vollständige `usageMetadata` (Eingabe-, Ausgabe- und Denk-Token) und der Preis in $ in
+`full/bern<Band>/results/*.json`, nach dem Listenpreis $1.50 / $9.00 je Mio. Token (Denken = Ausgabe).
+
+Schutz: Ab der 20. Seite hält der Lauf an, wenn die Seiten im Mittel mehr als 0,08 $ kosten oder Strom B
+zusammen mehr als 350 $; ebenso bei einer Ablehnung der API. Weiter nach Prüfung mit `--resume`.
+Stand: `python3 be_gemini.py --status` (`gemini_state.json`, Protokoll `gemini.log`).
+
+Probe 1861 (26.11.2026): Seitenbereiche Einwohner S. 79–145, Berufe 146–184, am Bild bestätigt. 20 Seiten, alle
+sauber beendet, 1 229 Einträge, 0,046 $ je Seite (1 753 Eingabe-, im Mittel 4 900 Ausgabe-Token, keine
+Denk-Token gemeldet; Antwort von `gemini-3.6-flash` unter dem Namen `gemini-3.5-flash`). Am Bild: S. 81 15 von
+17 Einträgen richtig, beide Fehler F statt J gelesen; S. 87 «Bühler» als «Bähler», was alle Folgeeinträge
+mit Gedankenstrich erbt. Die Anweisung hat seither eine Regel zu F/J und zu Umlauten; damit las S. 87 «Bühler»
+und S. 81 «Baldesperger F.» richtig. F und J bleiben an einzelnen Stellen unsicher. Strom B betrifft etwa
+2 300 Seiten der Teile Einwohner und Berufe (von 5 179 Bildern), also rund 110 $.
