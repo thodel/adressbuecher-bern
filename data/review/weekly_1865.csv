@@ -1,0 +1,21 @@
+nr,entry_id,page,text,voll_korrekt,fehler,bemerkung
+1,1865-einwohner-143-040,143,"Rabe Frau, Hutm., Krnhpl. 146",ja,,
+2,1865-berufe-195-014,195,"Roggenmoser, Matte 42",ja,,
+3,1865-einwohner-103-002,103,"— J., Wirth, Neueng. 100 b",ja,,
+4,1865-einwohner-137-041,137,"— S., Theaterkass. u. Rathh.-Abw., im Rathhaus",ja,,
+5,1865-berufe-174-024,174,"Christen J. E., Hauptwpl. 229",nein,Rubrik,Rubrik «Brodieriewaarenhändler» statt «Broderiewaarenhändler» (14 Einträge)
+6,1865-einwohner-155-035,155,"— Wwe. u. Sohn, Hutmach., Kramg. 160",ja,,
+7,1865-berufe-217-028,217,"Großglauser, Längg. 154",ja,,
+8,1865-einwohner-161-021,161,"Vögeli N., Subst., Neueng. 95",ja,,
+9,1865-berufe-175-056,175,"Schindler Ch., Lorraine 150",ja,,
+10,1865-einwohner-155-036,155,"— J. C. G., Not., Brunng. 36",ja,,
+11,1865-berufe-200-029,200,"Schenk J. J., Brunngasse 32",ja,,
+12,1865-berufe-172-026,172,"Jenny, E., vis-à-vis Bernerhof",ja,,
+13,1865-einwohner-155-010,155,"— B. A., Spez., Mezg. 126",nein,Strassenkürzel,«Mezg.» statt «Metzg.»
+14,1865-berufe-211-031,211,Wiedmer Marie (Sulgenb. 72 (Engliſch u. Franzöſiſch),ja,,Klammer wie im Druck
+15,1865-berufe-182-048,182,"Fuhrer u. Koslowsky, Brg. 11",nein,Feld,Firma «Fuhrer u. Koslowsky»: Familienname nur Fuhrer
+16,1865-einwohner-116-043,116,"Gugger u. Comp., Weinhandl., Christoffelg. 186 f",ja,,«Gugger u. Comp.»: Familienname Gugger
+17,1865-einwohner-104-031,104,"— Lehrer, Herreng. 312",ja,,
+18,1865-berufe-215-021,215,"Aeschlimann, geb. Huber, Matte 118",ja,,
+19,1865-einwohner-131-016,131,"Largin J. J., Buchhalt. Brückfeld 230",ja,,
+20,1865-einwohner-144-055,144,"— =Weiß F., Angestellter b. eidg. Finanzdepartement, Keßlerg. 280",ja,,Richard=Weiß: Allianzname Weiß

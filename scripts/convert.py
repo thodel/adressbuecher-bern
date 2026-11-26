@@ -54,6 +54,10 @@ MUNICIPALITY = "Bern"
 SECTIONS = {
     "1861": [("einwohner", 79, 145), ("berufe", 146, 184)],  # davor Versicherungsagenten, danach Wirthschaften
     "1862": [("einwohner", 87, 157), ("berufe", 158, 202)],  # davor Versicherungsagenten, danach Hauseigentümer
+    "1863": [("einwohner", 85, 156), ("berufe", 157, 200)],  # davor Versicherungsagenten, danach Wirthschaften
+    # 1865: be_gemini --status nannte Einwohner 94–173, Berufe 174–220; das Berufsregister beginnt aber auf
+    # Bild 170 (Druckseite 160) und endet auf 218, Bild 219–220 sind Wirthschaften.
+    "1865": [("einwohner", 94, 169), ("berufe", 170, 218)],  # davor Versicherungsagenten
     "1883": [("einwohner", 83, 192), ("berufe", 193, 246)],
     "1900": [("einwohner", 142, 385), ("berufe", 386, 491)],
 }

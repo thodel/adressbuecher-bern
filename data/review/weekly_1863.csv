@@ -1,0 +1,21 @@
+nr,entry_id,page,text,voll_korrekt,fehler,bemerkung
+1,1863-einwohner-093-056,93,"— Ros., Krämer, Grchtg. 117",ja,,
+2,1863-einwohner-143-009,143,"— Berner J. C., 2. Sekr. d. Militär-Dir., Spitlg. 165",nein,Feld,«=» vor Berner nicht gelesen: Allianzname Berner steht im Vornamen
+3,1863-berufe-180-007,180,"Giroud-Meyer, Postg. 43 b",ja,,Giroud=Meyer: Allianzname Meyer
+4,1863-einwohner-150-026,150,"— Ed., Gutsbes. in Dießbach, Kramg. 173",nein,Feld,Beruf ohne «in Dießbach» (steht nur im Text)
+5,1863-einwohner-123-051,123,"— Rud., Hutmch. Marktg. 55",ja,,
+6,1863-berufe-189-016,189,"Hodler J., Schauplg. 228",ja,,
+7,1863-berufe-183-040,183,"Kunz C. G., Matte 47",ja,,
+8,1863-berufe-193-058,193,"Lang Gottl., Gerechtg. 85",ja,,
+9,1863-berufe-195-015,195,"Tschannen Chr., Postg. 38 (Ablage b. Eisennegt. Zbinden Marktg. 94)",ja,,Ablage in Klammern bleibt im Text
+10,1863-einwohner-145-024,145,"— A., Kopist, Gerechtg. 84",ja,,
+11,1863-berufe-195-038,195,"Aebersold J., Matte 23",ja,,
+12,1863-berufe-168-065,168,"Lauber S. L., Matte 94",ja,,
+13,1863-einwohner-124-018,124,"— Frau, Schnd., Stalden 10",ja,,
+14,1863-einwohner-088-050,88,"Bergmann F. C., Schriftgieß., Matte 14",ja,,
+15,1863-einwohner-151-048,151,"— geb. Studer, Hebam., Keßlerg. 276",ja,,
+16,1863-einwohner-148-008,148,"— R. S., Umbieter, Mzg. 127",ja,,
+17,1863-einwohner-103-013,103,"Gehrig G., Buchdr., Schauplatzg. 201 b",ja,,
+18,1863-einwohner-098-022,98,"Eisner Nikl. K., Sprachlehr., Aarbg. 28",ja,,
+19,1863-einwohner-093-025,93,"Burgdorfer Cath., Lesekabin., Hotellaube 229",ja,,
+20,1863-berufe-185-071,185,"Otz David, Matte 56",ja,,

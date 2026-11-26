@@ -13,6 +13,8 @@ die Seite im PDF, bei den übrigen Bänden die Bildnummer bei e-rara.
 |---|---:|---:|---:|---|---:|
 | Adressbuch der Stadt Bern 1861 | 236 | 4 073 (Bild 79–145) | 2 361 (Bild 146–184) | Gemini | 16/20 |
 | Adressbuch der Stadt Bern 1862 | 260 | 4 096 (Bild 87–157) | 2 672 (Bild 158–202) | Gemini | 16/20 |
+| Adressbuch der Stadt Bern 1863 | 260 | 4 053 (Bild 85–156) | 2 685 (Bild 157–200) | Gemini | 18/20 |
+| Adressbuch der Stadt Bern 1865 | 284 | 4 240 (Bild 94–169) | 2 831 (Bild 170–218) | Gemini | 17/20 |
 | Adressbuch der Stadt Bern 1883–84 | 335 | 8 241 (S. 83–192) | 4 226 (S. 193–246) | qwen3.8 | 61/73 |
 | Adressbuch der Stadt Bern 1900 | 677 | 15 182 (S. 142–385) | 7 094 (S. 386–491) | qwen3.8 | 121/146 |
 
@@ -89,16 +91,21 @@ Schema wie [adressbuecher-aarau](https://github.com/thodel/adressbuecher-aarau),
   Bilder), ab 1881 die Seitenbilder über IIIF.
 - **Modell (Fraktur-Bände 1861–1879):** `gemini-3.5-flash` von Google (die Antwort nennt `gemini-3.6-flash`),
   Seitenbilder über IIIF bis 1600 px breit (`scripts/weekly/be_gemini.py`); `parse_method` nennt den Leser
-  je Eintrag. Kosten 1861 4,88 $ (106 Seiten), 1862 5,37 $ (116 Seiten).
+  je Eintrag. Kosten 1861 4,88 $ (106 Seiten), 1862 5,37 $ (116 Seiten), 1863 5,28 $ (116 Seiten), 1865 5,73 $
+  (127 Seiten).
 - **Fraktur-Bände, was convert.py ergänzt:** Im Berufsregister setzt ein Eintrag oben auf einer Seite ohne
   Rubrik die letzte Rubrik der Vorseite fort (`qa_flags` «rubrik_vorseite»); einen Absatz im Fliesstext
   (1861, Bild 166–184) teilt es in Einträge («fliesstext»); «=» vor einem Namen ist ein Allianzname zum
   vorigen Familiennamen. Auf einigen Seiten gab das Modell nur die Felder, nicht die gelesene Zeile
-  («ohne_text»; 1861 2 Seiten, 1862 4 Seiten).
+  («ohne_text»; 1861 2 Seiten, 1862 4, 1863 3, 1865 1).
 - **Stichprobe, von Hand am Seitenbild:** 1883–84 61 von 73 Einträgen voll korrekt (84 %), 1900 121 von
   146 (83 %). Die Fehler sind meist einzelne Buchstaben in Namen und Strassen. 1861 und 1862 je 16 von 20
   (80 %, `data/review/weekly_<Band>.csv`): Buchstaben in Strassenkürzeln («Mtzg.» für «Metzg.»), einmal F
-  als J gelesen, eine Firma nur mit dem ersten Namen, eine zweite Hausnummer weggelassen.
+  als J gelesen, eine Firma nur mit dem ersten Namen, eine zweite Hausnummer weggelassen. 1863 18 von 20
+  (90 %): ein «=» vor dem Allianznamen übersehen, ein Ort im Beruf («Gutsbes. in Dießbach») nur im Text.
+  1865 17 von 20 (85 %): eine Rubrik verlesen («Brodieriewaarenhändler»), «Mezg.» für «Metzg.», eine Firma
+  nur mit dem ersten Namen. Den Band 1864 hat Strom B ohne die letzte Seite des Berufsregisters gelesen; er
+  fehlt noch.
 - Keine Nachkorrektur; `qa_flags` markiert Verdachtsfälle.
 
 ## Nicht übernommen
@@ -111,6 +118,6 @@ Der Band 1860 (Fraktur) ist nicht ganz gelesen: in der Probe waren nur 40–60 %
 
 Die Bücher sind vor 1914 erschienen; ihr Inhalt ist gemeinfrei (URG Art. 2 Abs. 1, Art. 29 Abs. 2).
 Die Daten in `data/` stehen unter [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), der Code
-unter MIT. Gelesen haben qwen3.8 (1883–84, 1900) und Gemini (1861, 1862); der Leser steht je Eintrag in
+unter MIT. Gelesen haben qwen3.8 (1883–84, 1900) und Gemini (1861–1863, 1865); der Leser steht je Eintrag in
 `parse_method`. Die Scans liegen nicht in diesem Repo. `ref/bernhist/` enthält Einzelwerte aus BERNHIST und
 steht wie BERNHIST unter der MIT-Lizenz (© 2019 Universität Bern, Universitätsbibliothek; `ref/bernhist/LICENSE`).
