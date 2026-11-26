@@ -1,0 +1,81 @@
+nr,entry_id,page,text,voll_korrekt,fehler,bemerkung
+1,1867-einwohner-178-045,178,"— J., Speisew., Zeughsg. 13",nein,Familienname,"Druck: — J., Speisew., Zeughsg. 13 unter Schmid; Allianzname Beringer fälschlich von der Zeile «— =Beringer u. Comp.» (Firma) geerbt"
+2,1867-berufe-230-032,230,"Beutler Elis., Käfichg. 102",ja,,
+3,1867-einwohner-109-021,109,"— Chr., Landarb., Altb. 177",ja,,
+4,1867-einwohner-176-048,176,"— Chr., Mühlem., Lorr. 119",ja,,
+5,1867-einwohner-109-005,109,"Bähni, G. Ch., Sattler, Länggaß 184 f (Linde)",ja,,"«(Linde)» nicht in Feldern, kein Prüffeld"
+6,1867-einwohner-108-020,108,"Arm L., Gypser, Lorraine 34",ja,,
+7,1867-einwohner-177-006,177,"— E., march.-taill., Mktg. 33",ja,,
+8,1867-einwohner-112-049,112,"— Marie Elise, Hebamme, Gerberngrabenn 140",nein,Strassenkürzel,Druck: Gerberngraben 140 (Zeile mit Druckfehler-Lücke); gelesen «Gerberngrabenn»
+9,1867-einwohner-183-050,183,,ja,,"text leer; Felder stimmen (Druck: Stalder — Joh., Hausknecht im Bur-gerspital); Trennstrich als «Burger-Spital» behalten, Ort steht zusätzlich im Beruf"
+10,1867-berufe-255-063,255,"Siegenthaler S., Neueng. 119",ja,,
+11,1867-einwohner-110-035,110,"— Christ., Zeughausarbeiter und Waagmstr., Schßh. 64",ja,,
+12,1867-einwohner-170-045,170,"Reichle Christina, Kostgeberin, Aarbergerg. 61",ja,,
+13,1867-einwohner-124-023,124,"v. Effinger geb. v. Wagner, Ww. Rent., Maisonette 169",ja,,
+14,1867-berufe-207-003,207,"Pflick W., Junkg. 151",ja,,
+15,1867-berufe-221-055,221,"Schluep Geschw., Speichg. 6 b",nein,Feld,«Geschw.» (Geschwister) steht im Vornamenfeld
+16,1867-einwohner-139-013,139,"— C. D., Brieftr., Mezgc. 87",nein,Strassenkürzel,"Druck: Metzg. 87; gelesen «Mezgc.», street_raw «Mezg»"
+17,1867-einwohner-183-042,183,,nein,Strassenkürzel,"text leer; Druck: Marktg. 44, street_raw ausgeschrieben «Marktgasse»"
+18,1867-einwohner-185-053,185,"Stempfli J., Wagn., Marz. 86",ja,,
+19,1867-einwohner-175-033,175,"— Heinr., Pflästerer, Aarg. 74",ja,,
+20,1867-einwohner-153-040,153,"— geb. Stooß, Regt., Marktgasse 54",nein,Lesung,"Druck sehr wahrscheinlich «Negt.» (Negotiant), gelesen «Regt.»; N/R in Fraktur nahe, unsicher"
+21,1867-berufe-251-056,251,"Künzi Gottl., Gerechtg. 130",ja,,; zweite Ziehung (Seed 186760)
+22,1867-berufe-215-004,215,"Lehmann Nikl., Matte 36",ja,,"Rubrik erschlossen: S. 203 setzt «Goldschmiede, Gold- u. Silberarbeiter.» von S. 202 fort (Seite geprüft)"
+23,1867-einwohner-157-034,157,"— Ww., Abw., Hochschule 330",ja,,
+24,1867-einwohner-190-007,190,"— =v. Wyttenbach C. B. N., Amtsrichter, Junkg. 166",ja,,
+25,1867-einwohner-170-014,170,"— Schuhmacher, Längg. 207",ja,,
+26,1867-berufe-241-005,241,"Jenni Rud. J., Gerechtigkeitg. 115",nein,Adresse,"Art: Strassenkürzel; Druck: «Gerechtigkg. 115», gelesen «Gerechtigkeitg.»"
+27,1867-einwohner-142-032,142,"Hofmann J. P., Abwart, Länggasse 184 d",ja,,
+28,1867-berufe-247-004,247,"Freiburger Georg, Mezgg. 94",nein,Adresse,"Art: Strassenkürzel; Druck: «Metzgg. 94», gelesen «Mezgg»; Rubrik «Spezierer.» erschlossen aus S. 234 (Seite geprüft)"
+29,1867-einwohner-153-044,153,"Kutzli, auf d. Intelligenzblatt=Büreau, Zeughauspl. 247",ja,,
+30,1867-einwohner-137-051,137,"— geb. Leiser, Ros., Krämg., Altenb. 146",nein,Beruf,Art: Feld; Druck: «Kräm.» (Krämerin) als Beruf; gelesen «Krämg.»
+31,1867-einwohner-137-043,137,"— Fr., Uhrmacher, Waisenhauspl. 243 u. Schg. 209",nein,Adresse,"Art: zweite Adresse; Druck: «Waisenhauspl. 243 u. Schg. 209»; Felder nur Schg 209, erste Adresse fehlt"
+32,1867-einwohner-128-009,128,"— Friedrich, Angestellter der Baudirekt., Krmg. 152",ja,,
+33,1867-einwohner-161-034,161,"Merz-Gaudard, Knabenpension Gerechtg. 89",ja,,
+34,1867-berufe-221-049,221,"Hofer R., Stalden 4",ja,,
+35,1867-einwohner-117-045,117,"— J. R., Oberst, Junkg. 174",ja,,Art: unsicher; unsicher: «Oberst» im Feld title statt occupation_raw; als Rang akzeptiert
+36,1867-einwohner-159-053,159,"— M., Schneider., Mzg. 84",nein,Adresse,"Art: Strassenkürzel; Druck: «Metzg. 84», gelesen «Mzg»"
+37,1867-berufe-230-037,230,"Bondeli, Junkerg. 149",ja,,
+38,1867-einwohner-118-030,118,"Büniger, Melch., Spez., Ab. 78",ja,,
+39,1867-einwohner-180-024,180,"— Joh., Schneid., Gchtg. 134",ja,,
+40,1867-berufe-226-038,226,"Wälti Fried., Junkg. 116",ja,,
+41,1867-einwohner-166-018,166,"Neuhaus Chr., Schuhmacher, Lorraine 149",ja,,
+42,1867-einwohner-153-027,153,"— Jgfr. Anna, Haushälterin im Burgerspital",ja,,geerbter Name Küpfer auf ganzer Seite geprüft
+43,1867-berufe-217-035,217,"Eberhardt Chr., im mittleren Sulgenbach",ja,,
+44,1867-einwohner-172-016,172,"— R. L., Ingen., Altenb. 162",ja,,
+45,1867-einwohner-171-032,171,"— Verena, gw. Kostgeb., Aarbergerg. 44",ja,,
+46,1867-einwohner-154-052,154,"— Melch., Gärtner, Lgg. 209d",ja,,
+47,1867-einwohner-188-014,188,"Suter=Vermeulen J. G., Generalkonsul d. Niederlande, Gerechtkg. 84",ja,,
+48,1867-einwohner-173-002,173,"Rollé Ed., Wollenspinnerei u. Weberei, Matte 127 u. 128",ja,,
+49,1867-einwohner-162-001,162,"Meßmer geb. Neeser, Grchg. 134",ja,,
+50,1867-einwohner-130-033,130,"— Franz Jos., Buchdrucker, Metzgergasse 117",ja,,
+51,1867-einwohner-185-025,185,"— Carl, Bezirksingenieur, Kirchenfeldhübeli 11 d",nein,Familienname,Art: geerbt; «—» bezieht sich auf «v. Steiger F. A.»; «—=v. Sinner» ist eine Allianzzeile. Richtig: v. Steiger Carl
+52,1867-einwohner-142-057,142,"Holzer, Jakob, Speisewirth, Aarbg. 21",ja,,
+53,1867-einwohner-131-001,131,"Gehrig M. E., Glätterin, Christoffelg. 235",ja,,
+54,1867-berufe-245-043,245,"Buri, Neueng. 116a",ja,,
+55,1867-einwohner-155-022,155,"— Nikl., Goldarb., Matte 36",ja,,geerbter Name Lehmann auf ganzer Seite geprüft
+56,1867-berufe-221-006,221,"Kropf, Frau, Neueng. 122 b",ja,,
+57,1867-einwohner-138-045,138,"Hebeisen J., Pächter, Altb. 112",ja,,
+58,1867-einwohner-118-020,118,"— Elise, Schnd., Neueng. 93",ja,,geerbter Name Bühler auf ganzer Seite geprüft
+59,1867-einwohner-157-026,157,"— F., Lithogr., Bollw. 263",ja,,
+60,1867-einwohner-146-009,146,"— S. E. R., Schlosser, Keßlergasse 245",ja,,
+61,1867-berufe-230-006,230,"Giroud-Meyer, Kramg. 152",ja,,
+62,1867-berufe-223-035,223,"Rubi Joh., hinter dem Stadtwerkhof Marzieledr. 15 c",ja,,
+63,1867-einwohner-108-033,108,"— Gremplerin, Brunng. 2",ja,,
+64,1867-einwohner-196-038,196,"— Max, Dir. d. eidg. statist. Büreaux, Aebi-Schlößli, Muesmatt.",ja,,
+65,1867-berufe-237-051,237,"Peter H., Metzgerg. 88",ja,,Rubrik «Schneider.» erschlossen aus S. 224 (Seite geprüft)
+66,1867-berufe-202-017,202,"Gaudard N., Müllerlaube 26",ja,,
+67,1867-berufe-242-033,242,"Scheidegger Chr., Aarbg. 26",ja,,Rubrik «Schreiner.» erschlossen aus S. 229 (Seite geprüft)
+68,1867-einwohner-111-034,111,"— P., Fuhrm., Schiffl. 44",ja,,
+69,1867-einwohner-173-035,173,"Rothenbach Jgfr., Lehrerin, Marktg. 35",ja,,
+70,1867-berufe-227-039,227,"Hadorn Sam., Spitalg. 151",nein,Rubrik,Art: Rubrik leer; Rubrik leer; Druck S. 215 setzt «Metzger und Fleischverkäufer.» von S. 214 fort
+71,1867-einwohner-181-001,181,"Schwarz J., Asphaltleg., Metzgerg. 117",ja,,
+72,1867-einwohner-146-011,146,"— Ludwig, Schreiber, Postgasse 32",ja,,
+73,1867-einwohner-154-025,154,"— J. H., Bäcker, Spitg. 168",ja,,
+74,1867-berufe-210-006,210,"Schkopp, U., Gerechtg. 108",ja,,"Rubrik «Droguerie-, Farb- und Materialwaaren.» erschlossen aus S. 197 (Seite geprüft)"
+75,1867-einwohner-143-056,143,"— J., Kommis, Gerechtg. 89",ja,,
+76,1867-berufe-238-041,238,"Balz Marie, Kramg. 216",ja,,
+77,1867-einwohner-121-036,121,"Dängeli Chr., Lehrer, Aa. 67",ja,,"Art: unsicher; unsicher: Strassenkürzel beschädigt gedruckt, «Aa.» oder «Ag.» möglich"
+78,1867-berufe-238-004,238,"Struffenegger J., Mezg. 97",nein,Adresse,"Art: Strassenkürzel; Druck: «Metzg. 97», gelesen «Mezg»; Rubrik «Schneider.» erschlossen aus S. 224"
+79,1867-einwohner-149-047,149,,ja,,"Feld text leer, übrige Felder stimmen"
+80,1867-berufe-207-040,207,"Wüterich-Gaudard, Marktg. 88",ja,,

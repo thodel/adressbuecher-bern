@@ -16,6 +16,7 @@ die Seite im PDF, bei den übrigen Bänden die Bildnummer bei e-rara.
 | Adressbuch der Stadt Bern 1863 | 260 | 4 053 (Bild 85–156) | 2 685 (Bild 157–200) | Gemini | 18/20 |
 | Adressbuch der Stadt Bern 1865 | 284 | 4 240 (Bild 94–169) | 2 831 (Bild 170–218) | Gemini | 17/20 |
 | Adressbuch der Stadt Bern 1866 | 307 | 4 882 (Bild 101–186) | 3 160 (Bild 187–238) | Gemini | 17/20 |
+| Adressbuch der Stadt Bern 1867–68 | 344 | 5 090 (Bild 106–200) | 3 292 (Bild 201–255) | Gemini | 66/80 |
 | Adressbuch der Stadt Bern 1868 | 360 | 5 354 (Bild 113–214) | 3 429 (Bild 215–274) | Gemini | 18/20 |
 | Adressbuch der Stadt Bern 1870 | 363 | 6 087 (Bild 117–236) | 3 420 (Bild 237–296) | Gemini | 18/20 |
 | Adressbuch der Stadt Bern 1871 | 391 | 5 996 (Bild 123–242) | 3 373 (Bild 243–301) | Gemini | 16/20 |
@@ -100,13 +101,13 @@ Schema wie [adressbuecher-aarau](https://github.com/thodel/adressbuecher-aarau),
 - **Modell (Fraktur-Bände 1861–1879):** `gemini-3.5-flash` von Google (die Antwort nennt `gemini-3.6-flash`),
   Seitenbilder über IIIF bis 1600 px breit (`scripts/weekly/be_gemini.py`); `parse_method` nennt den Leser
   je Eintrag. Kosten 1861 4,88 $ (106 Seiten), 1862 5,37 $ (116 Seiten), 1863 5,28 $ (116 Seiten), 1865 5,73 $
-  (127 Seiten), 1866 6,37 $ (140), 1868 7,07 $ (164), 1870 7,71 $ (182), 1871 7,67 $ (181), 1873 7,28 $ (179),
+  (127 Seiten), 1866 6,37 $ (140), 1867 6,64 $ (150), 1868 7,07 $ (164), 1870 7,71 $ (182), 1871 7,67 $ (181), 1873 7,28 $ (179),
   1875 7,88 $ (200), 1877 8,41 $ (218), 1879 8,57 $ (219).
 - **Fraktur-Bände, was convert.py ergänzt:** Im Berufsregister setzt ein Eintrag oben auf einer Seite ohne
   Rubrik die letzte Rubrik der Vorseite fort (`qa_flags` «rubrik_vorseite»); einen Absatz im Fliesstext
   (1861, Bild 166–184) teilt es in Einträge («fliesstext»); «=» vor einem Namen ist ein Allianzname zum
   vorigen Familiennamen. Auf einigen Seiten gab das Modell nur die Felder, nicht die gelesene Zeile
-  («ohne_text»; 1861 2 Seiten, 1862 4, 1863 3, 1865 1, 1866 2, 1868 2, 1870 4, 1873 6, 1875 5, 1877 5,
+  («ohne_text»; 1861 2 Seiten, 1862 4, 1863 3, 1865 1, 1866 2, 1867 3, 1868 2, 1870 4, 1873 6, 1875 5, 1877 5,
   1879 2). Ab 1873 beginnt der Abschnitt «X. Wirthschaften» auf der letzten Seite des Berufsregisters;
   convert.py schneidet dort ab (`cut_wirthschaften`). Auf vier Seiten liess das Modell `"type": "entry"` weg,
   und collect.py auf tei übernahm sie nicht (1866 Bild 208, 1867 Bild 219 und 228, 1879 Bild 354); für diese
@@ -120,9 +121,11 @@ Schema wie [adressbuecher-aarau](https://github.com/thodel/adressbuecher-aarau),
   nur mit dem ersten Namen. 1866 17 von 20, 1868 18, 1870 18, 1871 16, 1873 17, 1875 18, 1877 19, 1879 18
   (zusammen 141 von 160, 88 %): meist Strassenkürzel («Mezgg.» für «Metzg.»), ein Ort im Beruf, F/J und
   einzelne Buchstaben in Namen («Rikli» für «Rickli»), «v.» im Stand statt im Familiennamen, eine Rubrik leer.
-  Zurückgestellt (Stichprobe unter 80 %): 1864 15 von 20 (Namen verlesen, «Zobrist» für «Joß»; dazu fehlt
-  Bild 213, die letzte Seite des Berufsregisters) und 1867 14 von 20 (Strassenkürzel, ein Allianzname aus der
-  Firmenzeile geerbt). Im Berufsregister 1862 waren bis 26.11.2026 die Wirthschaften (Bild 201–202, 68
+  1867 zuerst 14 von 20, mit 60 weiteren Einträgen (zweite Ziehung, Seed 186760) 66 von 80 (83 %): meist
+  Strassenkürzel (die tz-Ligatur als z: «Mezg.», «Mzg.»), zweimal ein Name aus der Vorzeile falsch geerbt,
+  eine erste von zwei Adressen fehlt. Zurückgestellt (Stichprobe unter 80 %): 1864, 63 von 80 (79 %;
+  tz-Ligatur, Namen verlesen wie «Zobrist» für «Joß»; dazu fehlt Bild 213, die letzte Seite des
+  Berufsregisters). Im Berufsregister 1862 waren bis 26.11.2026 die Wirthschaften (Bild 201–202, 68
   Einträge) mitgezählt.
 - Keine Nachkorrektur; `qa_flags` markiert Verdachtsfälle.
 
@@ -136,6 +139,6 @@ Der Band 1860 (Fraktur) ist nicht ganz gelesen: in der Probe waren nur 40–60 %
 
 Die Bücher sind vor 1914 erschienen; ihr Inhalt ist gemeinfrei (URG Art. 2 Abs. 1, Art. 29 Abs. 2).
 Die Daten in `data/` stehen unter [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), der Code
-unter MIT. Gelesen haben qwen3.8 (1883–84, 1900) und Gemini (1861–1863, 1865, 1866, 1868, 1870, 1871, 1873, 1875, 1877, 1879); der Leser steht je Eintrag in
+unter MIT. Gelesen haben qwen3.8 (1883–84, 1900) und Gemini (1861–1863, 1865–1868, 1870, 1871, 1873, 1875, 1877, 1879); der Leser steht je Eintrag in
 `parse_method`. Die Scans liegen nicht in diesem Repo. `ref/bernhist/` enthält Einzelwerte aus BERNHIST und
 steht wie BERNHIST unter der MIT-Lizenz (© 2019 Universität Bern, Universitätsbibliothek; `ref/bernhist/LICENSE`).

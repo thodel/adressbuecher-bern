@@ -66,7 +66,7 @@ SECTIONS = {
     # 1864: das Berufsregister geht auf Bild 213 weiter (Zügler, Zurichter), das Strom B nicht gelesen hat.
     # "1864": [("einwohner", 91, 165), ("berufe", 166, 212)],  zurückgestellt 26.11.2026: Stichprobe 15/20 (75 %; vier Lesefehler in Namen, eine Rubrik leer) und Bild 213 ungelesen
     "1866": [("einwohner", 101, 186), ("berufe", 187, 238)],
-    # "1867": [("einwohner", 106, 200), ("berufe", 201, 255)],  zurückgestellt 26.11.2026: Stichprobe 14/20 (70 %; Strassenkürzel ×3, Allianzname aus Firmenzeile geerbt, «Geschw.» als Vorname, «Regt.»)
+    "1867": [("einwohner", 106, 200), ("berufe", 201, 255)],  # nach grösserer Stichprobe übernommen (66/80, 26.11.2026)
     "1868": [("einwohner", 113, 214), ("berufe", 215, 274)],
     "1870": [("einwohner", 117, 236), ("berufe", 237, 296)],
     "1871": [("einwohner", 123, 242), ("berufe", 243, 301)],
