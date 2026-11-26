@@ -1,0 +1,21 @@
+nr,entry_id,page,text,voll_korrekt,fehler,bemerkung
+1,1861-einwohner-118-063,118,"— J. B., Glasmal., Schönegg",ja,,"Familienname aus der Folge (Müller) übernommen, Kopf nicht im Ausschnitt"
+2,1861-einwohner-105-025,105,,ja,,"Modell gab keine Zeile (ohne_text), Felder stimmen"
+3,1861-einwohner-124-014,124,"— E., Krämerin, Schg. 233",ja,,
+4,1861-einwohner-107-046,107,"— J., Graveur, Mtzg. 122",nein,Lesefehler Strasse,"gedruckt «Metzg. 122», gelesen «Mtzg.»"
+5,1861-berufe-184-002-12,184,"Merz, J., Kramg. 202.",ja,,aus Fliesstext geteilt (S. 168 gedruckt)
+6,1861-berufe-161-003,161,"Dietler, F., Spitlg. 128.",ja,,
+7,1861-einwohner-101-057,101,"Heimel C., Amtsnotar, Kramg. 175",ja,,
+8,1861-einwohner-092-041,92,"— M., Betthdl., Spitlg. 154",ja,,
+9,1861-einwohner-140-005,140,"— H., Schuhm., Hotell. 229",ja,,
+10,1861-berufe-147-028,147,"Pellet, P., Stalden 208.",ja,,
+11,1861-einwohner-119-062,119,"Naumann C. G., Käfichg. 107",ja,,
+12,1861-berufe-161-015,161,"Walther, L., Mezgg. 123.",nein,Lesefehler Strasse,"gedruckt «Metzgg. 123», gelesen «Mezgg.»"
+13,1861-einwohner-128-018,128,"— F., Schhm., Schauplg. 227",ja,,
+14,1861-berufe-178-017,178,"Rämi, C., Metzgerg. 72.",ja,,
+15,1861-berufe-172-009,172,"Wyßmann, B., Kramg. 140.",ja,,"Rubrik «Schneider.» von der Vorseite fortgesetzt (convert.py, rubrik_vorseite); ohne sie fehlte die Rubrik"
+16,1861-einwohner-107-037,107,"Kähli P., Lhnktsch., Junkg. 147",ja,,
+17,1861-einwohner-131-016,131,"Siegenthaler S., Seil., Bg. 29",ja,,
+18,1861-berufe-154-011,154,"Bischhausen, Gebr., Matte 15.",nein,Feld falsch,«Gebr.» steht im Beruf
+19,1861-einwohner-136-046,136,"Trachsler, Sekr. d. eidg. Justiz u. Polizeidep., Grbgr. 138",ja,,
+20,1861-einwohner-085-003,85,"— J., Spitalg. 141",nein,Lesefehler Initiale F/J,"gedruckt «— F., Spitalg. 141», gelesen «J.»"

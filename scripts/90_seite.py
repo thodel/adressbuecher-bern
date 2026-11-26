@@ -51,7 +51,7 @@ READERS = {
     "qwen3.8-27b, Bild 2x": ("qwen3.8", "qwen3.8 (Universität Bern) auf den PDFs von e-rara (700–1000 px breit), "
                              "Seitenbild 2× vergrössert"),
     "gemini-3.5-flash (Antwort gemini-3.6-flash), IIIF bis 1600 px":
-        ("Gemini", "Gemini 3.5 Flash von Google (bei leerer Antwort 3.6 Flash) auf den Seitenbildern von e-rara "
+        ("Gemini", "Gemini 3.5 Flash von Google (die Antwort nennt 3.6 Flash) auf den Seitenbildern von e-rara "
                    "über IIIF, bis 1600 px breit"),
 }
 
@@ -140,7 +140,10 @@ QA = {"street_rare": "Strasse nur einmal im Band",
       "triple": "dreifacher Buchstabe gekürzt",
       "alliance_from_forename": "Allianzname stand im Vornamen",
       "alliance_from_text": "Allianzname aus dem Text ergänzt",
-      "unreadable": "unleserliche Stelle [?]"}
+      "unreadable": "unleserliche Stelle [?]",
+      "fliesstext": "aus einem Absatz geteilt (Fliesstext)",
+      "ohne_text": "Modell gab nur die Felder, nicht die Zeile",
+      "rubrik_vorseite": "Rubrik von der Vorseite fortgesetzt"}
 
 REASONS = ["Lesefehler", "Feld falsch", "Eintrag falsch getrennt", "Rubrik falsch", "Quelle: Druckfehler",
            "Dublette", "Anderes"]
@@ -403,7 +406,7 @@ __CITYBAR__
         <h2>Seitenbilder</h2>
         <ul><li>Die Scans liegen öffentlich auf <a href="https://www.e-rara.ch/">e-rara</a> und werden nur verlinkt. __PAGEIDS__</li></ul>
         <h2>Lizenz</h2>
-        <ul><li>Die Bücher erschienen vor 1914, ihr Inhalt ist gemeinfrei. Daten <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a>, Code <a href="__REPO__/blob/main/LICENSE">MIT</a>. CSV im <a href="__REPO__/tree/main/data/csv">Repo</a>.</li></ul>
+        <ul><li>Die Bücher erschienen vor 1914, ihr Inhalt ist gemeinfrei. Daten <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a> (gelesen mit __READERS__, Leser je Band unter «Bände»), Code <a href="__REPO__/blob/main/LICENSE">MIT</a>. CSV im <a href="__REPO__/tree/main/data/csv">Repo</a>.</li></ul>
       </div>
     </div>
   </details>
@@ -655,7 +658,8 @@ def main() -> None:
             .replace("__BANDS__", band_items(n, readers, probe))
             .replace("__VOLOPTIONS__", vol_options(VOLUMES, DEFAULT_VOLUME))
             .replace("__SPAN__", span(VOLUMES))
-            .replace("__VOLLIST__", liste([VOL_LABEL[v] for v in sorted(VOLUMES, key=baende.ordnung)]))
+            .replace("__VOLLIST__", liste([VOL_LABEL[v] for v in sorted(VOLUMES, key=baende.ordnung)])
+                      if len(VOLUMES) <= 4 else span(VOLUMES))
             .replace("__READERS__", liste(sorted({READERS.get(m, (m,))[0] for ms in readers.values() for m in ms})))
             .replace("__NOTE_READERS__", note_readers(readers))
             .replace("__NOTE_SAMPLE__", liste([f"{probe[v]}&nbsp;% ({VOL_LABEL[v]})"

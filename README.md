@@ -1,14 +1,20 @@
-# Adressbücher der Stadt Bern 1883–84 und 1900
+# Adressbücher der Stadt Bern 1861–1900
 
 Einträge der Berner Adressbücher, maschinell gelesen. Quelle für
 [Vernetzte Schweiz 1860–1914](https://thodel.github.io/vernetzte-schweiz/), wo sie mit den
 Telefonbüchern und den anderen Adressbüchern verknüpft werden. Die frühen Berner Adressbücher
 (1795–1839) liegen in [adressbuecher-bern-frueh](https://thodel.github.io/adressbuecher-bern-frueh/).
 
-| Band | Seiten | Einwohner | Berufsregister |
-|---|---:|---:|---:|
-| Adressbuch der Stadt Bern 1883–84 | 335 | 8 241 (S. 83–192) | 4 226 (S. 193–246) |
-| Adressbuch der Stadt Bern 1900 | 677 | 15 182 (S. 142–385) | 7 094 (S. 386–491) |
+Seit November 2026 kommen die Bände 1861–1914 von e-rara dazu (`scripts/weekly/`): die Fraktur-Bände
+1861–1879 gelesen mit Gemini, die Antiqua-Bände 1881–1914 mit qwen3.8. Bei 1883–84 und 1900 nennt «Seiten»
+die Seite im PDF, bei den übrigen Bänden die Bildnummer bei e-rara.
+
+| Band | Seiten | Einwohner | Berufsregister | Leser | Stichprobe |
+|---|---:|---:|---:|---|---:|
+| Adressbuch der Stadt Bern 1861 | 236 | 4 073 (Bild 79–145) | 2 361 (Bild 146–184) | Gemini | 16/20 |
+| Adressbuch der Stadt Bern 1862 | 260 | 4 096 (Bild 87–157) | 2 672 (Bild 158–202) | Gemini | 16/20 |
+| Adressbuch der Stadt Bern 1883–84 | 335 | 8 241 (S. 83–192) | 4 226 (S. 193–246) | qwen3.8 | 61/73 |
+| Adressbuch der Stadt Bern 1900 | 677 | 15 182 (S. 142–385) | 7 094 (S. 386–491) | qwen3.8 | 121/146 |
 
 ## Seite
 
@@ -71,16 +77,28 @@ Schema wie [adressbuecher-aarau](https://github.com/thodel/adressbuecher-aarau),
   (`scripts/baende.py`). Kennungen sind Zeichenketten (Supplemente `1893s`, `1896s`).
 - `data/csv/03_sections.csv`: Seitenbereiche je Band.
 - `data/csv/10_authority_links.csv`: leer; Normdaten verknüpft «Vernetzte Schweiz» über die Personen.
-- `data/qwen/<Jahr>/`: die Lesung, wie sie vom Modell kam.
+- `data/qwen/<Band>/`, `data/gemini/<Band>/`: die Lesung, wie sie vom Modell kam (qwen3.8 bzw. Gemini).
+- `data/review/weekly_<Band>.csv`: Stichprobe der Bände ab 1861 (20 Einträge, am Seitenbild geprüft).
 
-`python scripts/convert.py` erzeugt `data/csv/` aus `data/qwen/`; `python -m unittest discover -s tests`.
+`python scripts/convert.py` erzeugt `data/csv/` aus `data/qwen/` und `data/gemini/`; `python -m unittest discover -s tests`.
 
 ## Wie gelesen
 
-- **Modell:** `qwen3.8-27b` auf GPUStack der Universität Bern, Seitenbild 2× vergrössert, Ausgabe als
-  JSON-Zeilen. Vorlage sind die PDFs von e-rara (700–1000 px breite Bilder).
+- **Modell (1883–84, 1900, Antiqua-Bände 1881–1914):** `qwen3.8-27b` auf GPUStack der Universität Bern,
+  Seitenbild 2× vergrössert, Ausgabe als JSON-Zeilen. Vorlage sind die PDFs von e-rara (700–1000 px breite
+  Bilder), ab 1881 die Seitenbilder über IIIF.
+- **Modell (Fraktur-Bände 1861–1879):** `gemini-3.5-flash` von Google (die Antwort nennt `gemini-3.6-flash`),
+  Seitenbilder über IIIF bis 1600 px breit (`scripts/weekly/be_gemini.py`); `parse_method` nennt den Leser
+  je Eintrag. Kosten 1861 4,88 $ (106 Seiten), 1862 5,37 $ (116 Seiten).
+- **Fraktur-Bände, was convert.py ergänzt:** Im Berufsregister setzt ein Eintrag oben auf einer Seite ohne
+  Rubrik die letzte Rubrik der Vorseite fort (`qa_flags` «rubrik_vorseite»); einen Absatz im Fliesstext
+  (1861, Bild 166–184) teilt es in Einträge («fliesstext»); «=» vor einem Namen ist ein Allianzname zum
+  vorigen Familiennamen. Auf einigen Seiten gab das Modell nur die Felder, nicht die gelesene Zeile
+  («ohne_text»; 1861 2 Seiten, 1862 4 Seiten).
 - **Stichprobe, von Hand am Seitenbild:** 1883–84 61 von 73 Einträgen voll korrekt (84 %), 1900 121 von
-  146 (83 %). Die Fehler sind meist einzelne Buchstaben in Namen und Strassen.
+  146 (83 %). Die Fehler sind meist einzelne Buchstaben in Namen und Strassen. 1861 und 1862 je 16 von 20
+  (80 %, `data/review/weekly_<Band>.csv`): Buchstaben in Strassenkürzeln («Mtzg.» für «Metzg.»), einmal F
+  als J gelesen, eine Firma nur mit dem ersten Namen, eine zweite Hausnummer weggelassen.
 - Keine Nachkorrektur; `qa_flags` markiert Verdachtsfälle.
 
 ## Nicht übernommen
@@ -93,5 +111,6 @@ Der Band 1860 (Fraktur) ist nicht ganz gelesen: in der Probe waren nur 40–60 %
 
 Die Bücher sind vor 1914 erschienen; ihr Inhalt ist gemeinfrei (URG Art. 2 Abs. 1, Art. 29 Abs. 2).
 Die Daten in `data/` stehen unter [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), der Code
-unter MIT. Die Scans liegen nicht in diesem Repo. `ref/bernhist/` enthält Einzelwerte aus BERNHIST und
+unter MIT. Gelesen haben qwen3.8 (1883–84, 1900) und Gemini (1861, 1862); der Leser steht je Eintrag in
+`parse_method`. Die Scans liegen nicht in diesem Repo. `ref/bernhist/` enthält Einzelwerte aus BERNHIST und
 steht wie BERNHIST unter der MIT-Lizenz (© 2019 Universität Bern, Universitätsbibliothek; `ref/bernhist/LICENSE`).
