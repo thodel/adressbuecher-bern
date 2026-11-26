@@ -2,7 +2,7 @@
 
 Stand 23.11.2026. Die Frage: Welchen Teil der Stadt Bern bilden die beiden maschinell gelesenen Adressbücher ab,
 und welche Gruppen stehen fast vollständig darin, welche kaum? Die Nenner kommen aus BERNHIST (Stadt Bern,
-Ort 457), die Zähler aus `data/csv/04_entries.csv` und `04_berufe.csv`.
+Ort 457), die Zähler aus `data/csv/04_entries_<Band>.csv` und `04_berufe_<Band>.csv`.
 
 Nachrechnen: `python scripts/85_abdeckung.py` schreibt `data/abdeckung/abdeckung.csv`, `sektoren.csv` und
 `wachstum.csv` und ersetzt den Tabellenblock unten. Die verwendeten BERNHIST-Werte stehen in

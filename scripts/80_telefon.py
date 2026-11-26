@@ -130,9 +130,9 @@ def main() -> None:
         best = None
         if num:
             cands = [p for p in by_number.get((e["municipality"], num), [])
-                     if abs(int(p["year"]) - int(vol)) <= 5 and same_name(e["surname"], p["surname"] or p["name1"])]
+                     if abs(int(p["year"]) - int(vol[:4])) <= 5 and same_name(e["surname"], p["surname"] or p["name1"])]
             if cands:
-                p = min(cands, key=lambda p: abs(int(p["year"]) - int(vol)))
+                p = min(cands, key=lambda p: abs(int(p["year"]) - int(vol[:4])))
                 best = ("nummer", p)
         if not best and links.get(e["entry_id"]):
             l = min(links[e["entry_id"]], key=lambda l: (TIER[l["tier"]], int(l["year_gap"])))
@@ -142,11 +142,11 @@ def main() -> None:
         if not best and e["entry_type"] == "person":
             # 3. Name: genau eine Person dieses Namens mit passendem Vornamen im Telefonbuch der Gemeinde (±5 Jahre)
             cands = [p for p in by_name.get((e["municipality"], fold(e["surname"])), [])
-                     if abs(int(p["year"]) - int(vol)) <= 5
+                     if abs(int(p["year"]) - int(vol[:4])) <= 5
                      and (forename_score(e["forename"], p["forename"] or p["name2"]) or 0) >= 2]
             people = {(fold(p["surname"] or p["name1"]), fold(p["forename"] or p["name2"])[:3]) for p in cands}
             if cands and len(people) == 1:
-                best = ("name", min(cands, key=lambda p: abs(int(p["year"]) - int(vol))))
+                best = ("name", min(cands, key=lambda p: abs(int(p["year"]) - int(vol[:4]))))
         if not best:
             stats["ohne"] += 1
             continue

@@ -63,10 +63,13 @@ Wie viel von der Stadt steht im Buch? `docs/abdeckung.md` misst die beiden Bänd
 Schema wie [adressbuecher-aarau](https://github.com/thodel/adressbuecher-aarau), dazu `municipality`
 (hier immer «Bern») und `qa_flags`.
 
-- `data/csv/04_entries.csv`: Einwohnerverzeichnisse.
-- `data/csv/04_berufe.csv`: Berufsregister (1900 mit den patentierten Berufen, Gasthöfen und
-  Wirtschaften); der Beruf steht in `heading`.
-- `data/csv/03_sections.csv`, `data/csv/00_volumes.csv`: Seitenbereiche und Bände (mit Prüfsumme des PDFs).
+- `data/csv/04_entries_<Band>.csv`: Einwohnerverzeichnisse, eine Datei je Band.
+- `data/csv/04_berufe_<Band>.csv`: Berufsregister (1900 mit den patentierten Berufen, Gasthöfen und
+  Wirtschaften); der Beruf steht in `heading`. Bis 26.11.2026 standen alle Bände in je einer Datei
+  `04_entries.csv` und `04_berufe.csv`; mit den Bänden 1861–1914 würden sie zu gross für GitHub.
+- `data/csv/00_volumes.csv`: die Bände; Seite, Karte und Skripte nehmen die Bandliste von hier
+  (`scripts/baende.py`). Kennungen sind Zeichenketten (Supplemente `1893s`, `1896s`).
+- `data/csv/03_sections.csv`: Seitenbereiche je Band.
 - `data/csv/10_authority_links.csv`: leer; Normdaten verknüpft «Vernetzte Schweiz» über die Personen.
 - `data/qwen/<Jahr>/`: die Lesung, wie sie vom Modell kam.
 

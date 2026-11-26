@@ -6,8 +6,8 @@
     python scripts/85_abdeckung.py --stichprobe 40       # zieht die Stichprobe zur Sektorzuordnung neu
 
 Nenner: BERNHIST (Historisch-statistische Datenbank des Kantons Bern, Stadt Bern = Ort 457). Im Repo liegen
-nur die verwendeten Einzelwerte (ref/bernhist/werte.csv), nicht der Dump. Zähler: data/csv/04_entries.csv
-und 04_berufe.csv. Ergebnis: data/abdeckung/abdeckung.csv, data/abdeckung/sektoren.csv und der
+nur die verwendeten Einzelwerte (ref/bernhist/werte.csv), nicht der Dump. Zähler: data/csv/04_entries_<Band>.csv
+und 04_berufe_<Band>.csv. Ergebnis: data/abdeckung/abdeckung.csv, data/abdeckung/sektoren.csv und der
 Tabellenblock in docs/abdeckung.md (zwischen den Marken TABELLEN:START und TABELLEN:ENDE).
 
 Was gezählt wird und warum, steht in docs/abdeckung.md.
@@ -19,9 +19,13 @@ import csv
 import os
 import random
 import re
+import sys
 import sqlite3
 from collections import Counter
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+import baende  # noqa: E402  Bände und Dateien je Band
 
 ROOT = Path(__file__).resolve().parents[1]
 CSV_DIR = ROOT / "data" / "csv"
@@ -392,7 +396,9 @@ def person_key(r: dict) -> tuple:
 
 
 def lade(name: str) -> list[dict]:
-    return lies(CSV_DIR / name)
+    """«04_entries.csv» bzw. «04_berufe.csv»: alle Bände aus den Dateien je Band (04_entries_<Band>.csv)."""
+    teil = {"04_entries.csv": "einwohner", "04_berufe.csv": "berufe"}[name]
+    return [r for p in baende.dateien(teil, CSV_DIR) for r in lies(p)]
 
 
 def zaehle(einwohner: list[dict], berufe: list[dict], band: str) -> dict:

@@ -3,10 +3,12 @@
     python scripts/90_seite.py --out _site
 
 Schreibt `index.html` und je Band `data/<Band>.json` nach --out. Die Seite lädt einen Band erst, wenn er
-gebraucht wird (zuerst 1900), weil alle Bände zusammen rund 7 MB wären.
+gebraucht wird (zuerst der neueste), weil alle Bände zusammen zu gross wären.
 
-Quellen: data/csv/04_entries.csv, 04_berufe.csv, data/review/flags.csv (falls vorhanden) und
-web/erara_pages.csv (PDF-Seite → e-rara-Canvas; PDF-Seite k = Canvas k−1, das PDF hat ein Deckblatt).
+Quellen: data/csv/00_volumes.csv (Bandliste), 04_entries_<Band>.csv, 04_berufe_<Band>.csv, 03_sections.csv,
+data/review/flags.csv (falls vorhanden) und web/erara_pages.csv (Seite → e-rara-Canvas). Bei 1883 und 1900
+ist die Seite die PDF-Seite (PDF-Seite k = Canvas k−1, das PDF hat ein Deckblatt), bei den übrigen Bänden die
+Bildnummer bei e-rara (Canvas, 1-basiert).
 Jede Zeile verlinkt ihre Seite auf e-rara; die Bilder selbst werden nicht eingebettet.
 
 Reiter, Suche, Filter und Flagging je Zeile wie bei Aarau, Basel und Baden: ein Flag wird im Browser
@@ -27,20 +29,98 @@ sys.path.insert(0, str(Path(__file__).parent))
 norm_street = importlib.import_module("10_geo").norm_street
 import site_nav  # noqa: E402  gemeinsame Navigation und Feldsuche aller Adressbuch-Seiten
 import site_fonts  # noqa: E402  Schriften lokal (fonts/)
+import baende  # noqa: E402  Bände und Dateien je Band
 
 CSV_DIR = Path("data/csv")
 REVIEW = Path("data/review/flags.csv")
 ERARA = Path("web/erara_pages.csv")
 TELEFON = Path("web/telefon.csv")  # aus scripts/80_telefon.py
 REPO_URL = "https://github.com/thodel/adressbuecher-bern"
-VOLUMES = {"1900": "Adressbuch der Stadt Bern 1900", "1883": "Adressbuch der Stadt Bern 1883–84"}
+VOLUME_ROWS = baende.volumes()  # data/csv/00_volumes.csv, aufsteigend
+VOLUMES = {v: r["title"] for v, r in VOLUME_ROWS.items()}
+VOL_LABEL = {v: baende.label(v, r["title"]) for v, r in VOLUME_ROWS.items()}
+DEFAULT_VOLUME = max(VOLUMES, key=baende.ordnung)  # neuester Band, im Menü vorgewählt
+PDF_VOLUMES = {"1883", "1900"}  # Seite = PDF-Seite; sonst Bildnummer bei e-rara
+# Zusatz zum Berufsregister je Band (im Abschnitt «Bände»)
+BERUFE_ZUSATZ = {"1900": " mit patentierten Berufen, Gasthöfen und Wirtschaften"}
+# Stichprobe von Hand (Anteil voll korrekter Einträge); neue Bände aus scripts/weekly/ingested.csv
+STICHPROBE = {"1883": 84, "1900": 83}
+INGESTED = Path("scripts/weekly/ingested.csv")
+# Leser je Band, aus der Spalte parse_method
+READERS = {
+    "qwen3.8-27b, Bild 2x": ("qwen3.8", "qwen3.8 (Universität Bern) auf den PDFs von e-rara (700–1000 px breit), "
+                             "Seitenbild 2× vergrössert"),
+    "gemini-3.5-flash (Antwort gemini-3.6-flash), IIIF bis 1600 px":
+        ("Gemini", "Gemini 3.5 Flash von Google (bei leerer Antwort 3.6 Flash) auf den Seitenbildern von e-rara "
+                   "über IIIF, bis 1600 px breit"),
+}
+
+
+def vol_options(volumes, default: str) -> str:
+    """Bandmenü der Seite (baende.menu); bis 26.11.2026 von Hand im HTML (1900, 1883–84, beide Bände)."""
+    return baende.menu(volumes, default, VOL_LABEL)
+
+
+def stichprobe() -> dict[str, int]:
+    """Band → Prozent voll korrekter Einträge; ingested.csv schreibt «17/20»."""
+    out = dict(STICHPROBE)
+    if INGESTED.exists():
+        for r in csv.DictReader(INGESTED.open(encoding="utf-8")):
+            a, _, b = r.get("sample", "").partition("/")
+            if a.strip().isdigit() and b.strip().isdigit() and int(b):
+                out[r["volume"]] = round(100 * int(a) / int(b))
+    return out
+
+
+def span(vs) -> str:
+    vs = sorted(vs, key=baende.ordnung)
+    return f"{vs[0][:4]}–{vs[-1][:4]}" if len(vs) > 1 else vs[0][:4]
+
+
+def liste(xs: list[str]) -> str:
+    return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " und " + xs[-1]
+
+
+def sections() -> dict[str, dict[str, tuple[int, int]]]:
+    out: dict[str, dict] = defaultdict(dict)
+    with (CSV_DIR / "03_sections.csv").open(encoding="utf-8") as fh:
+        for r in csv.DictReader(fh):
+            out[r["volume"]][r["section"]] = (int(r["page_from"]), int(r["page_to"]))
+    return out
+
+
+def titleinfo() -> dict[str, str]:
+    with ERARA.open(encoding="utf-8") as fh:
+        return {r["volume"]: r["erara_titleinfo"] for r in csv.DictReader(fh)}
+
+
+def band_items(n: dict, readers: dict[str, list[str]], probe: dict[str, int]) -> str:
+    """Der Abschnitt «Bände»: je Band Umfang, Seiten, Leser und Stichprobe, neuester zuerst."""
+    sec, ti, out = sections(), titleinfo(), []
+    fmt = lambda x: f"{x:,}".replace(",", " ")
+    for v in sorted(VOLUMES, key=baende.ordnung, reverse=True):
+        s, pre = sec.get(v, {}), "PDF-S." if v in PDF_VOLUMES else "Bild"
+        ew, be = s.get("einwohner"), s.get("berufe")
+        text = f'<li><b>{VOL_LABEL[v]}</b> · {fmt(n["einwohner"][v])} Einwohner'
+        text += f" ({pre} {ew[0]}–{ew[1]})" if ew else ""
+        text += f', {fmt(n["berufe"][v])} Einträge im Berufsregister{BERUFE_ZUSATZ.get(v, "")}'
+        text += f" ({'S.' if v in PDF_VOLUMES else pre} {be[0]}–{be[1]})" if be else ""
+        rs = [READERS.get(m, (m, m))[0] for m in readers.get(v, [])]
+        if rs:
+            text += f". Gelesen mit {liste(rs)}"
+        if v in probe:
+            text += f", Stichprobe {probe[v]}&nbsp;% voll korrekt"
+        if v in ti:
+            text += f'. <a href="https://www.e-rara.ch/bes_1/periodical/titleinfo/{ti[v]}">e-rara</a>'
+        out.append(text + "</li>")
+    return "\n          ".join(out)
 
 TABS = [
-    ("einwohner", "Einwohner", "04_entries.csv",
+    ("einwohner", "Einwohner", "04_entries_<Band>.csv",
      ["entry_id", "volume", "page", "surname", "alliance_name", "forename", "title", "civil_status",
       "occupation_raw", "street_raw", "building_no", "phone_flag", "telefon", "other_volume", "authority", "zeitreise", "entry_type",
       "parse_confidence", "qa_flags", "text", "street_key"]),
-    ("berufe", "Berufsregister", "04_berufe.csv",
+    ("berufe", "Berufsregister", "04_berufe_<Band>.csv",
      ["entry_id", "volume", "page", "heading", "surname", "alliance_name", "forename", "title", "civil_status",
       "occupation_raw", "origin_raw", "street_raw", "building_no", "phone_flag", "telefon", "other_volume", "authority", "zeitreise", "entry_type",
       "parse_confidence", "qa_flags", "text", "street_key"]),
@@ -119,11 +199,14 @@ GEO = load_geo()
 def load_rows() -> dict[str, dict[str, list[list[str]]]]:
     """Band → Reiter → Zeilen."""
     out: dict[str, dict[str, list]] = defaultdict(lambda: {k: [] for k, *_ in TABS})
-    for key, _label, fname, cols in TABS:
-        with (CSV_DIR / fname).open(encoding="utf-8") as fh:
-            reader = csv.DictReader(fh)
-            csv_rows = list(reader)
-        cols += site_nav.extra_columns(csv_rows, reader.fieldnames, cols)  # alle CSV-Angaben durchsuchbar
+    for key, _label, _fname, cols in TABS:
+        csv_rows, fieldnames = [], []
+        for p in baende.dateien(key, CSV_DIR):
+            with p.open(encoding="utf-8") as fh:
+                reader = csv.DictReader(fh)
+                csv_rows += list(reader)
+                fieldnames += [f for f in reader.fieldnames or [] if f not in fieldnames]
+        cols += site_nav.extra_columns(csv_rows, fieldnames, cols)  # alle CSV-Angaben durchsuchbar
         for r in csv_rows:
             r["qa_flags"] = " ".join(r.get("qa_flags", "").replace(";", " ").split())
             r["telefon"] = PHONE.get(r["entry_id"], "")
@@ -144,6 +227,46 @@ def load_pages() -> dict[str, dict[str, list[str]]]:
     return out
 
 
+def volume_readers() -> dict[str, list[str]]:
+    """Band → Leser (parse_method), in der Reihenfolge des ersten Auftretens."""
+    out: dict[str, list[str]] = defaultdict(list)
+    for key, *_ in TABS:
+        for p in baende.dateien(key, CSV_DIR):
+            with p.open(encoding="utf-8") as fh:
+                for r in csv.DictReader(fh):
+                    if r["parse_method"] and r["parse_method"] not in out[r["volume"]]:
+                        out[r["volume"]].append(r["parse_method"])
+    return out
+
+
+def by_reader(readers: dict[str, list[str]]) -> dict[str, list[str]]:
+    out: dict[str, list[str]] = defaultdict(list)
+    for v in sorted(readers, key=baende.ordnung):
+        for m in readers[v]:
+            out[m].append(v)
+    return out
+
+
+def note_readers(readers: dict[str, list[str]]) -> str:
+    groups = by_reader(readers)
+    if len(groups) == 1:
+        (m,) = groups
+        return f"Der Text stammt vom Sprachmodell {READERS.get(m, (m,))[0]} und wurde nicht nachkorrigiert."
+    parts = [f"{READERS.get(m, (m,))[0]} ({liste([VOL_LABEL[v] for v in vs])})" for m, vs in groups.items()]
+    return f"Der Text stammt von Sprachmodellen, {liste(parts)}, und wurde nicht nachkorrigiert."
+
+
+def page_ids() -> str:
+    pdf = sorted(PDF_VOLUMES & set(VOLUMES), key=baende.ordnung)
+    rest = [v for v in VOLUMES if v not in PDF_VOLUMES]
+    t = "«Seite» nennt die gedruckte Seitenzahl, die ID "
+    if not rest:
+        return t + "die Seite im PDF."
+    if not pdf:
+        return t + "die Bildnummer bei e-rara."
+    return t + f"die Seite im PDF ({liste([VOL_LABEL[v] for v in pdf])}) bzw. die Bildnummer bei e-rara (übrige Bände)."
+
+
 def load_flags() -> list[dict]:
     if not REVIEW.exists():
         return []
@@ -156,8 +279,8 @@ TEMPLATE = r"""<!doctype html>
 <html lang="de">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Adressbücher Bern 1883–1900</title>
-<meta name="description" content="Einträge der Adressbücher der Stadt Bern 1883–84 und 1900, maschinell gelesen mit qwen3.8, durchsuchbar nach Name, Beruf und Strasse, mit Link auf die Seite bei e-rara.">
+<title>Adressbücher Bern __SPAN__</title>
+<meta name="description" content="Einträge der Adressbücher der Stadt Bern __VOLLIST__, maschinell gelesen mit __READERS__, durchsuchbar nach Name, Beruf und Strasse, mit Link auf die Seite bei e-rara.">
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 /* Layout: Werkzeug wie Aarau/Basel/Baden — Kopf mit Hinweis und Filtern, darunter eine Tabelle, die den Rest füllt. */
@@ -243,23 +366,22 @@ __NAVCSS__
 __CITYBAR__
 <header>
   __CITYNAV__
-  <h1>Adressbücher der Stadt Bern 1883–84 und 1900</h1>
+  <h1>Adressbücher der Stadt Bern __VOLLIST__</h1>
   <p class="sub">Stand __DATE__ · Einwohnerverzeichnisse und Berufsregister. Die früheren Bände 1795–1848 stehen auf einer <a href="https://thodel.github.io/adressbuecher-bern-frueh/">eigenen Seite</a>.</p>
 </header>
 <section class="note" aria-label="Hinweis zu den Daten">
-  <p><b>Maschinell gelesen, nicht von Hand korrigiert.</b> Der Text stammt vom Sprachmodell qwen3.8 (Universität Bern) und wurde nicht nachkorrigiert. In einer Stichprobe waren 84&nbsp;% (1883–84) bzw. 83&nbsp;% (1900) der Einträge zeichengenau und richtig in Felder getrennt; die Fehler sind meist einzelne Buchstaben in Namen und Strassen. <b>Im Zweifel die Seite auf e-rara ansehen</b> (Link in der Spalte «Seite»).</p>
+  <p><b>Maschinell gelesen, nicht von Hand korrigiert.</b> __NOTE_READERS__ In einer Stichprobe waren __NOTE_SAMPLE__ der Einträge zeichengenau und richtig in Felder getrennt; die Fehler sind meist einzelne Buchstaben in Namen und Strassen. <b>Im Zweifel die Seite auf e-rara ansehen</b> (Link in der Spalte «Seite»).</p>
   <details id="about">
     <summary>Über die Daten: Umfang, Lücken, Lizenz</summary>
     <div class="cols">
       <div>
         <h2>Bände</h2>
         <ul>
-          <li><b>1883–84</b> · __N1883__ Einwohner (PDF-S. 83–192), __B1883__ Einträge im Berufsregister (S. 193–246). <a href="https://www.e-rara.ch/bes_1/periodical/titleinfo/1396077">e-rara</a></li>
-          <li><b>1900</b> · __N1900__ Einwohner (PDF-S. 142–385), __B1900__ Einträge im Berufsregister mit patentierten Berufen, Gasthöfen und Wirtschaften (S. 386–491). <a href="https://www.e-rara.ch/bes_1/periodical/titleinfo/1704646">e-rara</a></li>
+          __BANDS__
         </ul>
         <h2>Wie gelesen</h2>
         <ul>
-          <li>Vorlage sind die PDFs von e-rara (700–1000 px breit), Seitenbild 2× vergrössert.</li>
+          __HOW__
           <li>«Hinweise» sind automatische Markierungen, keine Korrekturen; Konfidenz «medium» heisst, ein Hinweis spricht für Prüfung.</li>
           <li>Strassennamen stehen wie gedruckt, oft abgekürzt («Neueng.», «Kramg.»).</li>
         </ul>
@@ -279,7 +401,7 @@ __CITYBAR__
           <li><b>Karte damals:</b> Link auf die Siegfriedkarte des Jahres (swisstopo Zeitreise) an der Strasse (Lage nach der Hausnummerierung 1882 bzw. OpenStreetMap), sonst an der Stadtmitte. Dazu die <a href="karte.html">Karte</a> aller Einträge.</li>
         </ul>
         <h2>Seitenbilder</h2>
-        <ul><li>Die Scans liegen öffentlich auf <a href="https://www.e-rara.ch/">e-rara</a> und werden nur verlinkt. «Seite» nennt die gedruckte Seitenzahl, die ID die Seite im PDF.</li></ul>
+        <ul><li>Die Scans liegen öffentlich auf <a href="https://www.e-rara.ch/">e-rara</a> und werden nur verlinkt. __PAGEIDS__</li></ul>
         <h2>Lizenz</h2>
         <ul><li>Die Bücher erschienen vor 1914, ihr Inhalt ist gemeinfrei. Daten <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a>, Code <a href="__REPO__/blob/main/LICENSE">MIT</a>. CSV im <a href="__REPO__/tree/main/data/csv">Repo</a>.</li></ul>
       </div>
@@ -288,7 +410,7 @@ __CITYBAR__
 </section>
 <div class="toolbar">
   <div class="tabs" role="tablist" id="tabs"></div>
-  <select id="vol" aria-label="Band"><option value="1900">1900</option><option value="1883">1883–84</option><option value="">beide Bände</option></select>
+  <select id="vol" aria-label="Band">__VOLOPTIONS__</select>
   <select id="conf" aria-label="Konfidenz"><option value="">alle Konfidenzen</option><option value="high">high</option><option value="medium">medium</option></select>
   <select id="qa" aria-label="Hinweis"><option value="">alle Hinweise</option><option value="-">ohne Hinweis</option></select>
   <input id="street" type="search" list="streets" placeholder="Strasse …" aria-label="Strasse (Anfang)">
@@ -348,12 +470,12 @@ function wanted() { return vol.value ? [vol.value] : Object.keys(META.volumes); 
 function scan(v, page) {
   const p = VOLS[v] && VOLS[v].pages[page];
   if (!p) return esc(page);
-  return `<a href="https://www.e-rara.ch/bes_1/periodical/pageview/${esc(p[0])}" target="_blank" rel="noopener" title="PDF-S. ${esc(page)} auf e-rara">S. ${esc(p[1])} ↗</a>`;
+  return `<a href="https://www.e-rara.ch/bes_1/periodical/pageview/${esc(p[0])}" target="_blank" rel="noopener" title="${esc(META.pdf.includes(v) ? 'PDF-S.' : 'Bild')} ${esc(page)} auf e-rara">S. ${esc(p[1])} ↗</a>`;
 }
 function issueUrl(r) {
   const cols = META.tabs[tab].cols, id = r[0];
   const p = VOLS[r[1]] && VOLS[r[1]].pages[r[2]];
-  const body = `Tabelle: ${META.tabs[tab].label}\nID: ${id}\nBand ${r[1]}, PDF-Seite ${r[2]}${p ? ', e-rara https://www.e-rara.ch/bes_1/periodical/pageview/' + p[0] : ''}\n\nGelesene Zeile:\n${r[cols.indexOf('text')] ?? ''}\n\nProblem:\n`;
+  const body = `Tabelle: ${META.tabs[tab].label}\nID: ${id}\nBand ${r[1]}, ${META.pdf.includes(r[1]) ? 'PDF-Seite' : 'Bild'} ${r[2]}${p ? ', e-rara https://www.e-rara.ch/bes_1/periodical/pageview/' + p[0] : ''}\n\nGelesene Zeile:\n${r[cols.indexOf('text')] ?? ''}\n\nProblem:\n`;
   return `${REPO}/issues/new?title=${encodeURIComponent('Flag ' + id)}&labels=${encodeURIComponent('review')}&body=${encodeURIComponent(body)}`;
 }
 function cell(col, v, r) {
@@ -514,13 +636,15 @@ def main() -> None:
     for v in rows:
         for k in rows[v]:
             n[k][v] = len(rows[v][k])
-    meta = {"volumes": VOLUMES,
+    meta = {"volumes": VOLUMES, "pdf": sorted(PDF_VOLUMES & set(VOLUMES)),
             "tabs": {k: {"label": label, "cols": cols, "n": sum(n[k].values()), "hide": cols[cols.index("street_key"):]} for k, label, _f, cols in TABS}}
     ti = {k: cols.index("phone_flag") for k, _l, _f, cols in TABS}
     n_tel = sum(1 for v in rows for k in rows[v] for r in rows[v][k] if r[ti[k]] == "1")
     fmt = lambda x: f"{x:,}".replace(",", " ")
     reported = load_flags()
-    html = (TEMPLATE.replace("__CITYBAR__", site_nav.city_bar('bern', 'de')).replace("__CITYNAV__", site_nav.city_nav('Bern 1883–1900', REPO_URL, "entries", 'de', extra=[("abdeckung", "abdeckung.html", "Abdeckung")])).replace("__NAVCSS__", site_nav.CSS).replace("__FSPANEL__", site_nav.search_panel('de')).replace("__FSJS__", site_nav.FIELD_SEARCH_JS).replace("__FSTX__", json.dumps(site_nav.fs_texts('de'), ensure_ascii=False)).replace("__META__", json.dumps(meta, ensure_ascii=False))
+    readers = volume_readers()
+    probe = stichprobe()
+    html = (TEMPLATE.replace("__CITYBAR__", site_nav.city_bar('bern', 'de')).replace("__CITYNAV__", site_nav.city_nav(f'Bern {span(VOLUMES)}', REPO_URL, "entries", 'de', extra=[("abdeckung", "abdeckung.html", "Abdeckung")])).replace("__NAVCSS__", site_nav.CSS).replace("__FSPANEL__", site_nav.search_panel('de')).replace("__FSJS__", site_nav.FIELD_SEARCH_JS).replace("__FSTX__", json.dumps(site_nav.fs_texts('de'), ensure_ascii=False)).replace("__META__", json.dumps(meta, ensure_ascii=False))
             .replace("__LABELS__", json.dumps(LABELS, ensure_ascii=False))
             .replace("__QA__", json.dumps(QA, ensure_ascii=False))
             .replace("__GEO__", json.dumps(GEO, ensure_ascii=False, separators=(",", ":")))
@@ -528,8 +652,17 @@ def main() -> None:
             .replace("__NAUTH__", f"{len(AUTH):,}".replace(",", "\u202f"))
             .replace("__REASONS__", json.dumps(REASONS, ensure_ascii=False))
             .replace("__REPORTED__", json.dumps(reported, ensure_ascii=False))
-            .replace("__N1883__", fmt(n["einwohner"]["1883"])).replace("__N1900__", fmt(n["einwohner"]["1900"]))
-            .replace("__B1883__", fmt(n["berufe"]["1883"])).replace("__B1900__", fmt(n["berufe"]["1900"]))
+            .replace("__BANDS__", band_items(n, readers, probe))
+            .replace("__VOLOPTIONS__", vol_options(VOLUMES, DEFAULT_VOLUME))
+            .replace("__SPAN__", span(VOLUMES))
+            .replace("__VOLLIST__", liste([VOL_LABEL[v] for v in sorted(VOLUMES, key=baende.ordnung)]))
+            .replace("__READERS__", liste(sorted({READERS.get(m, (m,))[0] for ms in readers.values() for m in ms})))
+            .replace("__NOTE_READERS__", note_readers(readers))
+            .replace("__NOTE_SAMPLE__", liste([f"{probe[v]}&nbsp;% ({VOL_LABEL[v]})"
+                                               for v in sorted(VOLUMES, key=baende.ordnung) if v in probe]))
+            .replace("__HOW__", "\n          ".join(f"<li>{READERS.get(m, (m, m))[1]}: {liste([VOL_LABEL[v] for v in vs])}.</li>"
+                                                     for m, vs in by_reader(readers).items()))
+            .replace("__PAGEIDS__", page_ids())
             .replace("__TELSTAT__", f"{len(PHONE):,} von {n_tel:,} Einträgen mit Telefon haben einen Treffer.".replace(",", "\u202f"))
             .replace("__REPO__", REPO_URL)
             .replace("__DATE__", date.today().strftime("%d.%m.%Y")))

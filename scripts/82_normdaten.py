@@ -116,7 +116,7 @@ def main() -> None:
         code = r["bfs"] or (r["bfs_today"] if r["name"] == r["name_today"] else "")
         if r["name"] in munis and code:
             bfs.setdefault(code, r["name"])
-    vols = sorted({int(r["volume"]) for r in entries})
+    vols = sorted({int(r["volume"][:4]) for r in entries})
 
     # Personen je (Gemeinde, Familienname): [(Quelle, id, Vorname, Name, geb., gest., Jahre am Ort, qid, hls, gnd, Feld)]
     people = defaultdict(list)
@@ -163,7 +163,7 @@ def main() -> None:
     n_sur = Counter((e["volume"], e["municipality"], fold(e["surname"])) for e in entries)
     cand = defaultdict(list)  # (Person-Schlüssel, Band) → [(Punkte, Eintrag)]
     for e in entries:
-        vol = int(e["volume"])
+        vol = int(e["volume"][:4])
         for p in people.get((e["municipality"], fold(e["surname"]).replace(" ", "")), []):
             if p["birth"] and vol - p["birth"] < 18 or p["death"] and p["death"] < vol:
                 continue

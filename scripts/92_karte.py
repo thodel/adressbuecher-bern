@@ -2,7 +2,7 @@
 
     python scripts/92_karte.py --out web/karte.html
 
-Liest data/csv/04_entries.csv, 04_berufe.csv und die Punkte aus web/geo/ (scripts/10_geo.py) und schreibt
+Liest data/csv/04_entries_<Band>.csv, 04_berufe_<Band>.csv (Bandliste aus 00_volumes.csv) und die Punkte aus web/geo/ (scripts/10_geo.py) und schreibt
 eine Seite mit Leaflet: Kreise je Strasse, Fläche nach Zahl der Einträge, wählbar
 nach Band, Verzeichnis und «nur mit Telefon». Ein Klick führt zu den Einträgen auf der Hauptseite.
 
@@ -24,6 +24,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 import site_nav  # noqa: E402  gemeinsame Navigation
 import site_fonts  # noqa: E402  Schriften lokal (fonts/)
+import baende  # noqa: E402  Bände und Dateien je Band
 norm_street = importlib.import_module("10_geo").norm_street
 
 CSV_DIR = Path("data/csv")
@@ -39,8 +40,8 @@ def counts():
     linked = set()
     if TELEFON.exists():
         linked = {r["entry_id"] for r in csv.DictReader(TELEFON.open(encoding="utf-8"))}
-    for f, tab in (("04_entries.csv", "e"), ("04_berufe.csv", "b")):
-        for r in csv.DictReader((CSV_DIR / f).open(encoding="utf-8")):
+    for teil, tab in (("einwohner", "e"), ("berufe", "b")):
+        for r in baende.lies(teil, CSV_DIR):
             if not r["municipality"]:
                 continue
             keys = [r["volume"] + tab] + ([r["volume"] + tab + "t"] if r["phone_flag"] == "1" else [])
@@ -65,8 +66,8 @@ TEMPLATE = r"""<!doctype html>
 <html lang="de">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Karte Bern 1883–1900</title>
-<meta name="description" content="Karte der Einträge der Adressbücher der Stadt Bern 1883–84 und 1900 nach Strasse.">
+<title>Karte Bern __SPAN__</title>
+<meta name="description" content="Karte der Einträge der Adressbücher der Stadt Bern __VOLLIST__ nach Strasse.">
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
@@ -102,11 +103,11 @@ __NAVCSS__
 __CITYBAR__
 <header>
   __CITYNAV__
-  <h1>Karte: Adressbücher der Stadt Bern 1883–84 und 1900</h1>
+  <h1>Karte: Adressbücher der Stadt Bern __VOLLIST__</h1>
   <p class="sub">Stand __DATE__ · Kreisfläche = Zahl der Einträge je Strasse. Lage: Mittelpunkt der Häuser nach der Hausnummerierung 1882, sonst OpenStreetMap (heutige Strassenmitte). __UNPLACED__</p>
 </header>
 <div class="toolbar">
-  <select id="vol" aria-label="Band"><option value="">1883–84 und 1900</option><option value="1883">1883–84</option><option value="1900">1900</option></select>
+  <select id="vol" aria-label="Band">__VOLOPTIONS__</select>
   <select id="tab" aria-label="Verzeichnis"><option value="">Einwohner und Berufsregister</option><option value="e">Einwohner</option><option value="b">Berufsregister</option></select>
   <label><input type="checkbox" id="tel"> nur mit Telefon ☏</label>
   <input type="checkbox" id="showMuni" hidden>
@@ -116,6 +117,7 @@ __CITYBAR__
 <div id="map" role="region" aria-label="Karte"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
+const VOLS = __VOLS__;
 const MUNI = __MUNI__;      // [Name, lat, lon, {Zähler}]
 const STREETS = __STREETS__; // [Gemeinde, Strasse, lat, lon, {Zähler}, [Schreibweisen]]
 const $ = id => document.getElementById(id);
@@ -125,7 +127,7 @@ const map = L.map('map', { scrollWheelZoom: true }).setView([46.948, 7.445], 14)
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
 const muniLayer = L.layerGroup().addTo(map), streetLayer = L.layerGroup().addTo(map);
 function n(c) {
-  const vols = $('vol').value ? [$('vol').value] : ['1883', '1900'], tabs = $('tab').value ? [$('tab').value] : ['e', 'b'], t = $('tel').checked ? 't' : '';
+  const vols = $('vol').value ? [$('vol').value] : VOLS, tabs = $('tab').value ? [$('tab').value] : ['e', 'b'], t = $('tel').checked ? 't' : '';
   let s = 0; for (const v of vols) for (const k of tabs) s += c[v + k + t] || 0; return s;
 }
 function link(params) {
@@ -184,7 +186,14 @@ def main() -> None:
     fmt = lambda x: f"{x:,}".replace(",", "\u202f")
     unplaced = (f"{len(S)} von {len(street)} Strassennamen verortet; {fmt(lost_entries)} von {fmt(total)} Einträgen mit "
                 f"Strasse liegen an Strassen ohne Punkt (anderer Name heute, selten gedruckt oder Lesefehler).")
-    html = (TEMPLATE.replace("__CITYBAR__", site_nav.city_bar('bern', 'de')).replace("__CITYNAV__", site_nav.city_nav('Bern 1883–1900', 'https://github.com/thodel/adressbuecher-bern', "map", 'de', extra=[("abdeckung", "abdeckung.html", "Abdeckung")])).replace("__NAVCSS__", site_nav.CSS).replace("__MUNI__", json.dumps(M, ensure_ascii=False, separators=(",", ":")))
+    vols = baende.volumes()
+    labels = {v: baende.label(v, r["title"]) for v, r in vols.items()}
+    span = f"{min(vols)[:4]}–{max(vols, key=baende.ordnung)[:4]}"
+    vollist = " und ".join([", ".join(labels[v] for v in list(vols)[:-1]), labels[list(vols)[-1]]]) if len(vols) > 1 else labels[list(vols)[0]]
+    html = (TEMPLATE.replace("__CITYBAR__", site_nav.city_bar('bern', 'de')).replace("__CITYNAV__", site_nav.city_nav(f'Bern {span}', 'https://github.com/thodel/adressbuecher-bern', "map", 'de', extra=[("abdeckung", "abdeckung.html", "Abdeckung")])).replace("__NAVCSS__", site_nav.CSS).replace("__MUNI__", json.dumps(M, ensure_ascii=False, separators=(",", ":")))
+            .replace("__VOLS__", json.dumps(list(vols)))
+            .replace("__VOLOPTIONS__", baende.menu(vols, max(vols, key=baende.ordnung), labels, "alle Bände"))
+            .replace("__SPAN__", span).replace("__VOLLIST__", vollist)
             .replace("__STREETS__", json.dumps(S, ensure_ascii=False, separators=(",", ":")))
             .replace("__UNPLACED__", unplaced).replace("__REPO__", REPO_URL)
             .replace("__DATE__", date.today().strftime("%d.%m.%Y")))

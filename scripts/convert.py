@@ -2,8 +2,8 @@
 
     python scripts/convert.py
 
-Schreibt data/csv/04_entries.csv (Einwohner), 04_berufe.csv (Berufsregister), 03_sections.csv
-(welche Seiten in welchen Teil gehen) und 10_authority_links.csv (leer: Normdaten verknüpft
+Schreibt je Band data/csv/04_entries_<Band>.csv (Einwohner) und 04_berufe_<Band>.csv (Berufsregister),
+dazu 03_sections.csv (welche Seiten in welchen Teil gehen) und 10_authority_links.csv (leer: Normdaten verknüpft
 «Vernetzte Schweiz» über die Einheiten, nicht dieses Repo).
 
 Übernommen werden nur das Einwohnerverzeichnis und das Berufsregister der Stadt; Inserate (Seiten mit
@@ -16,6 +16,8 @@ import csv
 import re
 from collections import Counter
 from pathlib import Path
+
+import baende
 
 ROOT = Path(__file__).resolve().parents[1]
 QWEN = ROOT / "data" / "qwen"
@@ -133,23 +135,26 @@ def convert(volume: str) -> tuple[list[dict], Counter]:
     return out, stats
 
 
+def write(path: Path, rows: list[dict], fields: list[str]) -> None:
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=fields)
+        w.writeheader()
+        w.writerows(rows)
+
+
 def main() -> None:
-    entries, berufe, sections = [], [], []
+    sections = []
+    CSV.mkdir(parents=True, exist_ok=True)
+    for old in ("04_entries.csv", "04_berufe.csv"):  # bis 26.11.2026 alle Bände in einer Datei
+        (CSV / old).unlink(missing_ok=True)
     for volume in SECTIONS:
         rows, stats = convert(volume)
-        entries += [r for r in rows if r["section"] == "einwohner"]
-        berufe += [r for r in rows if r["section"] == "berufe"]
+        for teil in ("einwohner", "berufe"):
+            write(baende.datei(teil, volume, CSV), [r for r in rows if r["section"] == teil], FIELDS)
         sections += [{"volume": volume, "section": n, "page_from": a, "page_to": b} for n, a, b in SECTIONS[volume]]
         print(volume, dict(sorted(stats.items())))
-    CSV.mkdir(parents=True, exist_ok=True)
-    for name, rows, fields in (("04_entries.csv", entries, FIELDS), ("04_berufe.csv", berufe, FIELDS),
-                               ("03_sections.csv", sections, ["volume", "section", "page_from", "page_to"]),
-                               ("10_authority_links.csv", [], AUTH_FIELDS)):
-        with open(CSV / name, "w", newline="", encoding="utf-8") as f:
-            w = csv.DictWriter(f, fieldnames=fields)
-            w.writeheader()
-            w.writerows(rows)
-
+    write(CSV / "03_sections.csv", sections, ["volume", "section", "page_from", "page_to"])
+    write(CSV / "10_authority_links.csv", [], AUTH_FIELDS)
 
 if __name__ == "__main__":
     main()

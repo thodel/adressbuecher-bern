@@ -26,11 +26,15 @@ import csv
 import gzip
 import json
 import re
+import sys
 import time
 import urllib.parse
 import urllib.request
 from collections import Counter
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+import baende  # noqa: E402  Bände und Dateien je Band
 
 CSV_DIR = Path("data/csv")
 GEO = Path("web/geo")
@@ -71,11 +75,10 @@ def city_name(m: str) -> str:
 
 def streets_in_data() -> Counter:
     c: Counter = Counter()
-    for f in ("04_entries.csv", "04_berufe.csv"):
-        with (CSV_DIR / f).open(encoding="utf-8") as fh:
-            for r in csv.DictReader(fh):
-                if r["street_raw"] and r["municipality"]:
-                    c[(r["municipality"], norm_street(r["street_raw"]))] += 1
+    for teil in ("einwohner", "berufe"):
+        for r in baende.lies(teil, CSV_DIR):
+            if r["street_raw"] and r["municipality"]:
+                c[(r["municipality"], norm_street(r["street_raw"]))] += 1
     return c
 
 
