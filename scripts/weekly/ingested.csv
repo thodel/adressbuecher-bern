@@ -12,3 +12,4 @@ volume,date,commit,entries,berufe,sample,note
 1875,2026-11-26,f3711e7,6122,3483,18/20,"gemini, 200 S., 7.88 $ (376 881 Token ein, 812 797 aus); Fehler: Feld 1 («v.» im Stand), Lesung 1 (F/J); Vernetzte Schweiz fbe868e"
 1877,2026-11-26,f3711e7,6445,3727,19/20,"gemini, 218 S., 8.41 $ (410 159 Token ein, 865 534 aus); Fehler: Feld 1 (erste Adresse fehlt); Vernetzte Schweiz fbe868e"
 1879,2026-11-26,f3711e7,6232,3898,18/20,"gemini, 219 S., 8.57 $ (411 449 Token ein, 883 172 aus); Fehler: Lesung 1, Familienname 1; Vernetzte Schweiz fbe868e"
+1864,2026-11-27,69bd7da,4233,2855,67/80,"gemini, 123 S., 5.56 $ (Bild 213 am 27.11. nachgelesen, 0.012 $); 63/80 vor der tz-Korrektur, 67/80 danach; übernommen auf Entscheid von Tobias; Fehler: Lesung 4, Rubrik 2, Adresse 2, Familienname 2, Feld 1, Vorname 1, Beruf 1 (Mezgg.); Vernetzte Schweiz 022c8c4"
