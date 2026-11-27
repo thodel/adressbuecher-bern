@@ -134,6 +134,48 @@ def cut_wirthschaften(rows: list[dict]) -> list[dict]:
     return rows
 
 
+# Fraktur, von Gemini verlesen (27.11.2026 am Bild geprüft):
+# - das Z am Anfang einer Rubrik als B: «Bügler.» (Zügler), «Burichter.» (Zurichter), «Becker- u. Pastetenbäcker.»
+#   (Zucker-), «Beitungshalterfabrikant» (Zeitungs-), «Bahnärzte.» (Zahnärzte); 1879 «Ziegler.» für «Zügler.»;
+# - die tz-Ligatur als z: «Mezg.», «Mezgerg.», «Mezgergasse», «Mezger», «Schriftſezer» für «Metzg.» usw.; «Mzg.» für
+#   «Mtzg.» (18 von 18 Stichproben im Druck mit tz).
+RUBRIK_Z = {"Bügler.": "Zügler.", "Burichter.": "Zurichter.", "Becker- u. Pastetenbäcker.": "Zucker- u. Pastetenbäcker.",
+            "Beitungshalterfabrikant": "Zeitungshalterfabrikant", "Bahnärzte.": "Zahnärzte."}
+TZ = [(re.compile(r"\b([Mm])ez(?=g)"), r"\1etz"), (re.compile(r"\b([Mm])zg"), r"\1tzg"),
+      (re.compile(r"(?<=\w)mez(?=g)"), "metz"), (re.compile(r"(?<=\w)([sſ])ez(?=er)"), r"\1etz")]
+TZ_FIELDS = ("text", "occupation", "street", "heading")
+
+
+def fix_tz(r: dict) -> dict:
+    """tz-Ligatur: fehlendes t einsetzen (nicht im Familiennamen: «Mezener» ist ein Berner Name)."""
+    new = dict(r)
+    for k in TZ_FIELDS:
+        for pat, rep_ in TZ:
+            new[k] = pat.sub(rep_, new[k])
+    if any(new[k] != r[k] for k in TZ_FIELDS):
+        new["qa_flags"] = ";".join(f for f in (r["qa_flags"], "korr_tz") if f)
+    return new
+
+
+def fix_rubrics(rows: list[dict]) -> list[dict]:
+    """Rubriken mit verlesenem Z: Tabelle RUBRIK_Z; sonst eine B-Rubrik nach einer Z-Rubrik als Z, und «Ziegler.» nach
+    «Zucker…» als «Zügler.» (die Rubriken stehen alphabetisch)."""
+    out, seen_z = [], ""
+    for r in rows:
+        h = r["heading"].strip()
+        new = RUBRIK_Z.get(h)
+        if not new and seen_z and h[:1] == "B":
+            new = "Z" + h[1:]
+        if not new and h == "Ziegler." and seen_z.startswith("Zucker"):
+            new = "Zügler."
+        if h[:1] == "Z" and not new:   # nur eine gelesene Z-Rubrik öffnet den Z-Bereich, keine korrigierte
+            seen_z = h
+        if new:
+            r = {**r, "heading": new, "qa_flags": ";".join(f for f in (r["qa_flags"], "korr_rubrik") if f)}
+        out.append(r)
+    return out
+
+
 def carry_heading(rows: list[dict]) -> list[dict]:
     """Berufsregister von Strom B: Einträge oben auf einer Seite ohne Rubrik setzen die letzte Rubrik der
     Vorseite fort (das Modell nennt die Rubrik nur, wo sie gedruckt steht). Eine Lücke mitten auf der Seite
@@ -184,8 +226,9 @@ def convert(volume: str) -> tuple[list[dict], Counter]:
     src = GEMINI if reader(volume) == "gemini" else QWEN
     rows = list(csv.DictReader(open(src / volume / "entries.csv", encoding="utf-8")))
     if reader(volume) == "gemini":
+        rows = [fix_tz(r) for r in rows]
         rows = [x for r in rows for x in (split_run_in(r) if section_of(volume, int(r["page"])) == "berufe" else [r])]
-        berufe = carry_heading(cut_wirthschaften([r for r in rows if section_of(volume, int(r["page"])) == "berufe"]))
+        berufe = carry_heading(fix_rubrics(cut_wirthschaften([r for r in rows if section_of(volume, int(r["page"])) == "berufe"])))
         rows = [r for r in rows if section_of(volume, int(r["page"])) != "berufe"] + berufe
     pages = Counter(int(r["page"]) for r in rows)
     # Strom B liest nur die Seiten der Verzeichnisse (be_gemini.py klassiert vorher); die letzte Seite eines

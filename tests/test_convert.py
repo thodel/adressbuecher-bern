@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from convert import SAME, carry_heading, clean_street, own_surname, section_of, split_run_in  # noqa: E402
+from convert import SAME, carry_heading, clean_street, fix_rubrics, fix_tz, own_surname, section_of, split_run_in  # noqa: E402
 
 
 class Street(unittest.TestCase):
@@ -76,3 +76,52 @@ class Sections(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def _r(text="", occupation="", street="", heading="", surname="", qa_flags=""):
+    return {"text": text, "occupation": occupation, "street": street, "heading": heading, "surname": surname,
+            "qa_flags": qa_flags}
+
+
+class TzLigatur(unittest.TestCase):
+    """27.11.2026: 18 von 18 Stichproben «Mez…»/«Mzg» haben im Druck die tz-Ligatur."""
+
+    def test_metzg_formen(self):
+        for got, want in (("Mezg.", "Metzg."), ("Mezgerg.", "Metzgerg."), ("Mezgergasse", "Metzgergasse"),
+                          ("Mezgg.", "Metzgg."), ("Mzg.", "Mtzg."), ("Mezggergasse", "Metzggergasse")):
+            r = fix_tz(_r(text=f"Bütikofer Marg., {got} 76", street=got))
+            self.assertEqual((r["street"], r["text"]), (want, f"Bütikofer Marg., {want} 76"), got)
+            self.assertIn("korr_tz", r["qa_flags"])
+
+    def test_beruf_und_rubrik(self):
+        r = fix_tz(_r(occupation="Mezger u. Schweinmezg.", heading="Mezger.", text="— Albr., Mezger u. Schweinmezg."))
+        self.assertEqual((r["occupation"], r["heading"]), ("Metzger u. Schweinmetzg.", "Metzger."))
+        self.assertEqual(fix_tz(_r(occupation="Schriftſezer"))["occupation"], "Schriftſetzer")
+
+    def test_familienname_und_andere_woerter_bleiben(self):
+        r = fix_tz(_r(text="Mezener J., Matte 4", surname="Mezener", street="Matte"))
+        self.assertEqual((r["text"], r["surname"], r["qa_flags"]), ("Mezener J., Matte 4", "Mezener", ""))
+        self.assertEqual(fix_tz(_r(surname="Mezger"))["surname"], "Mezger")
+        self.assertEqual(fix_tz(_r(occupation="Metzger", street="Metzg."))["qa_flags"], "")
+
+
+class RubrikZ(unittest.TestCase):
+    """Fraktur-Z am Rubrikanfang als B gelesen (1863–1879), 1879 «Ziegler.» für «Zügler.»."""
+
+    def heads(self, hs):
+        return [r["heading"] for r in fix_rubrics([_r(heading=h) for h in hs])]
+
+    def test_ende_des_registers(self):
+        self.assertEqual(self.heads(["Zinngießer.", "Becker- u. Pastetenbäcker.", "Bügler.", "", "Burichter."]),
+                         ["Zinngießer.", "Zucker- u. Pastetenbäcker.", "Zügler.", "", "Zurichter."])
+        self.assertEqual(self.heads(["Zucker- und Pastetenbäcker.", "Ziegler.", "Zurichter."]),
+                         ["Zucker- und Pastetenbäcker.", "Zügler.", "Zurichter."])
+        self.assertEqual(self.heads(["Zimmermeister.", "Bürstler."]), ["Zimmermeister.", "Zürstler."])
+
+    def test_echte_b_rubriken_bleiben(self):
+        self.assertEqual(self.heads(["Bäcker.", "Bonneterie.", "Buchbinder.", "Ziegler.", "Zimmermeister."]),
+                         ["Bäcker.", "Bonneterie.", "Buchbinder.", "Ziegler.", "Zimmermeister."])
+        # eine korrigierte Rubrik öffnet den Z-Bereich nicht
+        self.assertEqual(self.heads(["Bügler.", "Buchbinder."]), ["Zügler.", "Buchbinder."])
+        r = fix_rubrics([_r(heading="Bahnärzte.")])[0]
+        self.assertEqual((r["heading"], r["qa_flags"]), ("Zahnärzte.", "korr_rubrik"))

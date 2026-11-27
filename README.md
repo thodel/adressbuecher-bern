@@ -132,7 +132,14 @@ Schema wie [adressbuecher-aarau](https://github.com/thodel/adressbuecher-aarau),
   tz-Ligatur, Namen verlesen wie «Zobrist» für «Joß»; Bild 213, die letzte Seite des Berufsregisters, am
   27.11.2026 nachgelesen, 0,012 $, 13 Einträge, die Rubriken «Zügler» und «Zurichter» als «Bügler» und «Burichter»). Im Berufsregister 1862 waren bis 26.11.2026 die Wirthschaften (Bild 201–202, 68
   Einträge) mitgezählt.
-- Keine Nachkorrektur; `qa_flags` markiert Verdachtsfälle.
+- Keine Nachkorrektur von Hand; `qa_flags` markiert Verdachtsfälle. Zwei regelhafte Lesefehler von Gemini in den
+  Fraktur-Bänden berichtigt `convert.py` (seit 27.11.2026, am Seitenbild geprüft; die Lesungen in `data/gemini/` bleiben):
+  - die tz-Ligatur als z gelesen («Mezg.», «Mezgerg.», «Mezger», «Schriftſezer» für «Metzg.» usw.; 18 von 18
+    Stichproben im Druck mit tz): das t wird in Text, Strasse, Beruf und Rubrik eingesetzt, «Mzg.» wird «Mtzg.»;
+    nicht im Familiennamen («Mezener»). `qa_flags` «korr_tz», 3 120 Einträge;
+  - das Z am Anfang einer Rubrik als B («Bügler.», «Burichter.», «Becker- u. Pastetenbäcker.» für Zügler, Zurichter,
+    Zucker- u. Pastetenbäcker; 1879 «Ziegler.» für «Zügler.»): Tabelle `RUBRIK_Z`, dazu jede B-Rubrik nach einer
+    gedruckten Z-Rubrik. `qa_flags` «korr_rubrik», 78 Einträge, dazu 13, die die Rubrik von der Vorseite erben.
 
 ## Nicht übernommen
 
