@@ -18,7 +18,9 @@ from __future__ import annotations
 
 import argparse
 import csv
+import gzip
 import importlib
+import io
 import json
 import sys
 from collections import Counter, defaultdict
@@ -170,7 +172,52 @@ def load_simple(path: str, fields: tuple[str, ...]) -> dict[str, str]:
         return {r["entry_id"]: "|".join(r[k].replace("|", "/") for k in fields) for r in csv.DictReader(fh)}
 
 
-OTHER = load_simple("web/baende.csv", ("tier", "other_volume", "other_id", "other_text", "evidence"))  # 81_baende.py
+BAENDE_CSV, BAENDE_DIR = Path("web/baende.csv"), Path("web/baende")  # aus scripts/81_baende.py
+OTHER_FIELDS = ("tier", "other_volume", "other_id", "other_text", "evidence")
+
+
+def pack_other() -> None:
+    """web/baende.csv (nicht im Repo) → web/baende/<Band>.csv.gz, je Band des Eintrags (entry_id beginnt mit dem
+    Band, z. B. «1893s-einwohner-…»).
+
+    81_baende.py, das in allen adressbuecher-* gleich ist, schreibt eine einzige .csv; mit 15 Bänden waren es am
+    27.11.2026 57 MB, über der Warnschwelle von GitHub (50 MB), und Strom A bringt 23 Bände mehr. Wie in
+    adressbuecher-zuerich (f4e6f2e) darum eine Datei je Band. Gepackt wird nur, wenn die .csv neuer ist als alle
+    Teile; Teile ohne Zeilen werden gelöscht. mtime=0, damit gleiche Daten gleiche Bytes geben."""
+    parts = sorted(BAENDE_DIR.glob("*.csv.gz"))
+    if not BAENDE_CSV.exists() or (parts and BAENDE_CSV.stat().st_mtime <= max(q.stat().st_mtime for q in parts)):
+        return
+    with BAENDE_CSV.open(encoding="utf-8", newline="") as fh:
+        rd = csv.reader(fh)
+        head = next(rd)
+        rows: dict[str, list[list[str]]] = defaultdict(list)
+        for r in rd:
+            rows[r[0].split("-")[0]].append(r)
+    BAENDE_DIR.mkdir(parents=True, exist_ok=True)
+    for q in parts:
+        if q.name.split(".")[0] not in rows:
+            q.unlink()
+    for volume, rs in rows.items():
+        with gzip.GzipFile(BAENDE_DIR / f"{volume}.csv.gz", "wb", mtime=0) as gz, \
+                io.TextIOWrapper(gz, encoding="utf-8", newline="") as dst:
+            w = csv.writer(dst)  # \r\n wie DictWriter in 81_baende.py
+            w.writerow(head)
+            w.writerows(rs)
+
+
+def load_other() -> dict[str, str]:
+    """entry_id → Treffer im anderen Band (wie bisher der letzte Treffer je Eintrag). Im Repo liegt
+    web/baende/<Band>.csv.gz (siehe pack_other); alle Zeilen eines Eintrags stehen im Teil seines Bandes."""
+    pack_other()
+    out: dict[str, str] = {}
+    for gz in sorted(BAENDE_DIR.glob("*.csv.gz")):
+        with gzip.open(gz, "rt", encoding="utf-8", newline="") as fh:
+            for r in csv.DictReader(fh):
+                out[r["entry_id"]] = "|".join(r[k].replace("|", "/") for k in OTHER_FIELDS)
+    return out
+
+
+OTHER = load_other()  # 81_baende.py
 AUTH = load_simple("web/normdaten.csv", ("tier", "label", "life", "hls_id", "qid", "gnd", "field", "note"))  # 82_normdaten.py
 
 

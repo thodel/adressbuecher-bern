@@ -2,3 +2,5 @@ __pycache__/
 .DS_Store
 _site/
 .claude/
+# gepackt im Repo: web/baende/<Band>.csv.gz (siehe 90_seite.py pack_other)
+web/baende.csv

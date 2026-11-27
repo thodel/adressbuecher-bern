@@ -43,7 +43,8 @@ https://thodel.github.io/adressbuecher-bern/
   vernetzte-schweiz läuft:
   - `telefon.csv` (`scripts/80_telefon.py --vs …`): Einträge mit ☎ → PTT-Telefonbuch (gedruckte Nummer + Name,
     sonst Verknüpfung von Vernetzte Schweiz), mit Link auf die Person und das Seitenbild; Commit in `telefon_source.txt`.
-  - `baende.csv` (`scripts/81_baende.py`): dieselbe Person im anderen Band.
+  - `baende/<Band>.csv.gz` (`scripts/81_baende.py` schreibt `web/baende.csv`, nicht im Repo; `90_seite.py` teilt sie je
+    Band und packt sie, seit 27.11.2026): dieselbe Person im anderen Band.
   - `normdaten.csv` (`scripts/82_normdaten.py --vs …`): ungeprüfte Kandidaten aus HLS und Wikidata.
   - `geo/` (`scripts/10_geo.py`): Strassen nach der Hausnummerierung 1882 (aus adressbuecher-bern-frueh) und OpenStreetMap (Nominatim, Cache in `geo/nominatim_cache.json`).
   - Je Zeile ausserdem ein Link auf die Siegfriedkarte des Jahres (swisstopo Zeitreise).
