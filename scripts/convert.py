@@ -143,7 +143,7 @@ RUBRIK_Z = {"Bügler.": "Zügler.", "Burichter.": "Zurichter.", "Becker- u. Past
             "Beitungshalterfabrikant": "Zeitungshalterfabrikant", "Bahnärzte.": "Zahnärzte."}
 TZ = [(re.compile(r"\b([Mm])ez(?=g)"), r"\1etz"), (re.compile(r"\b([Mm])zg"), r"\1tzg"),
       (re.compile(r"(?<=\w)mez(?=g)"), "metz"), (re.compile(r"(?<=\w)([sſ])ez(?=er)"), r"\1etz")]
-TZ_FIELDS = ("text", "occupation", "street", "heading")
+TZ_FIELDS = ("text", "occupation", "civil_status", "street", "heading")
 
 
 def fix_tz(r: dict) -> dict:

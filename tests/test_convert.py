@@ -78,9 +78,9 @@ if __name__ == "__main__":
     unittest.main()
 
 
-def _r(text="", occupation="", street="", heading="", surname="", qa_flags=""):
+def _r(text="", occupation="", street="", heading="", surname="", qa_flags="", civil_status=""):
     return {"text": text, "occupation": occupation, "street": street, "heading": heading, "surname": surname,
-            "qa_flags": qa_flags}
+            "qa_flags": qa_flags, "civil_status": civil_status}
 
 
 class TzLigatur(unittest.TestCase):
@@ -97,6 +97,7 @@ class TzLigatur(unittest.TestCase):
         r = fix_tz(_r(occupation="Mezger u. Schweinmezg.", heading="Mezger.", text="— Albr., Mezger u. Schweinmezg."))
         self.assertEqual((r["occupation"], r["heading"]), ("Metzger u. Schweinmetzg.", "Metzger."))
         self.assertEqual(fix_tz(_r(occupation="Schriftſezer"))["occupation"], "Schriftſetzer")
+        self.assertEqual(fix_tz(_r(civil_status="Wwe. des Mezgers"))["civil_status"], "Wwe. des Metzgers")
 
     def test_familienname_und_andere_woerter_bleiben(self):
         r = fix_tz(_r(text="Mezener J., Matte 4", surname="Mezener", street="Matte"))
