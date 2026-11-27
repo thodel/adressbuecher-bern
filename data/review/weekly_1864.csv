@@ -1,0 +1,81 @@
+nr,entry_id,page,text,voll_korrekt,fehler,bemerkung
+1,1864-einwohner-100-017,100,"Burkhalter B., Kübler u. Hechl. Matte 5",ja,,
+2,1864-berufe-188-027,188,"Sutter Joh., große Schaal",ja,,
+3,1864-einwohner-132-058,132,"— J., Drechsler, Speichg. 6c",ja,,
+4,1864-berufe-200-015,200,"Balsiger J., Postg. 34",ja,,
+5,1864-einwohner-097-048,97,,nein,Lesung,"text leer; Druck: Bonef — E., Viehhdl., Aarberg. 56; Familienname als «Boneff» gelesen"
+6,1864-einwohner-133-053,133,"Meury, B., Postcom., Lorr. 160",ja,,
+7,1864-berufe-172-006,172,"Bonnet, Kramg. 152",ja,,
+8,1864-berufe-200-078,200,"Mosimann J., Gerberngr. 142",nein,Rubrik,Rubrik leer; Eintrag steht in der rechten Spalte von S. 190 unter Schreiner (Rubrik links auf derselben Seite)
+9,1864-einwohner-163-020,163,"— Frl. Marg., Junkerng. 174",ja,,
+10,1864-berufe-170-044,170,"Hemmann A., Keßlerg. 282",ja,,
+11,1864-berufe-187-042,187,"Zobrist Chr., Altenberg 172",nein,Lesung,"Druck: Joß Chr., Altenberg 172 (Rubrik Mehlhändler stimmt); gelesen «Zobrist»"
+12,1864-berufe-178-004,178,"Kiener Jb., Matte 120",ja,,
+13,1864-einwohner-108-031,108,"Fosser-Schauenberg J., Färb., Bollwerk 83",nein,Lesung,"Druck: Foster=Schauenberg J., Färb., Bollwerk 83; gelesen «Fosser»"
+14,1864-einwohner-131-022,131,"Lutstorf gb. Bögeli, Ww., Mercerie- und Quincaillerie-Handlg., Neueng. 101",nein,Lesung,"Druck sehr wahrscheinlich «gb. Vögeli» (so auch 1864 Berufsreg. und 1868/1870); gelesen «Bögeli»; B/V in Fraktur nahe, unsicher"
+15,1864-einwohner-127-016,127,,ja,,"text leer; Felder stimmen (Kyburz, Schuhm., Kirchh. 209)"
+16,1864-berufe-209-016,209,"Isely J., zw. d. Thoren 183",ja,,
+17,1864-berufe-188-034,188,"Gerber H., Matte 18",ja,,
+18,1864-einwohner-109-033,109,"Gander Chr., Wirth i. d. Enge",ja,,
+19,1864-einwohner-126-061,126,"— Jgfr., Lehrerin, Läufferplatz 227",ja,,
+20,1864-berufe-208-056,208,"Müller F., Stalden 3",ja,,
+21,1864-einwohner-098-009,98,"Boujot, J. M., Schneiderin, Karmg. 197",ja,,"Druck tatsächlich «Karmg.» (Druckfehler für Kramg.), Lesung druckgetreu; zweite Ziehung"
+22,1864-berufe-189-013,189,"Hegel u. Comp., Bärenpl. 241",ja,,"Firma «Hegel u. Comp.», surname Hegel"
+23,1864-einwohner-140-021,140,"— B., Steinh., Hollig. 114",ja,,
+24,1864-einwohner-152-055,152,"Steinhäuslein, Oberpostsekret. Kramg. 154",ja,,
+25,1864-einwohner-111-054,111,"— Jb., Asphaltl., Klappl. 19",nein,Feld,"Art: v. im Titel; Druck «v. Gonten»: «v.» gehört zum Familiennamen, steht im Feld title"
+26,1864-einwohner-145-038,145,"— geb. Lanz, Waſch., Brng. 23",ja,,
+27,1864-einwohner-123-027,123,"— Albr., Mezger u. Schweinmezg., alt. Holzmarkt 245",ja,Beruf,Art: tz/z; Druck «Metzger u. Schweinmetzg.»; seit 4e11d4d durch die tz-Korrektur richtig (vorher nein)
+28,1864-berufe-194-003,194,"Brötie J., Junkerng. 183",ja,,
+29,1864-einwohner-110-049,110,"— Chr., Stallhalt., Judg. 113",ja,,Name Gerber auf Bild 110 geprüft
+30,1864-berufe-187-039,187,"Wenger Chr., Aarberg. 22",ja,,Rubrik Mehlhändler aus linker Spalte derselben Seite (Bild 187) fortgesetzt
+31,1864-berufe-180-054,180,"Gerber S., Spitalg. 1 50",nein,Adresse,Art: Hausnummer zerteilt; Druck «Spitalg. 1 50» mit Satzlücke; gemeint 150 (Einwohnerteil Bild 110: Spitalgasse 150); unsicher
+32,1864-einwohner-153-016,153,"Stettler F. R. E., Fürsprech, Judeng. 112 u. Marktg. 84",nein,Adresse,Art: zweite Adresse; Druck «Judeng. 112 u. Marktg. 84»; Judeng. 112 fehlt in den Feldern
+33,1864-einwohner-136-048,136,"Mützenberg S., Schn., Abg. 37",ja,,
+34,1864-berufe-173-007,173,"Steiner Chr., Matte 130",ja,,Rubrik Dachdecker beginnt auf Bild 172 (ganze Seite geprüft)
+35,1864-einwohner-104-005,104,"— A. G. A., Buchb., Hrg 311",nein,Vorname,"Art: E/G; Druck «A. E. A.» (Fraktur-E, nicht G)"
+36,1864-einwohner-124-055,124,"— S. W., Mal., Bärenwärt., Speicherg. 4",ja,,
+37,1864-berufe-192-034,192,"Bonef S., Bollw. 84",ja,,
+38,1864-einwohner-122-050,122,"Kalt, Schrn., Marktg. 32",ja,,
+39,1864-einwohner-148-060,148,"Schwärzler C., Gyps., Schützgäßlein 11",ja,,
+40,1864-einwohner-152-015,152,"— R., Bäcker, Marktg. 94",ja,,
+41,1864-einwohner-119-061,119,"— G., Mezgg., Keßlg. 282",nein,Beruf,Art: tz/z; Druck «Metzg.»; gelesen «Mezgg.»
+42,1864-berufe-205-050,205,"Koch u. Wenger, Spitalg. 160",ja,,Rubrik Spezierer auf Bild 205 geprüft
+43,1864-berufe-212-029,212,"Hager D., Bollwerk 263",ja,,Rubrik Zimmermeister auf Bild 212 geprüft
+44,1864-berufe-205-052,205,"Lang Gottl., Gerechtg. 85",ja,,Rubrik Spezierer auf Bild 205 geprüft
+45,1864-einwohner-103-013,103,"— F. F., Siegr. z. hl. Geist, Neuengasse 129",ja,,
+46,1864-berufe-206-005,206,"Schwarz-Wälli, Zeughpl. 246",ja,,Rubrik Spezierer läuft von Bild 205 weiter; Bild 206 beginnt ohne neue Rubrik
+47,1864-einwohner-099-047,99,"— Schwest., Schnd., Marktgasse 76",nein,Familienname,"Art: geerbt; Kopfname ist «Bühler P., Inselverw.» (ü), nicht Bähler"
+48,1864-einwohner-096-061,96,"— Joh., Schlosser, Sternengäßlein 35",ja,,
+49,1864-einwohner-164-031,164,"Zieler u. Humbert, Modewhdl Kramg. 208",nein,Familienname,"Art: Firma gekürzt; Druck «Zieler u. Humbert»; surname nur «Zieler», Humbert fehlt in den Feldern; unsicher (Firmenkonvention)"
+50,1864-berufe-170-046,170,"Hofer J., Schauplatzg. 196",ja,,
+51,1864-berufe-181-043,181,"Leitner Wilh., Kramg. 152",ja,,
+52,1864-einwohner-134-030,134,"Mieville L., Kantonsschullehrer Gerechtg. 100",ja,,
+53,1864-berufe-200-014,200,"Bächler J., Speichg. 3",ja,,
+54,1864-einwohner-132-027,132,"Martin G., Schirmfb., Marktgasse 89",ja,,
+55,1864-einwohner-141-004,141,"Rentsch G., Bäckerm., Mzg. 81",ja,Adresse,"Art: Strassenkürzel; Druck «Mtzg. 81» (tz-Ligatur), gelesen «Mzg.»; seit 4e11d4d durch die tz-Korrektur richtig (vorher nein)"
+56,1864-einwohner-154-023,154,"— A., Roßhaarfbr., Aarbg. 27",ja,,
+57,1864-berufe-211-055,211,"Gaschen, Aarbergerg. 33",ja,,Rubrik Xylographen auf Bild 211 geprüft
+58,1864-berufe-183-006,183,"Schürch Anna, Zwiebg. 56",ja,,
+59,1864-einwohner-093-007,93,"— F., Postcom., Aarbg. 18",ja,,
+60,1864-einwohner-144-036,144,"— Frau, Broderie u. Ressorts=Jüpons, Bollw. 263 a",ja,,
+61,1864-berufe-195-050,195,"Arnold, Altenberg 63",ja,,
+62,1864-einwohner-099-002,99,"— Chr., Müller, Metzgerg. 64",ja,,
+63,1864-einwohner-122-033,122,"— = Huber, Standesweibel, Aarbergg. 37",ja,,Kopfname «Jucker J.» auf Bild 122 geprüft
+64,1864-einwohner-111-004,111,"— C. F., Oberricht., gw. eidg. Oberst, Nydeckg. 198",ja,,«gw. eidg. Oberst» im Feld title; als Titel/Rang gewertet (unsicher)
+65,1864-berufe-189-067,189,"Stengel, geb. Stauffer, Wwe., Kramg. 212",nein,Rubrik,"Art: Rubrik leer; Eintrag steht unter «Modisten.» (Bild 189), heading leer"
+66,1864-einwohner-091-021,91,"— R., Fürſpr., Gerechtkg. 90",ja,,
+67,1864-berufe-204-024,204,,ja,,"text leer, Felder stimmen"
+68,1864-berufe-168-027,168,"Stolz, Neueng. 122 c",ja,,Rubrik Barbiere auf Bild 168 geprüft
+69,1864-berufe-182-015,182,"Günther Th., Postg. 21",ja,,
+70,1864-berufe-205-014,205,"Siegerist-Ziegler B., Neueng. 88",ja,,"Rubrik Spengler beginnt auf Bild 204, läuft auf 205 bis Spezierer"
+71,1864-einwohner-101-035,101,"— Gottl., Tapez., Längg. 201",ja,,
+72,1864-einwohner-143-061,143,"Rüttimeyer Arnold, Commis, Kramg. 175",ja,,
+73,1864-berufe-202-014,202,"Freudiger J., Stalden 12",ja,,Rubrik Schuhmacher beginnt auf Bild 201 (geprüft)
+74,1864-einwohner-142-038,142,"— F., Schriftſezer, Aarbg. 39",ja,Beruf,"Art: tz/z; Druck «Schriftsetzer», gelesen «Schriftſezer»; seit 4e11d4d durch die tz-Korrektur richtig (vorher nein)"
+75,1864-einwohner-134-049,134,"Morf Buchhalt., Marktg. 87",ja,,
+76,1864-einwohner-109-004,109,"Friedli S., jgr., Ngt., Spitalgasse 144",ja,,
+77,1864-einwohner-134-060,134,"— Karl Ad., Prof., Jkg. 150",ja,,Kopfname «v. Morlot=Kern»; geerbt «v. Morlot»
+78,1864-einwohner-125-034,125,"— Gärtner, Montbijou",ja,,
+79,1864-berufe-187-032,187,"Sterchi F., Altenberg 177",ja,,Rubrik Mehlhändler auf Bild 187 geprüft
+80,1864-einwohner-154-001,154,"Straßer J., Commis, Mzg. 100",ja,Adresse,"Art: Strassenkürzel; Druck «Mtzg. 100» (tz-Ligatur), gelesen «Mzg.»; seit 4e11d4d durch die tz-Korrektur richtig (vorher nein)"

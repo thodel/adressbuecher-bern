@@ -64,7 +64,7 @@ SECTIONS = {
     # be_gemini --status: 1866 und 1868 enden die Berufe vor den Wirthschaften (Bild 238, 274), 1875 und 1879 beginnen
     # sie früher (Bild 279, 278). Ab 1873 beginnen die Wirthschaften auf derselben Seite (cut_wirthschaften).
     # 1864: das Berufsregister geht auf Bild 213 weiter (Zügler, Zurichter); am 27.11.2026 nachgelesen (0,012 $).
-    # "1864": [("einwohner", 91, 165), ("berufe", 166, 213)],  zurückgestellt 26.11.2026: Stichprobe 63/80 (79 %; tz-Ligatur, Namen verlesen)
+    "1864": [("einwohner", 91, 165), ("berufe", 166, 213)],  # übernommen 27.11.2026 (67/80 nach der tz-Korrektur, vorher 63/80)
     "1866": [("einwohner", 101, 186), ("berufe", 187, 238)],
     "1867": [("einwohner", 106, 200), ("berufe", 201, 255)],  # nach grösserer Stichprobe übernommen (66/80, 26.11.2026)
     "1868": [("einwohner", 113, 214), ("berufe", 215, 274)],

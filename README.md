@@ -14,6 +14,7 @@ die Seite im PDF, bei den übrigen Bänden die Bildnummer bei e-rara.
 | Adressbuch der Stadt Bern 1861 | 236 | 4 073 (Bild 79–145) | 2 361 (Bild 146–184) | Gemini | 16/20 |
 | Adressbuch der Stadt Bern 1862 | 260 | 4 096 (Bild 87–157) | 2 604 (Bild 158–200) | Gemini | 16/20 |
 | Adressbuch der Stadt Bern 1863 | 260 | 4 053 (Bild 85–156) | 2 685 (Bild 157–200) | Gemini | 18/20 |
+| Adressbuch der Stadt Bern 1864 | 276 | 4 233 (Bild 91–165) | 2 855 (Bild 166–213) | Gemini | 67/80 |
 | Adressbuch der Stadt Bern 1865 | 284 | 4 240 (Bild 94–169) | 2 831 (Bild 170–218) | Gemini | 17/20 |
 | Adressbuch der Stadt Bern 1866 | 307 | 4 882 (Bild 101–186) | 3 160 (Bild 187–238) | Gemini | 17/20 |
 | Adressbuch der Stadt Bern 1867–68 | 344 | 5 090 (Bild 106–200) | 3 292 (Bild 201–255) | Gemini | 66/80 |
@@ -105,7 +106,7 @@ Schema wie [adressbuecher-aarau](https://github.com/thodel/adressbuecher-aarau),
   Bilder), ab 1881 die Seitenbilder über IIIF.
 - **Modell (Fraktur-Bände 1861–1879):** `gemini-3.5-flash` von Google (die Antwort nennt `gemini-3.6-flash`),
   Seitenbilder über IIIF bis 1600 px breit (`scripts/weekly/be_gemini.py`); `parse_method` nennt den Leser
-  je Eintrag. Kosten 1861 4,88 $ (106 Seiten), 1862 5,37 $ (116 Seiten), 1863 5,28 $ (116 Seiten), 1865 5,73 $
+  je Eintrag. Kosten 1861 4,88 $ (106 Seiten), 1862 5,37 $ (116 Seiten), 1863 5,28 $ (116 Seiten), 1864 5,56 $ (123 Seiten, Bild 213 am 27.11.2026 nachgelesen), 1865 5,73 $
   (127 Seiten), 1866 6,37 $ (140), 1867 6,64 $ (150), 1868 7,07 $ (164), 1870 7,71 $ (182), 1871 7,67 $ (181), 1873 7,28 $ (179),
   1875 7,88 $ (200), 1877 8,41 $ (218), 1879 8,57 $ (219).
 - **Fraktur-Bände, was convert.py ergänzt:** Im Berufsregister setzt ein Eintrag oben auf einer Seite ohne
@@ -128,18 +129,20 @@ Schema wie [adressbuecher-aarau](https://github.com/thodel/adressbuecher-aarau),
   einzelne Buchstaben in Namen («Rikli» für «Rickli»), «v.» im Stand statt im Familiennamen, eine Rubrik leer.
   1867 zuerst 14 von 20, mit 60 weiteren Einträgen (zweite Ziehung, Seed 186760) 66 von 80 (83 %): meist
   Strassenkürzel (die tz-Ligatur als z: «Mezg.», «Mzg.»), zweimal ein Name aus der Vorzeile falsch geerbt,
-  eine erste von zwei Adressen fehlt. Zurückgestellt (Stichprobe unter 80 %): 1864, 63 von 80 (79 %;
-  tz-Ligatur, Namen verlesen wie «Zobrist» für «Joß»; Bild 213, die letzte Seite des Berufsregisters, am
-  27.11.2026 nachgelesen, 0,012 $, 13 Einträge, die Rubriken «Zügler» und «Zurichter» als «Bügler» und «Burichter»). Im Berufsregister 1862 waren bis 26.11.2026 die Wirthschaften (Bild 201–202, 68
+  eine erste von zwei Adressen fehlt. 1864 zuerst 15 von 20, mit 60 weiteren Einträgen (zweite Ziehung) 63 von
+  80 (79 %) und darum zurückgestellt; seit der tz-Korrektur (4e11d4d) 67 von 80 (84 %), am 27.11.2026 übernommen.
+  Es bleiben verlesene Namen («Zobrist» für «Joß»), zwei leere Rubriken, eine zerteilte Hausnummer, eine
+  fehlende zweite Adresse und «Mezgg.» (wird «Metzgg.», gedruckt «Metzg.»). Bild 213, die letzte Seite des
+  Berufsregisters, am 27.11.2026 nachgelesen (0,012 $, 13 Einträge). Im Berufsregister 1862 waren bis 26.11.2026 die Wirthschaften (Bild 201–202, 68
   Einträge) mitgezählt.
 - Keine Nachkorrektur von Hand; `qa_flags` markiert Verdachtsfälle. Zwei regelhafte Lesefehler von Gemini in den
   Fraktur-Bänden berichtigt `convert.py` (seit 27.11.2026, am Seitenbild geprüft; die Lesungen in `data/gemini/` bleiben):
   - die tz-Ligatur als z gelesen («Mezg.», «Mezgerg.», «Mezger», «Schriftſezer» für «Metzg.» usw.; 18 von 18
     Stichproben im Druck mit tz): das t wird in Text, Strasse, Beruf und Rubrik eingesetzt, «Mzg.» wird «Mtzg.»;
-    nicht im Familiennamen («Mezener»). `qa_flags` «korr_tz», 3 120 Einträge;
+    nicht im Familiennamen («Mezener»). `qa_flags` «korr_tz», 3 376 Einträge (davon 256 aus 1864);
   - das Z am Anfang einer Rubrik als B («Bügler.», «Burichter.», «Becker- u. Pastetenbäcker.» für Zügler, Zurichter,
     Zucker- u. Pastetenbäcker; 1879 «Ziegler.» für «Zügler.»): Tabelle `RUBRIK_Z`, dazu jede B-Rubrik nach einer
-    gedruckten Z-Rubrik. `qa_flags` «korr_rubrik», 78 Einträge, dazu 13, die die Rubrik von der Vorseite erben.
+    gedruckten Z-Rubrik. `qa_flags` «korr_rubrik», 84 Einträge (davon 6 aus 1864), ohne 1864 dazu 13, die die Rubrik von der Vorseite erben.
 
 ## Nicht übernommen
 
