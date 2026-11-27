@@ -125,8 +125,8 @@ Schema wie [adressbuecher-aarau](https://github.com/thodel/adressbuecher-aarau),
   1867 zuerst 14 von 20, mit 60 weiteren Einträgen (zweite Ziehung, Seed 186760) 66 von 80 (83 %): meist
   Strassenkürzel (die tz-Ligatur als z: «Mezg.», «Mzg.»), zweimal ein Name aus der Vorzeile falsch geerbt,
   eine erste von zwei Adressen fehlt. Zurückgestellt (Stichprobe unter 80 %): 1864, 63 von 80 (79 %;
-  tz-Ligatur, Namen verlesen wie «Zobrist» für «Joß»; dazu fehlt Bild 213, die letzte Seite des
-  Berufsregisters). Im Berufsregister 1862 waren bis 26.11.2026 die Wirthschaften (Bild 201–202, 68
+  tz-Ligatur, Namen verlesen wie «Zobrist» für «Joß»; Bild 213, die letzte Seite des Berufsregisters, am
+  27.11.2026 nachgelesen, 0,012 $, 13 Einträge, die Rubriken «Zügler» und «Zurichter» als «Bügler» und «Burichter»). Im Berufsregister 1862 waren bis 26.11.2026 die Wirthschaften (Bild 201–202, 68
   Einträge) mitgezählt.
 - Keine Nachkorrektur; `qa_flags` markiert Verdachtsfälle.
 

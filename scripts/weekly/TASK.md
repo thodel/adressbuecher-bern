@@ -16,7 +16,7 @@ Zeiten in MEZ. Nie einen Schlüssel ausgeben.
 - Keine Seitenbilder und keine PDFs ins Repo; die Seite verlinkt die Bilder über IIIF bei e-rara (PDM).
 - Höchstens zwei Bände je Lauf, älteste zuerst.
 - **Zurückgestellt, nicht übernehmen ohne Entscheid von Tobias** (Stichprobe unter 80 %, 26.11.2026): 1864 (63/80;
-  dazu Bild 213, die letzte Seite des Berufsregisters, ungelesen). In `scripts/convert.py` steht seine SECTIONS-Zeile
+  Bild 213, die letzte Seite des Berufsregisters, am 27.11.2026 nachgelesen). In `scripts/convert.py` steht seine SECTIONS-Zeile
   auskommentiert. Diesen Band nur melden, nicht als «zu übernehmen» zählen. (1867 nach 66/80 übernommen.)
 - Einen Band nicht übernehmen, wenn die Seitenbereiche nicht stimmen, die Stichprobe unter 80 % voll
   korrekter Einträge liegt oder die Tests rot sind: melden und weiter.
