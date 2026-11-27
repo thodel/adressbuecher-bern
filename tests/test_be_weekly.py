@@ -84,3 +84,55 @@ class Vorrang(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Serverfehler(unittest.TestCase):
+    """27.11.2026: GPUStack antwortete 504/500; der Lauf markierte alle 23 Bände als «fehler» und lief nicht mehr."""
+
+    def test_transient(self):
+        import socket
+        import urllib.error
+        bw = _bw()
+        for e in (urllib.error.HTTPError("u", 504, "Gateway Time-out", {}, None),
+                  urllib.error.HTTPError("u", 500, "Internal Server Error", {}, None),
+                  urllib.error.HTTPError("u", 429, "Too Many Requests", {}, None),
+                  urllib.error.URLError("down"), TimeoutError(), socket.timeout(), ConnectionResetError()):
+            self.assertTrue(bw.transient(e), e)
+        for e in (urllib.error.HTTPError("u", 404, "Not Found", {}, None), ValueError("x"), KeyError("canvases")):
+            self.assertFalse(bw.transient(e), e)
+
+    def _lauf(self, fehler):
+        import tempfile
+        import urllib.error  # noqa: F401
+        bw = _bw()
+        d = Path(tempfile.mkdtemp())
+        with open(d / "queue.csv", "w", newline="", encoding="utf-8") as fh:
+            w = csv.writer(fh); w.writerow(["volume", "stream"]); w.writerows([["1881", "A"], ["1886", "A"], ["1888", "A"]])
+        bw.HERE, bw.STATE = d, d / "state.json"
+        bw.log = lambda msg: None
+        bw.load_env = lambda: None
+        bw.busy = lambda: False
+        bw.next_volume = lambda queue, st, only: next((q for q in queue if q["volume"] not in st), None)
+        tried = []
+
+        def process(q, st):
+            tried.append(q["volume"]); st[q["volume"]] = {"status": "läuft"}; raise fehler
+        bw.process = process
+        import sys
+        argv, sys.argv = sys.argv, ["be_weekly.py"]
+        try:
+            bw.main()
+        finally:
+            sys.argv = argv
+        return tried, bw.load_state()
+
+    def test_serverfehler_beendet_den_lauf_ohne_markierung(self):
+        import urllib.error
+        tried, st = self._lauf(urllib.error.HTTPError("u", 504, "Gateway Time-out", {}, None))
+        self.assertEqual(tried, ["1881"])           # nicht durch alle Bände
+        self.assertNotIn("1881", st)                # nächster Lauf nimmt 1881 wieder
+
+    def test_anderer_fehler_markiert_und_geht_weiter(self):
+        tried, st = self._lauf(KeyError("canvases"))
+        self.assertEqual(tried, ["1881", "1886", "1888"])
+        self.assertTrue(st["1881"]["status"].startswith("fehler"))

@@ -261,6 +261,16 @@ def load_env() -> None:
             os.environ[k] = val.strip().strip('"').strip("'")
 
 
+def transient(e: BaseException) -> bool:
+    """Server- oder Netzfehler, nach denen der Band nicht als fehlerhaft gilt: HTTP 5xx, 429, Zeitüberschreitung,
+    keine Verbindung. Der Lauf endet; cron startet ihn zur nächsten Stunde wieder."""
+    import socket
+    import urllib.error
+    if isinstance(e, urllib.error.HTTPError):
+        return e.code >= 500 or e.code == 429
+    return isinstance(e, (urllib.error.URLError, TimeoutError, socket.timeout, ConnectionError))
+
+
 def main() -> None:
     only = sys.argv[sys.argv.index("--only") + 1] if "--only" in sys.argv else None
     st = load_state()
@@ -290,6 +300,9 @@ def main() -> None:
         try:
             process(nxt, st)
         except Exception as e:
+            if transient(e):   # GPUStack/e-rara kurz weg (27.11.2026: 504/500 für alle 23 Bände in drei Minuten)
+                st.pop(nxt["volume"], None); save_state(st)
+                log(f"{nxt['volume']}: {e!r}; Server nicht erreichbar, nächster Versuch mit dem nächsten Lauf"); return
             st.setdefault(nxt["volume"], {})["status"] = f"fehler: {type(e).__name__}"
             save_state(st); log(f"{nxt['volume']}: {e!r}")
         if only:
