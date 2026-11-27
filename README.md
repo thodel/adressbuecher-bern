@@ -29,13 +29,17 @@ die Seite im PDF, bei den übrigen Bänden die Bildnummer bei e-rara.
 
 ## Seite
 
-Durchsuchbare Seite mit allen Einträgen, Filtern nach Band, Strasse, Konfidenz und Hinweis, Link je Zeile
-auf die Seite bei e-rara und Flagging je Zeile (wie bei Aarau, Basel und Baden):
-https://thodel.github.io/adressbuecher-bern/
+Startseite: Suche über alle Bände (Liste, Karte, Facetten, Zeitstrahl) mit Seite je Eintrag:
+https://thodel.github.io/adressbuecher-bern/ (`scripts/89_suche.py` mit dem gemeinsamen `scripts/site_search.py`;
+`python scripts/89_suche.py --out _site` nach den übrigen Seiten, wie in `.github/workflows/pages.yml`).
 
-- `python scripts/90_seite.py --out _site` baut sie lokal (`index.html` und je Band `data/<Band>.json`,
+Korrekturmodus: durchsuchbare Seite mit allen Einträgen, Filtern nach Band, Strasse, Konfidenz und Hinweis, Link
+je Zeile auf die Seite bei e-rara und Flagging je Zeile (wie bei Aarau, Basel und Baden):
+https://thodel.github.io/adressbuecher-bern/korrektur/
+
+- `python scripts/90_seite.py --out _site/korrektur` baut sie lokal (`index.html` und je Band `data/<Band>.json`,
   die die Seite erst bei Bedarf lädt); GitHub Actions (`.github/workflows/pages.yml`) baut und
-  veröffentlicht sie bei jedem Push, der Daten oder Skript ändert.
+  veröffentlicht alle Seiten bei jedem Push, der Daten oder Skript ändert.
 - `web/erara_pages.csv`: PDF-Seite → e-rara-Canvas (1883–84 titleinfo 1396077, 1900 titleinfo 1704646;
   PDF-Seite k = Canvas k−1, weil das PDF ein Deckblatt hat).
 - Karte: `python scripts/92_karte.py --out _site/karte.html` (Kreise je Strasse).

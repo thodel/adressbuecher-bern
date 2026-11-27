@@ -134,7 +134,7 @@ function link(params) {
   const p = new URLSearchParams({ tab: $('tab').value === 'b' ? 'berufe' : 'einwohner', ...params });
   if ($('vol').value) p.set('vol', $('vol').value);
   if ($('tel').checked) p.set('tel', '1');
-  return 'index.html?' + p.toString();
+  return 'korrektur/?' + p.toString();
 }
 function draw() {
   muniLayer.clearLayers(); streetLayer.clearLayers();
